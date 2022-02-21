@@ -7,18 +7,19 @@
 
 void fMainSaves()
 {
-	fGetBrains();
+	BRAIN_LIST* brain_list;
+	brain_list = (BRAIN_LIST*)malloc(sizeof(*brain_list));
+	brain_list->size = 0;
+	fGetBrains(brain_list);
 }
 
 
-void fGetBrains()
+void fGetBrains(BRAIN_LIST* brain_list)
 {
-	BRAIN_LIST* brain_list;
-	brain_list = (BRAIN_LIST*)malloc(sizeof(BRAIN_LIST*));
 	BRAIN* brain;
-	brain = (BRAIN*)malloc(sizeof(brain));
+	brain = (BRAIN*)malloc(sizeof(*brain));
 	MEMBER* member;
-	member = (MEMBER*)malloc(sizeof(member));
+	member = (MEMBER*)malloc(sizeof(*member));
 	FILE* brain_file;
 	brain_file = (FILE*)malloc(sizeof(FILE*));
 	char path[] = "brain.txt";
@@ -34,11 +35,32 @@ void fGetBrains()
 		char* description;
 		int is_available = 0;
 		int note = 0;
-		name = (char*)malloc(sizeof(20));
-		description = (char*)malloc(sizeof(180));
+		name = (char*)malloc(20);
+		description = (char*)malloc(180);
 		fSplitBrain(&id, name, description, &is_available, &note, str);
 		
-		brain->id;
+		if (brain_list->size == 0)
+		{
+			brain_list->first = brain;
+			brain_list->last = brain;
+			brain->next = NULL;
+			brain->previous = NULL;
+		}
+		else {
+			brain_list->last->next = brain;
+			brain->next = NULL;
+			brain->previous = brain_list->last;
+			brain_list->last = brain;
+		}
+		
+		brain->id = id;
+		brain->name = name;
+		brain->desc = description;
+		brain->is_available = is_available;
+		brain->note = note;
+		brain->list = NULL;
+		brain_list->last = brain;
+		brain_list->size += 1;
 	}
 	fclose(brain_file);
 }
@@ -71,8 +93,6 @@ void fSplitBrain(int* id, char* name, char* description, int* is_available, int*
 			}
 		}
 	}
-	printf("%s\n", str);
-	printf("pos1 = %d\npos2 = %d\npos3 = %d\npos4 = %d\n", pos1, pos2, pos3, pos4);
 
 	char* temp;
 	temp = (char*)malloc(100);
@@ -84,7 +104,6 @@ void fSplitBrain(int* id, char* name, char* description, int* is_available, int*
 	}
 	temp[pos1-1] = '\0';
 	*id = atoi(temp);
-	printf("%04d\n", *id);
 
 	// Recover the name of the brain
 	for (int i = pos1; i < pos2; i++)
@@ -92,7 +111,6 @@ void fSplitBrain(int* id, char* name, char* description, int* is_available, int*
 		name[i - pos1] = str[i];
 	}
 	name[pos2 - pos1 - 1] = '\0';
-	printf("%s\n", name);
 
 	// Recover the description of the brain
 	for (int i = pos2; i < pos3; i++)
@@ -100,7 +118,6 @@ void fSplitBrain(int* id, char* name, char* description, int* is_available, int*
 		description[i - pos2] = str[i];
 	}
 	description[pos3 - pos2 - 1] = '\0';
-	printf("%s\n", description);
 
 	// Recover the availability of the brain
 	for (int i = pos3; i < pos4; i++)
@@ -109,7 +126,6 @@ void fSplitBrain(int* id, char* name, char* description, int* is_available, int*
 	}
 	temp[pos4 - pos3 - 1] = '\0';
 	*is_available = atoi(temp);
-	printf("%d\n", *is_available);
 
 	// Recover the note of the brain
 	for (int i = pos4; i < length; i++)
@@ -118,7 +134,10 @@ void fSplitBrain(int* id, char* name, char* description, int* is_available, int*
 	}
 	temp[length - pos4 - 1]='\0';
 	*note = atoi(temp);
-	printf("%d\n", *note);
+}
 
 
+void fDisplayBrainList(BRAIN_LIST* brain_list)
+{
+	printf("Nope");
 }
