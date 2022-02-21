@@ -27,4 +27,15 @@
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="brain.txt">
+      <Filter>Fichiers de ressources</Filter>
+    </Text>
+    <Text Include="comment.txt">
+      <Filter>Fichiers de ressources</Filter>
+    </Text>
+    <Text Include="member.txt">
+      <Filter>Fichiers de ressources</Filter>
+    </Text>
+  </ItemGroup>
 </Project>
