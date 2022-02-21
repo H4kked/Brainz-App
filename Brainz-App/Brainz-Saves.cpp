@@ -6,7 +6,6 @@
 
 void fMainSaves()
 {
-	printf("main");
 	fGetBrains();
 }
 
@@ -24,14 +23,15 @@ void fOpenFiles(char file_name[], FILE* file)
 void fGetBrains()
 {
 	FILE* brain_file;
-	brain_file = (FILE*)malloc(sizeof(brain_file));
-	fOpenFiles((char*)"brain.txt", brain_file);
-	char  str[222];
+	brain_file = (FILE*)malloc(sizeof(FILE*));
+	char path[] = "brain.txt";
+	fopen_s(&brain_file, path, "r+");
+	char*  str;
+	str = (char*)malloc(70);
 
-
-	while (fgets(str, 222, brain_file) != NULL)
+	while (fgets(str, 70, brain_file) != NULL)
 	{
-		printf(str);
+		printf("%s\n", str);
 		int id = 0;
 		char* name;
 		char* description;
@@ -40,4 +40,5 @@ void fGetBrains()
 		name = (char*)malloc(sizeof(20));
 		description = (char*)malloc(sizeof(180));
 	}
+	fclose(brain_file);
 }
