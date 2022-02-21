@@ -1,3 +1,4 @@
 id/name/desc/is_available/note
 0000/GOD/GOD's Almighty Brain/0/5
 0001/CSILAM/A Powerful Libanese Coder's Brain/1/5
+0002/RA/A Power Just Below GOD/1/5
