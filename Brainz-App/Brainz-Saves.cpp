@@ -1,8 +1,9 @@
 #include <stdio.h>
-#include <malloc.h>
 #include <string.h>
+#include <malloc.h>
 #include <stdlib.h>
 #include "Brainz-Saves.h"
+#include "Brainz-App.h"
 
 void fMainSaves()
 {
@@ -12,6 +13,10 @@ void fMainSaves()
 
 void fGetBrains()
 {
+	BRAIN_LIST* brain_list;
+	brain_list = (BRAIN_LIST*)malloc(sizeof(BRAIN_LIST*));
+	BRAIN* brain;
+	brain = (BRAIN*)malloc(sizeof(BRAIN*));
 	FILE* brain_file;
 	brain_file = (FILE*)malloc(sizeof(FILE*));
 	char path[] = "brain.txt";
@@ -30,6 +35,8 @@ void fGetBrains()
 		name = (char*)malloc(sizeof(20));
 		description = (char*)malloc(sizeof(180));
 		fSplitBrain(&id, name, description, &is_available, &note, str);
+		
+		brain->id = 
 	}
 	fclose(brain_file);
 }

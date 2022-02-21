@@ -1,5 +1,4 @@
 #pragma once
-#include "Brainz-Saves.h"
 
 typedef struct MEMBER MEMBER;
 typedef struct MEMBER_LIST MEMBER_LIST;
