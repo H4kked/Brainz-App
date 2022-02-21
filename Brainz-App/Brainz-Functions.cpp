@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <Windows.h>
 #include "Brainz-App.h"
 
@@ -9,6 +11,8 @@ struct MEMBER
 	char* desc;
 	int is_admin;
 	BRAIN* current_brain;
+	MEMBER* previous;
+	MEMBER* next;
 };
 struct MEMBER_LIST
 {
@@ -52,9 +56,27 @@ struct BRAIN_LIST
 
 void fMenuDisplay()
 {
+	HWND hwnd = GetForegroundWindow();
+	ShowWindow(hwnd, SW_MAXIMIZE);
 	fPrintLogo();
 	fPrintLoading();
 	Sleep(1000);
+
+	int choice;
+	printf("\n\n											Log in (1) - Sign Up (2) - Exit (9)");
+	scanf_s("%d", &choice);
+	switch (choice)
+	{
+		case 1:
+			fLogIn();
+			break;
+		case 2:
+			fSignUp();
+			break;
+		case 9:
+			exit(0);
+	}
+
 	clear_screen(' ');
 }
 
@@ -100,4 +122,49 @@ void fPrintLoading()
 	printf(".");
 	Sleep(2000);
 	printf("	Initialized !");
+}
+void fSignUp()
+{
+	MEMBER* new_member;
+	MEMBER_LIST* list;
+	new_member = (MEMBER*)malloc(sizeof(*new_member));
+	list = (MEMBER_LIST*)malloc(sizeof(*list));
+
+
+	//CREATES MEMBER PARAMETERS
+	char* username;
+	char* password;
+	char* desc;
+	username = (char*)malloc(sizeof(*username));
+	password = (char*)malloc(sizeof(*password));
+	desc = (char*)malloc(sizeof(*desc));
+	new_member->next = NULL;
+
+	//ASSIGN PARAMETERS TO NEW MEMBER
+	fgets(new_member->username, 20, stdin);
+	new_member->username[strlen(username) - 1] = '\0';
+	fgets(new_member->password, 20, stdin);
+	new_member->password[strlen(password) - 1] = '\0';
+	fgets(new_member->desc, 100, stdin);
+	new_member->desc[strlen(desc) - 1] = '\0';
+
+	//PLACES NEW MEMBER IN MEMBER LIST
+	list->last->next = new_member;
+	new_member->previous = list->last;
+	new_member = list->last;
+}
+void fLogIn()
+{
+	MEMBER* first;
+	MEMBER_LIST* list;
+	first = (MEMBER*)malloc(sizeof(*first));
+	list = (MEMBER_LIST*)malloc(sizeof(*list));
+	first = list->first;
+
+	char* username;
+	char* password;
+	username = (char*)malloc(sizeof(*username));
+	password = (char*)malloc(sizeof(*password));
+
+
 }

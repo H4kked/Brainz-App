@@ -11,3 +11,5 @@ void fMenuDisplay();
 void clear_screen(char fill = ' ');
 void fPrintLogo();
 void fPrintLoading();
+void fLogIn();
+void fSignUp();
