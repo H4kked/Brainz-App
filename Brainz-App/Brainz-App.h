@@ -64,4 +64,4 @@ void fPrintLogo();
 void fPrintLoading();
 void fLogIn(MEMBER_LIST* list);
 void fSignUp(MEMBER_LIST* list);
-void fLoggedMenu();
+void fLoggedMenu(MEMBER_LIST* list, MEMBER* member);

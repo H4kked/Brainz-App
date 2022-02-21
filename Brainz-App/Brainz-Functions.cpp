@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <malloc.h>
+#include <ctype.h>
 #include <Windows.h>
 #include "Brainz-App.h"
 
@@ -18,7 +19,7 @@ void fMenuDisplay(MEMBER_LIST* list)
 	printf("\n\n\n\n   										     Log in (1) - Sign Up (2) - Exit (9)\nEntry: ");
 	do {
 		scanf_s("%d", &choice);
-	} while (choice > 2 && choice < 9 || choice > 9);
+	} while ((choice > 2 && choice < 9) || (choice > 9) || isdigit(choice) == 1);
 	switch (choice)
 	{
 		case 1:
@@ -87,19 +88,20 @@ void fSignUp(MEMBER_LIST* list)
 	char* username;
 	char* password;
 	char* desc;
-	printf("											Username: ");
 	username = (char*)malloc(sizeof(*username));
-	printf("											Password: ");
 	password = (char*)malloc(sizeof(*password));
-	printf("											Description: ");
 	desc = (char*)malloc(sizeof(*desc));
 	new_member->next = NULL;
 
 	//ASSIGN PARAMETERS TO NEW MEMBER
+	getchar();
+	printf("											Username: ");
 	fgets(new_member->username, 20, stdin);
 	new_member->username[strlen(username) - 1] = '\0';
+	printf("											Password: ");
 	fgets(new_member->password, 20, stdin);
 	new_member->password[strlen(password) - 1] = '\0';
+	printf("											Description: ");
 	fgets(new_member->desc, 100, stdin);
 	new_member->desc[strlen(desc) - 1] = '\0';
 
@@ -125,10 +127,15 @@ void fLogIn(MEMBER_LIST* list)
 	//USER PARAMETERS
 	char* username;
 	char* password;
-	printf("\n											Username: ");
+	getchar();
+	printf("\n												Username: ");
 	username = (char*)malloc(sizeof(*username));
-	printf("\n											Password: ");
+	fgets(username, 15, stdin);
+	username[strlen(username) - 1] = '\0';
+	printf("\n												Password: ");
 	password = (char*)malloc(sizeof(*password));
+	fgets(password, 15, stdin);
+	password[strlen(password) - 1] = '\0';
 	printf("\n									Press 9 to exit. Press any key to continue.\n");
 	int n;
 	scanf_s("%d", &n);
@@ -147,7 +154,8 @@ void fLogIn(MEMBER_LIST* list)
 			{
 				printf("											Connected ! Welcome, %s.\n", username);
 				Sleep(2000);
-				fLoggedMenu();
+
+				fLoggedMenu(list, current);
 			}
 		}
 	} while (current->next != NULL);
@@ -157,7 +165,7 @@ void fLogIn(MEMBER_LIST* list)
 	Sleep(3000);
 	fLogIn(list);
 }
-void fLoggedMenu()
+void fLoggedMenu(MEMBER_LIST* list, MEMBER* current)
 {
-
+	
 }
