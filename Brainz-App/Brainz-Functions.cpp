@@ -62,9 +62,13 @@ void fMenuDisplay()
 	fPrintLoading();
 	Sleep(1000);
 
+	clear_screen(' ');
+
 	int choice;
 	printf("\n\n											Log in (1) - Sign Up (2) - Exit (9)");
-	scanf_s("%d", &choice);
+	do {
+		scanf_s("%d", &choice);
+	} while (choice > 2 && choice < 9 || choice > 9);
 	switch (choice)
 	{
 		case 1:
@@ -73,7 +77,7 @@ void fMenuDisplay()
 		case 2:
 			fSignUp();
 			break;
-		case 9:
+		default:
 			exit(0);
 	}
 
@@ -135,8 +139,11 @@ void fSignUp()
 	char* username;
 	char* password;
 	char* desc;
+	printf("											Username: ");
 	username = (char*)malloc(sizeof(*username));
+	printf("											Password: ");
 	password = (char*)malloc(sizeof(*password));
+	printf("											Description: ");
 	desc = (char*)malloc(sizeof(*desc));
 	new_member->next = NULL;
 
@@ -152,19 +159,59 @@ void fSignUp()
 	list->last->next = new_member;
 	new_member->previous = list->last;
 	new_member = list->last;
+
+	printf("\n\n										Account created. Welcome, %s !\n", username);
+	Sleep(3000);
+	clear_screen(' ');
+	fLogIn();
 }
 void fLogIn()
 {
-	MEMBER* first;
+	//INITIALIZE LIST TO GO THROUGH
+	MEMBER* current;
+	MEMBER* pending;
 	MEMBER_LIST* list;
-	first = (MEMBER*)malloc(sizeof(*first));
+	current = (MEMBER*)malloc(sizeof(*current));
+	pending = (MEMBER*)malloc(sizeof(*pending));
 	list = (MEMBER_LIST*)malloc(sizeof(*list));
-	first = list->first;
+	current = list->first;
 
+	//USER PARAMETERS
 	char* username;
 	char* password;
+	printf("\n											Username: ");
 	username = (char*)malloc(sizeof(*username));
+	printf("\n											Password: ");
 	password = (char*)malloc(sizeof(*password));
+	printf("\n									Press 9 to exit. Press any key to continue.\n");
+	int n;
+	scanf_s("%d", &n);
 
+	//USER CHECK
+	do
+	{
+		if (n == 9)
+		{
+			clear_screen(' ');
+			fMenuDisplay();
+		}
+		if (strcmp(username, current->username) == 0)
+		{
+			if (strcmp(password, current->password) == 0)
+			{
+				printf("											Connected ! Welcome, %s.\n", username);
+				Sleep(2000);
+				fLoggedMenu();
+			}
+		}
+	} while (current->next != NULL);
+
+	//THE USER HAS NOT BEEN RECOGNIZED
+	printf("									Incorrect username or password. Please try again.");
+	Sleep(3000);
+	fLogIn();
+}
+void fLoggedMenu()
+{
 
 }

@@ -13,3 +13,4 @@ void fPrintLogo();
 void fPrintLoading();
 void fLogIn();
 void fSignUp();
+void fLoggedMenu();
