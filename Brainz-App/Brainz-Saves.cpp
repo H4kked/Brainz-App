@@ -16,7 +16,9 @@ void fGetBrains()
 	BRAIN_LIST* brain_list;
 	brain_list = (BRAIN_LIST*)malloc(sizeof(BRAIN_LIST*));
 	BRAIN* brain;
-	brain = (BRAIN*)malloc(sizeof(BRAIN*));
+	brain = (BRAIN*)malloc(sizeof(brain));
+	MEMBER* member;
+	member = (MEMBER*)malloc(sizeof(member));
 	FILE* brain_file;
 	brain_file = (FILE*)malloc(sizeof(FILE*));
 	char path[] = "brain.txt";
@@ -36,7 +38,7 @@ void fGetBrains()
 		description = (char*)malloc(sizeof(180));
 		fSplitBrain(&id, name, description, &is_available, &note, str);
 		
-		brain->id = 
+		brain->id;
 	}
 	fclose(brain_file);
 }
