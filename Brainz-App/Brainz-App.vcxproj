@@ -140,6 +140,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Brainz-App.cpp" />
+    <ClCompile Include="Brainz-Functions.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Brainz-App.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
