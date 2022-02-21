@@ -74,9 +74,8 @@ void fSplitBrain(int* id, char* name, char* description, int* is_available, int*
 		temp[i] = str[i];
 	}
 	temp[pos1-1] = '\0';
-	printf("%s\n", temp);
 	*id = atoi(temp);
-	printf("%d\n", *id);
+	printf("%04d\n", *id);
 
 	// Recover the name of the brain
 	for (int i = pos1; i < pos2; i++)
@@ -100,8 +99,17 @@ void fSplitBrain(int* id, char* name, char* description, int* is_available, int*
 		temp[i - pos3] = str[i];
 	}
 	temp[pos4 - pos3 - 1] = '\0';
-	printf("%s\n", temp);
 	*is_available = atoi(temp);
-	printf("%d\n", is_available);
+	printf("%d\n", *is_available);
+
+	// Recover the note of the brain
+	for (int i = pos4; i < length; i++)
+	{
+		temp[i - pos4] = str[i];
+	}
+	temp[length - pos4 - 1]='\0';
+	*note = atoi(temp);
+	printf("%d\n", *note);
+
 
 }
