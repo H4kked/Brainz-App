@@ -1,4 +1,5 @@
 #pragma once
+#include "Brainz-Saves.h"
 
 typedef struct BRAIN BRAIN;
 struct BRAIN

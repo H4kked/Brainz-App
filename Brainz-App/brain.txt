@@ -1,0 +1,3 @@
+id/name/desc/is_available/note
+
+0000/GOD/GOD's Almighty Brain/0/5
