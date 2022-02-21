@@ -3,9 +3,9 @@
 
 int main() 
 {
-	printf("Hello espèce de bite !");
-	printf("ca marche paaaaaaaaaaaaaaaaas");
-	printf("coucou");
-	printf("ça maaaaarche");
+	printf("Hello espèce de bite !\n");
+	printf("ca marche paaaaaaaaaaaaaaaaas\n");
+	printf("coucou\n");
+	printf("ça maaaaarche\n");
 	return 0;
 }
