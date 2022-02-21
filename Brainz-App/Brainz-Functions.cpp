@@ -53,12 +53,8 @@ struct BRAIN_LIST
 void fMenuDisplay()
 {
 	fPrintLogo();
-	Sleep(3000);
-	printf("									Loading");
-	printf(".");
-	printf(".");
-	printf(".");
-
+	fPrintLoading();
+	Sleep(1000);
 	clear_screen(' ');
 }
 
@@ -90,5 +86,18 @@ void fPrintLogo()
 											 | |_) | | | (_| | | | | | / /_ _    \n\
 											 |_.__/|_| \\____ |_|_| |_|/____|_|   \n\
 											  =============================inc.\n\n");
-	printf("										Welcome to BRAINZ ! The place where skills become yours.\n\n");
+	printf("										Welcome to BRAINZ ! The place where skills become yours.\n\n\n\n\n");
+}
+void fPrintLoading()
+{
+	Sleep(3000);
+	printf("											Loading");
+	Sleep(1000);
+	printf(".");
+	Sleep(1000);
+	printf(".");
+	Sleep(1000);
+	printf(".");
+	Sleep(2000);
+	printf("	Initialized !");
 }
