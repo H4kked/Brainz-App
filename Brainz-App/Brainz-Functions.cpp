@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <malloc.h>
 #include <Windows.h>
 #include "Brainz-App.h"
 
@@ -10,31 +11,32 @@ struct MEMBER
 	char* password;
 	char* desc;
 	int is_admin;
-	BRAIN* current_brain;
-	MEMBER* previous;
-	MEMBER* next;
+	struct BRAIN* current_brain;
+	struct MEMBER* previous;
+	struct MEMBER* next;
 };
 struct MEMBER_LIST
 {
 	int size;
-	MEMBER* first;
-	MEMBER* last;
+	struct MEMBER* first;
+	struct MEMBER* logged;
+	struct MEMBER* last;
 };
 struct COMMENT
 {
-	MEMBER* member;
+	struct MEMBER* member;
 	char* comment;
 	int note;
 	char* date;
-	COMMENT* previous;
-	COMMENT* next;
+	struct COMMENT* previous;
+	struct COMMENT* next;
 };
 struct COMMENT_LIST
 {
 	int name;
 	int size;
-	COMMENT* first;
-	COMMENT* last;
+	struct COMMENT* first;
+	struct COMMENT* last;
 };
 struct BRAIN
 {
@@ -42,40 +44,39 @@ struct BRAIN
 	char* name;
 	char* desc;
 	int is_available;
-	COMMENT_LIST* list;
+	struct COMMENT_LIST* list;
 	int note;
-	BRAIN* previous;
-	BRAIN* next;
+	struct BRAIN* previous;
+	struct BRAIN* next;
 };
 struct BRAIN_LIST
 {
 	int size;
-	BRAIN* first;
-	BRAIN* last;
+	struct BRAIN* first;
+	struct BRAIN* last;
 };
 
-void fMenuDisplay()
+void fMenuDisplay(MEMBER_LIST* list)
 {
 	HWND hwnd = GetForegroundWindow();
 	ShowWindow(hwnd, SW_MAXIMIZE);
+	printf("\n\n\n\n\n");
 	fPrintLogo();
 	fPrintLoading();
 	Sleep(1000);
 
-	clear_screen(' ');
-
 	int choice;
-	printf("\n\n											Log in (1) - Sign Up (2) - Exit (9)");
+	printf("\n\n\n\n   										     Log in (1) - Sign Up (2) - Exit (9)\nEntry: ");
 	do {
 		scanf_s("%d", &choice);
 	} while (choice > 2 && choice < 9 || choice > 9);
 	switch (choice)
 	{
 		case 1:
-			fLogIn();
+			fLogIn(list);
 			break;
 		case 2:
-			fSignUp();
+			fSignUp(list);
 			break;
 		default:
 			exit(0);
@@ -127,12 +128,10 @@ void fPrintLoading()
 	Sleep(2000);
 	printf("	Initialized !");
 }
-void fSignUp()
+void fSignUp(MEMBER_LIST* list)
 {
 	MEMBER* new_member;
-	MEMBER_LIST* list;
 	new_member = (MEMBER*)malloc(sizeof(*new_member));
-	list = (MEMBER_LIST*)malloc(sizeof(*list));
 
 
 	//CREATES MEMBER PARAMETERS
@@ -163,17 +162,15 @@ void fSignUp()
 	printf("\n\n										Account created. Welcome, %s !\n", username);
 	Sleep(3000);
 	clear_screen(' ');
-	fLogIn();
+	fLogIn(list);
 }
-void fLogIn()
+void fLogIn(MEMBER_LIST* list)
 {
 	//INITIALIZE LIST TO GO THROUGH
 	MEMBER* current;
 	MEMBER* pending;
-	MEMBER_LIST* list;
 	current = (MEMBER*)malloc(sizeof(*current));
 	pending = (MEMBER*)malloc(sizeof(*pending));
-	list = (MEMBER_LIST*)malloc(sizeof(*list));
 	current = list->first;
 
 	//USER PARAMETERS
@@ -193,7 +190,7 @@ void fLogIn()
 		if (n == 9)
 		{
 			clear_screen(' ');
-			fMenuDisplay();
+			fMenuDisplay(list);
 		}
 		if (strcmp(username, current->username) == 0)
 		{
@@ -209,7 +206,7 @@ void fLogIn()
 	//THE USER HAS NOT BEEN RECOGNIZED
 	printf("									Incorrect username or password. Please try again.");
 	Sleep(3000);
-	fLogIn();
+	fLogIn(list);
 }
 void fLoggedMenu()
 {

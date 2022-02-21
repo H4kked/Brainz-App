@@ -1,9 +1,12 @@
 ﻿#include <iostream>
+#include <malloc.h>
 #include <stdio.h>
 #include "Brainz-App.h"
 
 int main() 
 {
-	fMenuDisplay();
+	MEMBER_LIST* list;
+	list = (MEMBER_LIST*)malloc(sizeof(MEMBER_LIST*));
+	fMenuDisplay(list);
 	return 0;
 }
