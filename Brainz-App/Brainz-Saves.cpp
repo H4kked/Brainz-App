@@ -30,8 +30,7 @@ void fMainSaves()
 
 void fGetBrains(BRAIN_LIST* brain_list)
 {
-	BRAIN* brain;
-	brain = (BRAIN*)malloc(sizeof(*brain));
+	
 	FILE* brain_file;
 	brain_file = (FILE*)malloc(sizeof(FILE*));
 	char path[] = "brain.txt";
@@ -50,23 +49,10 @@ void fGetBrains(BRAIN_LIST* brain_list)
 		name = (char*)malloc(20);
 		description = (char*)malloc(180);
 		fSplitBrain(&id, name, description, &is_available, &note, str);
-		
-		brain->id = id;
-		brain->name = name;
-		brain->desc = description;
-		brain->is_available = is_available;
-		brain->note = note;
-		brain->list = NULL;
-		
-		
-		brain->next = NULL;
-		brain_list->last->next = brain;
-		brain->previous = brain_list->last;
-		brain_list->last = brain;
+		fAddEnd(brain_list, id, name, description, is_available, note);
 
-		brain_list->size += 1;
+		printf("last : %s\nbefore_last : \nsecond : %s\nfirst : \n\n", brain_list->last->name, brain_list->last->previous->name, brain_list->first->next->name, brain_list->first->name);
 	}
-	printf("%s\n", brain_list->first->next->name);
 	fclose(brain_file);
 }
 
@@ -163,8 +149,30 @@ void fDisplayBrainList(BRAIN_LIST* brain_list)
 		{
 			available = (char*)"NOT_AVAILABLE\0";
 		}
-		printf("%04d | %15s | %25s | %s | %.2f/5\n", brain->id, brain->name, brain->desc, available, brain->note);
+		printf("%04d | %15s | %50s | %s | %.2f/5\n", brain->id, brain->name, brain->desc, available, brain->note);
 		
 		brain = brain->next;
 	}
+}
+
+void fAddEnd(BRAIN_LIST* brain_list, int id, char* name, char* description, int is_available, float note)
+{
+	BRAIN* my_brain;
+	my_brain = (BRAIN*)malloc(sizeof(*my_brain));
+
+	// Set the value of the different objects of the brain
+	my_brain->id = id;
+	my_brain->desc = description;
+	my_brain->name = name;
+	my_brain->is_available = is_available;
+	my_brain->note = note;
+
+	// Link the new brain in the list
+	my_brain->previous = brain_list->last;
+	my_brain->next = NULL;
+	brain_list->last->next = my_brain;
+	brain_list->last = my_brain;
+
+	// Add one to the size of the list
+	brain_list->size += 1;
 }
