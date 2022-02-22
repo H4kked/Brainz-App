@@ -7,10 +7,8 @@
 #include "Brainz-Menu.h"
 #include "Brainz-Members.h"
 
-void fMemberSaves()
+void fMemberStart(MEMBER_LIST* member_list)
 {
-	MEMBER_LIST* member_list;
-	member_list = (MEMBER_LIST*)malloc(sizeof(*member_list));
 	MEMBER* first_member;
 	first_member = (MEMBER*)malloc(sizeof(*member_list));
 	first_member->desc = (char*)"The first member ever";
@@ -27,11 +25,6 @@ void fMemberSaves()
 	member_list->size = 0;
 
 	fGetMember(member_list);
-	fDisplayMemberList(member_list);
-	fAddMember(member_list);
-	fDisplayMemberList(member_list);
-	fDelMember(member_list);
-	fDisplayMemberList(member_list);
 }
 void fGetMember(MEMBER_LIST* member_list)
 {
@@ -202,6 +195,7 @@ void fAddMember(MEMBER_LIST* member_list)
 	char* description;
 	description = (char*)malloc(100);
 	printf("Enter you username (15 characters max) : ");
+	getchar();
 	fgets(username, 15, stdin);
 	username[strlen(username) - 1] = '\0';
 	printf("Enter you password (15 characters max) : ");
@@ -211,8 +205,28 @@ void fAddMember(MEMBER_LIST* member_list)
 	fgets(description, 50, stdin);
 	description[strlen(description) - 1] = '\0';
 
-	fAddMemberEnd(member_list, username, password, description, is_admin, NULL);
-	fWriteMember(member_list);
+	MEMBER* check_member;
+	check_member = (MEMBER*)malloc(sizeof(*check_member));
+	check_member = member_list->first;
+
+	while (strcmp(check_member->username, username) != 0)
+	{
+		check_member = check_member->next;
+		if (check_member == NULL)
+		{
+			break;
+		}
+	}
+
+	if (check_member != NULL)
+	{
+		printf("This username is already taken, please choose another\n");
+		fAddMember(member_list);
+	}
+	else {
+		fAddMemberEnd(member_list, username, password, description, is_admin, NULL);
+		fWriteMember(member_list);
+	}
 }
 void fWriteMember(MEMBER_LIST* member_list)
 {
@@ -281,45 +295,47 @@ void fDelMember(MEMBER_LIST* member_list)
 		fWriteMember(member_list);
 	}
 }
-
-void fSignUp(MEMBER_LIST* member_list)
+void fUpgradeMember(MEMBER_LIST* member_list)
 {
-	MEMBER* new_member;
-	new_member = (MEMBER*)malloc(sizeof(*new_member));
+	MEMBER* up_member;
+	up_member = (MEMBER*)malloc(sizeof(*up_member));
+	up_member = member_list->first;
 
+	char* up_username;
+	up_username = (char*)malloc(15);
+	printf("Enter the name of the member you want to upgrade : ");
+	fgets(up_username, 15, stdin);
+	up_username[strlen(up_username) - 1] = '\0';
 
-	//CREATES MEMBER PARAMETERS
-	char* username;
-	char* password;
-	char* desc;
-	username = (char*)malloc(sizeof(*username));
-	password = (char*)malloc(sizeof(*password));
-	desc = (char*)malloc(sizeof(*desc));
-	new_member->next = NULL;
+	while (strcmp(up_member->username, up_username) != 0 && up_member != NULL)
+	{
+		up_member = up_member->next;
+		if (up_member == NULL)
+		{
+			break;
+		}
+	}
+	if (up_member == NULL)
+	{
+		printf("There is no member with this username...\n\n");
+	}
+	else
+	{
+		up_member->is_admin = 1;
+	}
+	fWriteMember(member_list);
+}
 
-	//ASSIGN PARAMETERS TO NEW MEMBER
-	getchar();
-	printf("											Username: ");
-	fgets(new_member->username, 20, stdin);
-	new_member->username[strlen(username) - 1] = '\0';
-	printf("											Password: ");
-	fgets(new_member->password, 20, stdin);
-	new_member->password[strlen(password) - 1] = '\0';
-	printf("											Description: ");
-	fgets(new_member->desc, 100, stdin);
-	new_member->desc[strlen(desc) - 1] = '\0';
+void fSignUp(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+{
+	fAddMember(member_list);
 
-	//PLACES NEW MEMBER IN MEMBER LIST
-	member_list->last->next = new_member;
-	new_member->previous = member_list->last;
-	new_member = member_list->last;
-
-	printf("\n\n										Account created. Welcome, %s !\n", username);
+	printf("\n\n										Account created. Welcome !\n");
 	Sleep(3000);
 	clear_screen(' ');
-	fLogIn(member_list);
+	fLogIn(member_list, brain_list);
 }
-void fLogIn(MEMBER_LIST* member_list)
+void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
 	//INITIALIZE LIST TO GO THROUGH
 	MEMBER* current;
@@ -350,7 +366,7 @@ void fLogIn(MEMBER_LIST* member_list)
 		if (n == 9)
 		{
 			clear_screen(' ');
-			fMenuDisplay(member_list);
+			fMenuDisplay(member_list, brain_list);
 		}
 		if (strcmp(username, current->username) == 0)
 		{
@@ -368,7 +384,7 @@ void fLogIn(MEMBER_LIST* member_list)
 	//THE USER HAS NOT BEEN RECOGNIZED
 	printf("									Incorrect username or password. Please try again.");
 	Sleep(3000);
-	fLogIn(member_list);
+	fLogIn(member_list, brain_list);
 }
 void fLoggedMenu(MEMBER_LIST* member_list, MEMBER* current)
 {
