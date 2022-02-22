@@ -25,9 +25,12 @@ void fMemberSaves()
 	member_list->first = first_member;
 	member_list->last = first_member;
 	member_list->size = 0;
+
 	fGetMember(member_list);
 	fDisplayMemberList(member_list);
 	fAddMember(member_list);
+	fDisplayMemberList(member_list);
+	fDelMember(member_list);
 	fDisplayMemberList(member_list);
 }
 void fGetMember(MEMBER_LIST* member_list)
@@ -230,52 +233,52 @@ void fWriteMember(MEMBER_LIST* member_list)
 	}
 	fclose(member_file);
 }
-void fDelMember(BRAIN_LIST* brain_list)
+void fDelMember(MEMBER_LIST* member_list)
 {
-	BRAIN* del_brain;
-	del_brain = (BRAIN*)malloc(sizeof(*del_brain));
-	del_brain = brain_list->first;
+	MEMBER* del_member;
+	del_member = (MEMBER*)malloc(sizeof(*del_member));
+	del_member = member_list->first;
 
-	char* del_name;
-	del_name = (char*)malloc(15);
-	printf("Enter the name of the brain you want to delete : ");
-	fgets(del_name, 15, stdin);
-	del_name[strlen(del_name) - 1] = '\0';
+	char* del_username;
+	del_username = (char*)malloc(15);
+	printf("Enter the name of the member you want to delete : ");
+	fgets(del_username, 15, stdin);
+	del_username[strlen(del_username) - 1] = '\0';
 
-	while (strcmp(del_brain->name, del_name) != 0 && del_brain != NULL)
+	while (strcmp(del_member->username, del_username) != 0 && del_member != NULL)
 	{
-		del_brain = del_brain->next;
-		if (del_brain == NULL)
+		del_member = del_member->next;
+		if (del_member == NULL)
 		{
 			break;
 		}
 	}
 
-	if (del_brain == NULL)
+	if (del_member == NULL)
 	{
-		printf("There is no brain with this name...\n\n");
+		printf("There is no member with this username...\n\n");
 	}
 	else
 	{
 		printf("\n");
 
-		if (strcmp(del_brain->name, brain_list->last->name) == 0)
+		if (strcmp(del_member->username, member_list->last->username) == 0)
 		{
-			brain_list->last = del_brain->previous;
-			del_brain->previous->next = NULL;
+			member_list->last = del_member->previous;
+			del_member->previous->next = NULL;
 		}
 		else
 		{
-			del_brain->previous->next = del_brain->next;
-			del_brain->next->previous = del_brain->previous;
-			del_brain = del_brain->next;
-			while (del_brain != NULL)
+			del_member->previous->next = del_member->next;
+			del_member->next->previous = del_member->previous;
+			del_member = del_member->next;
+			while (del_member != NULL)
 			{
-				del_brain->id -= 1;
-				del_brain = del_brain->next;
+				del_member = del_member->next;
 			}
 		}
-		brain_list->size -= 1;
+		member_list->size -= 1;
+		fWriteMember(member_list);
 	}
 }
 
