@@ -144,7 +144,7 @@
     <ClCompile Include="Brainz-Brains.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Brainz-App.h" />
+    <ClInclude Include="Brainz-Members.h" />
     <ClInclude Include="Brainz-Brains.h" />
   </ItemGroup>
   <ItemGroup>
