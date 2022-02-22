@@ -47,10 +47,11 @@ void fGetMember(MEMBER_LIST* member_list)
 		char* description;
 		int is_admin = 0;
 		int brain_id = 0;
+		password = (char*)malloc(20);
 		username = (char*)malloc(20);
 		description = (char*)malloc(180);
 		fSplitMember(username, password, description, &is_admin, &brain_id, str);
-		fAddMemberEnd(member_list, username, password, description, is_admin, brain_id);
+		fAddMemberEnd(member_list, username, password, description, is_admin, &brain_id);
 
 		//printf("last : %s\nbefore_last : \nsecond : %s\nfirst : \n\n", member_list->last->name, member_list->last->previous->name, member_list->first->next->name, member_list->first->name);
 	}
