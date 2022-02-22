@@ -4,6 +4,7 @@
 #include "Brainz-Members.h"
 #include "Brainz-Brains.h"
 #include "Brainz-Menu.h"
+#include "Brainz-Comment.h"
 
 
 int main() 
@@ -12,6 +13,7 @@ int main()
 	member_list = (MEMBER_LIST*)malloc(sizeof(*member_list));
 	BRAIN_LIST* brains_list;
 	brains_list = (BRAIN_LIST*)malloc(sizeof(*brains_list));
-	fMenuDisplay(member_list, brains_list);
+	fTestComment();
+	//fMenuDisplay(member_list, brains_list);
 	return 0;
 }

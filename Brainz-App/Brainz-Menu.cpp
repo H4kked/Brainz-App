@@ -4,6 +4,7 @@
 #include <malloc.h>
 #include <ctype.h>
 #include <Windows.h>
+#include <time.h>
 #include "Brainz-Menu.h"
 #include "Brainz-Members.h"
 #include "Brainz-Brains.h"
@@ -86,4 +87,29 @@ void fFullScreen()
 {
 	HWND hwnd = GetForegroundWindow();
 	ShowWindow(hwnd, SW_MAXIMIZE);
+}
+
+void fGetDate(char* date)
+{
+	int day, month, year;
+	
+	time_t current_time = time(NULL);
+
+	//printf("Time : %d\n", current_time);
+
+	struct tm* local;
+	local = (tm*)malloc(sizeof(*local));
+
+	localtime_s(local, &current_time);
+
+	day = local->tm_mday;                // Get the day of today (an int between 1 and 31)
+	month = local->tm_mon + 1;			 // Get the monthe of today (an int between 0 and 11)
+	year = local->tm_year + 1900;		 // Get the number of year since 1900
+
+
+	//printf("Today is : %02d-%02d-%4d\n", day, month, year);
+	sprintf_s(date, 15, "%02d-%02d-%4d", day, month, year);  // Convert the integers to a date under the format DD-MM-YYYY
+	//printf("Today (but different) is : %s", date);
+
+
 }

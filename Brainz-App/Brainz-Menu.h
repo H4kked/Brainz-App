@@ -27,7 +27,7 @@ struct MEMBER_LIST
 };
 struct COMMENT
 {
-	struct MEMBER* member;
+	MEMBER* member;
 	char* comment;
 	int note;
 	char* date;
@@ -42,7 +42,7 @@ struct COMMENT_LIST
 	COMMENT* first;
 	COMMENT* last;
 	COMMENT_LIST* next;
-	COMMENT_LIST* next;
+	COMMENT_LIST* previous;
 };
 
 struct MASTER_COMMENT
@@ -76,3 +76,4 @@ void clear_screen(char fill = ' ');
 void fPrintLogo();
 void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
 void fFullScreen();
+void fGetDate(char* date);
