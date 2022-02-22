@@ -8,11 +8,10 @@
 
 int main() 
 {
-	MEMBER_LIST* list;
-	list = (MEMBER_LIST*)malloc(sizeof(MEMBER_LIST*));
+	MEMBER_LIST* member_list;
+	member_list = (MEMBER_LIST*)malloc(sizeof(*member_list));
 	BRAIN_LIST* brains_list;
 	brains_list = (BRAIN_LIST*)malloc(sizeof(*brains_list));
-	//fMenuDisplay(list);
-	fMemberSaves();
+	fMenuDisplay(member_list);
 	return 0;
 }

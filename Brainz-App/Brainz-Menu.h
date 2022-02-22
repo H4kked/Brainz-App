@@ -61,5 +61,5 @@ struct BRAIN_LIST
 void fMenuDisplay(MEMBER_LIST* list);
 void clear_screen(char fill = ' ');
 void fPrintLogo();
-void fPrintLoading();
+void fPrintLoading(MEMBER_LIST* member_list);
 void fFullScreen();

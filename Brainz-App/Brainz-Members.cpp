@@ -7,10 +7,8 @@
 #include "Brainz-Menu.h"
 #include "Brainz-Members.h"
 
-void fMemberSaves()
+void fMemberStart(MEMBER_LIST* member_list)
 {
-	MEMBER_LIST* member_list;
-	member_list = (MEMBER_LIST*)malloc(sizeof(*member_list));
 	MEMBER* first_member;
 	first_member = (MEMBER*)malloc(sizeof(*member_list));
 	first_member->desc = (char*)"The first member ever";
@@ -27,13 +25,6 @@ void fMemberSaves()
 	member_list->size = 0;
 
 	fGetMember(member_list);
-	fDisplayMemberList(member_list);
-	fAddMember(member_list);
-	fDisplayMemberList(member_list);
-	fUpgradeMember(member_list);
-	fDisplayMemberList(member_list);
-	fDelMember(member_list);
-	fDisplayMemberList(member_list);
 }
 void fGetMember(MEMBER_LIST* member_list)
 {
@@ -316,37 +307,9 @@ void fUpgradeMember(MEMBER_LIST* member_list)
 
 void fSignUp(MEMBER_LIST* member_list)
 {
-	MEMBER* new_member;
-	new_member = (MEMBER*)malloc(sizeof(*new_member));
+	fAddMember(member_list);
 
-
-	//CREATES MEMBER PARAMETERS
-	char* username;
-	char* password;
-	char* desc;
-	username = (char*)malloc(sizeof(*username));
-	password = (char*)malloc(sizeof(*password));
-	desc = (char*)malloc(sizeof(*desc));
-	new_member->next = NULL;
-
-	//ASSIGN PARAMETERS TO NEW MEMBER
-	getchar();
-	printf("											Username: ");
-	fgets(new_member->username, 20, stdin);
-	new_member->username[strlen(username) - 1] = '\0';
-	printf("											Password: ");
-	fgets(new_member->password, 20, stdin);
-	new_member->password[strlen(password) - 1] = '\0';
-	printf("											Description: ");
-	fgets(new_member->desc, 100, stdin);
-	new_member->desc[strlen(desc) - 1] = '\0';
-
-	//PLACES NEW MEMBER IN MEMBER LIST
-	member_list->last->next = new_member;
-	new_member->previous = member_list->last;
-	new_member = member_list->last;
-
-	printf("\n\n										Account created. Welcome, %s !\n", username);
+	printf("\n\n										Account created. Welcome !\n");
 	Sleep(3000);
 	clear_screen(' ');
 	fLogIn(member_list);

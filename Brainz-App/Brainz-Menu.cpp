@@ -6,13 +6,14 @@
 #include <Windows.h>
 #include "Brainz-Menu.h"
 #include "Brainz-Members.h"
+#include "Brainz-Brains.h"
 
-void fMenuDisplay(MEMBER_LIST* list)
+void fMenuDisplay(MEMBER_LIST* member_list)
 {
 	fFullScreen();
 	printf("\n\n\n\n\n");
 	fPrintLogo();
-	fPrintLoading();
+	fPrintLoading(member_list);
 	Sleep(1000);
 
 	int choice;
@@ -23,10 +24,10 @@ void fMenuDisplay(MEMBER_LIST* list)
 	switch (choice)
 	{
 	case 1:
-		fLogIn(list);
+		fLogIn(member_list);
 		break;
 	case 2:
-		fSignUp(list);
+		fSignUp(member_list);
 		break;
 	default:
 		exit(0);
@@ -65,15 +66,17 @@ void fPrintLogo()
 											  =============================inc.\n\n");
 	printf("										Welcome to BRAINZ ! The place where skills become yours.\n\n\n\n\n");
 }
-void fPrintLoading()
+void fPrintLoading(MEMBER_LIST* member_list)
 {
 	//MAKES US LOOK LIKE BOSSES
 	Sleep(3000);
 	printf("											Loading");
 	Sleep(1000);
 	printf(".");
+	fMemberStart(member_list);
 	Sleep(1000);
 	printf(".");
+	fMainSaves();
 	Sleep(1000);
 	printf(".");
 	Sleep(2000);
