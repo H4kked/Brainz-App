@@ -47,6 +47,7 @@ void clear_screen(char fill) {
 }
 void fPrintLogo()
 {
+	//PRINT THE LOGO WHAT DO YOU WANT ME TO SAY
 	printf("\n\
 											      _---~~(~~-_.\n\
 											    _{        )   )\n\
@@ -67,6 +68,7 @@ void fPrintLogo()
 }
 void fPrintLoading()
 {
+	//MAKES US LOOK LIKE BOSSES
 	Sleep(3000);
 	printf("											Loading");
 	Sleep(1000);
@@ -152,6 +154,7 @@ void fLogIn(MEMBER_LIST* list)
 		{
 			if (strcmp(password, current->password) == 0)
 			{
+				//THE USER HAS BEEN RECOGNIZED
 				printf("											Connected ! Welcome, %s.\n", username);
 				Sleep(2000);
 
