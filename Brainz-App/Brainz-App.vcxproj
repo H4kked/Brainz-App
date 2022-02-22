@@ -141,11 +141,11 @@
   <ItemGroup>
     <ClCompile Include="Brainz-App.cpp" />
     <ClCompile Include="Brainz-Members.cpp" />
-    <ClCompile Include="Brainz-Saves.cpp" />
+    <ClCompile Include="Brainz-Brains.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brainz-App.h" />
-    <ClInclude Include="Brainz-Saves.h" />
+    <ClInclude Include="Brainz-Brains.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="brain.txt" />

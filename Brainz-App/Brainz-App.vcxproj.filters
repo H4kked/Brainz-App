@@ -21,7 +21,7 @@
     <ClCompile Include="Brainz-Members.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Brainz-Saves.cpp">
+    <ClCompile Include="Brainz-Brains.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -29,7 +29,7 @@
     <ClInclude Include="Brainz-App.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
-    <ClInclude Include="Brainz-Saves.h">
+    <ClInclude Include="Brainz-Brains.h">
       <Filter>Fichiers d%27en-tête</Filter>
     </ClInclude>
   </ItemGroup>
