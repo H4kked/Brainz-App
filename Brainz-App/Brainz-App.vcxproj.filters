@@ -18,7 +18,7 @@
     <ClCompile Include="Brainz-App.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
-    <ClCompile Include="Brainz-Functions.cpp">
+    <ClCompile Include="Brainz-Members.cpp">
       <Filter>Fichiers sources</Filter>
     </ClCompile>
     <ClCompile Include="Brainz-Saves.cpp">
