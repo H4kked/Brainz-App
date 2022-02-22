@@ -318,11 +318,9 @@ void fSignUp(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
 	//INITIALIZE LIST TO GO THROUGH
-	MEMBER* current;
-	MEMBER* pending;
-	current = (MEMBER*)malloc(sizeof(*current));
-	pending = (MEMBER*)malloc(sizeof(*pending));
-	current = member_list->first;
+	MEMBER* current_member;
+	current_member = (MEMBER*)malloc(sizeof(*current_member));
+	current_member = member_list->first;
 
 	//USER PARAMETERS
 	char* username;
@@ -337,36 +335,44 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	fgets(password, 15, stdin);
 	password[strlen(password) - 1] = '\0';
 	printf("\n									Press 9 to exit. Press any key to continue.\n");
-	int n;
+	int n, is_recognized = 0;
 	scanf_s("%d", &n);
 
-	//USER CHECK
-	do
+	if (n == 9)
 	{
-		if (n == 9)
+		clear_screen(' ');
+		fMenuDisplay(member_list, brain_list);
+	}
+	else
+	{
+		//USER CHECK
+		do
 		{
-			clear_screen(' ');
-			fMenuDisplay(member_list, brain_list);
-		}
-		if (strcmp(username, current->username) == 0)
-		{
-			if (strcmp(password, current->password) == 0)
+			if (strcmp(username, current_member->username) == 0)
 			{
-				//THE USER HAS BEEN RECOGNIZED
-				printf("											Connected ! Welcome, %s.\n", username);
-				Sleep(2000);
+				if (strcmp(password, current_member->password) == 0)
+				{
+					//THE USER HAS BEEN RECOGNIZED
+					is_recognized = 1;
+					printf("											Connected ! Welcome, %s.\n", username);
+					Sleep(2000);
 
-				fLoggedMenu(member_list, current);
+					fLoggedMenu(member_list, current_member);
+					break;
+				}
 			}
-		}
-	} while (current->next != NULL);
-
-	//THE USER HAS NOT BEEN RECOGNIZED
-	printf("									Incorrect username or password. Please try again.");
-	Sleep(3000);
-	fLogIn(member_list, brain_list);
+			current_member = current_member->next;
+		} while (current_member->next != NULL);
+	}
+	if (is_recognized == 0)
+	{
+		//THE USER HAS NOT BEEN RECOGNIZED
+		printf("									Incorrect username or password. Please try again.");
+		Sleep(3000);
+		fLogIn(member_list, brain_list);
+	}
 }
-void fLoggedMenu(MEMBER_LIST* member_list, MEMBER* current)
+void fLoggedMenu(MEMBER_LIST* member_list, MEMBER* current_member)
 {
 	
 }
