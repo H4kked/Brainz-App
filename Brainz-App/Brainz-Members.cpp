@@ -30,6 +30,8 @@ void fMemberSaves()
 	fDisplayMemberList(member_list);
 	fAddMember(member_list);
 	fDisplayMemberList(member_list);
+	fUpgradeMember(member_list);
+	fDisplayMemberList(member_list);
 	fDelMember(member_list);
 	fDisplayMemberList(member_list);
 }
@@ -280,6 +282,36 @@ void fDelMember(MEMBER_LIST* member_list)
 		member_list->size -= 1;
 		fWriteMember(member_list);
 	}
+}
+void fUpgradeMember(MEMBER_LIST* member_list)
+{
+	MEMBER* up_member;
+	up_member = (MEMBER*)malloc(sizeof(*up_member));
+	up_member = member_list->first;
+
+	char* up_username;
+	up_username = (char*)malloc(15);
+	printf("Enter the name of the member you want to upgrade : ");
+	fgets(up_username, 15, stdin);
+	up_username[strlen(up_username) - 1] = '\0';
+
+	while (strcmp(up_member->username, up_username) != 0 && up_member != NULL)
+	{
+		up_member = up_member->next;
+		if (up_member == NULL)
+		{
+			break;
+		}
+	}
+	if (up_member == NULL)
+	{
+		printf("There is no member with this username...\n\n");
+	}
+	else
+	{
+		up_member->is_admin = 1;
+	}
+	fWriteMember(member_list);
 }
 
 void fSignUp(MEMBER_LIST* member_list)
