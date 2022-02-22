@@ -228,7 +228,55 @@ void fWriteMember(MEMBER_LIST* member_list)
 		fprintf(member_file, "%s/%s/%s/%d/%04d\n", my_member->username, my_member->password, my_member->desc, my_member->is_admin, my_member->brain_id);
 		my_member = my_member->next;
 	}
+	fclose(member_file);
+}
+void fDelMember(BRAIN_LIST* brain_list)
+{
+	BRAIN* del_brain;
+	del_brain = (BRAIN*)malloc(sizeof(*del_brain));
+	del_brain = brain_list->first;
 
+	char* del_name;
+	del_name = (char*)malloc(15);
+	printf("Enter the name of the brain you want to delete : ");
+	fgets(del_name, 15, stdin);
+	del_name[strlen(del_name) - 1] = '\0';
+
+	while (strcmp(del_brain->name, del_name) != 0 && del_brain != NULL)
+	{
+		del_brain = del_brain->next;
+		if (del_brain == NULL)
+		{
+			break;
+		}
+	}
+
+	if (del_brain == NULL)
+	{
+		printf("There is no brain with this name...\n\n");
+	}
+	else
+	{
+		printf("\n");
+
+		if (strcmp(del_brain->name, brain_list->last->name) == 0)
+		{
+			brain_list->last = del_brain->previous;
+			del_brain->previous->next = NULL;
+		}
+		else
+		{
+			del_brain->previous->next = del_brain->next;
+			del_brain->next->previous = del_brain->previous;
+			del_brain = del_brain->next;
+			while (del_brain != NULL)
+			{
+				del_brain->id -= 1;
+				del_brain = del_brain->next;
+			}
+		}
+		brain_list->size -= 1;
+	}
 }
 
 void fSignUp(MEMBER_LIST* member_list)
