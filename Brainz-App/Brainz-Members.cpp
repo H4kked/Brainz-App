@@ -372,8 +372,6 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		//USER CHECK
 		do
 		{
-			printf("%s %s\n", current_member->username, current_member->password);
-			printf("%s %s\n", username, password);
 			if (strcmp(username, current_member->username) == 0)
 			{
 				if (strcmp(password, current_member->password) == 0)
