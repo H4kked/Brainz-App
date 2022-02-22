@@ -210,9 +210,25 @@ void fAddBrain(BRAIN_LIST* brain_list)
 	description[strlen(description) - 1] = '\0';
 
 	fAddEnd(brain_list, id, name, description, is_available, NULL);
+	fWriteBrain(brain_list);
 }
 
 void fWriteBrain(BRAIN_LIST* brain_list)
 {
+	FILE* brain_file;
+	brain_file = (FILE*)malloc(sizeof(*brain_file));
+	char path[] = "brain.txt";
+	fopen_s(&brain_file, path, "w+");
+	
+	BRAIN* my_brain;
+	my_brain = (BRAIN*)malloc(sizeof(*my_brain));
+	my_brain = brain_list->first->next;
+
+	// We want the brain to be written as : id/name/description/is_avilable/note
+	while (my_brain != NULL)
+	{
+		fprintf(brain_file, "%04d/%s/%s/%d/%.2f\n", my_brain->id, my_brain->name, my_brain->desc, my_brain->is_available, my_brain->note);
+		my_brain = my_brain->next;
+	}
 	
 }
