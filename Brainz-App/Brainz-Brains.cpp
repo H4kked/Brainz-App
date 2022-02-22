@@ -25,10 +25,12 @@ void fMainSaves()
 	brain_list->size = 0;
 	fGetBrains(brain_list);
 	fDisplayBrainList(brain_list);
-	printf("\n\n");
-	fAddBrain(brain_list);
-	fDisplayBrainList(brain_list);
-	fDelBrain(brain_list);
+	//printf("\n\n");
+	//fAddBrain(brain_list);
+	//fDisplayBrainList(brain_list);
+	//fDelBrain(brain_list);
+	//fDisplayBrainList(brain_list);
+	fSetAvailability(brain_list, (char*)"KEVIN");
 	fDisplayBrainList(brain_list);
 }
 
@@ -220,7 +222,7 @@ void fWriteBrain(BRAIN_LIST* brain_list)
 {
 	FILE* brain_file;
 	brain_file = (FILE*)malloc(sizeof(*brain_file));
-	char path[] = "test.txt";
+	char path[] = "brain.txt";
 	fopen_s(&brain_file, path, "w+");
 	
 	BRAIN* my_brain;
@@ -284,4 +286,39 @@ void fDelBrain(BRAIN_LIST* brain_list)
 		brain_list->size -= 1;
 		fWriteBrain(brain_list);
 	}
+}
+
+
+void fSetAvailability(BRAIN_LIST* brain_list, char* name)
+{
+	BRAIN* ch_brain;
+	ch_brain = (BRAIN*)malloc(sizeof(*ch_brain));
+	ch_brain = brain_list->first->next->next;
+	while (strcmp(ch_brain->name, name) != 0)
+	{
+		ch_brain = ch_brain->next;
+		if (ch_brain == NULL)
+		{
+			break;
+		}
+	}
+
+	if (ch_brain == NULL)
+	{
+		printf("There is no brain with this name");
+	}
+	else
+	{
+		if (ch_brain->is_available == 0)
+		{
+			ch_brain->is_available = 1;
+		}
+		else
+		{
+			ch_brain->is_available = 0;
+		}
+		fWriteBrain(brain_list);
+	}
+
+
 }
