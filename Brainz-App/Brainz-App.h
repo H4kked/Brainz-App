@@ -13,16 +13,16 @@ struct MEMBER
 	char* password;
 	char* desc;
 	int is_admin;
-	struct BRAIN* current_brain;
-	struct MEMBER* previous;
-	struct MEMBER* next;
+	BRAIN* current_brain;
+	MEMBER* previous;
+	MEMBER* next;
 };
 struct MEMBER_LIST
 {
 	int size;
-	struct MEMBER* first;
-	struct MEMBER* logged;
-	struct MEMBER* last;
+	MEMBER* first;
+	MEMBER* logged;
+	MEMBER* last;
 };
 struct COMMENT
 {
@@ -30,15 +30,15 @@ struct COMMENT
 	char* comment;
 	int note;
 	char* date;
-	struct COMMENT* previous;
-	struct COMMENT* next;
+	COMMENT* previous;
+	COMMENT* next;
 };
 struct COMMENT_LIST
 {
 	int name;
 	int size;
-	struct COMMENT* first;
-	struct COMMENT* last;
+	COMMENT* first;
+	COMMENT* last;
 };
 struct BRAIN
 {
@@ -46,16 +46,16 @@ struct BRAIN
 	char* name;
 	char* desc;
 	int is_available;
-	struct COMMENT_LIST* list;
-	int note;
-	struct BRAIN* previous;
-	struct BRAIN* next;
+	COMMENT_LIST* list;
+	float note;
+	BRAIN* previous;
+	BRAIN* next;
 };
 struct BRAIN_LIST
 {
 	int size;
-	struct BRAIN* first;
-	struct BRAIN* last;
+	BRAIN* first;
+	BRAIN* last;
 };
 
 void fMenuDisplay(MEMBER_LIST* list);

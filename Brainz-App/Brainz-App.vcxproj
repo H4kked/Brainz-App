@@ -141,9 +141,16 @@
   <ItemGroup>
     <ClCompile Include="Brainz-App.cpp" />
     <ClCompile Include="Brainz-Functions.cpp" />
+    <ClCompile Include="Brainz-Saves.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Brainz-App.h" />
+    <ClInclude Include="Brainz-Saves.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="brain.txt" />
+    <Text Include="comment.txt" />
+    <Text Include="member.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
