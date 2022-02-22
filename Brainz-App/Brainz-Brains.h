@@ -10,4 +10,5 @@ void fDisplayBrainList(BRAIN_LIST* brain_list);
 void fAddBrain(BRAIN_LIST* brain_list);
 void fWriteBrain(BRAIN_LIST* brain_list);
 void fDelBrain(BRAIN_LIST* brain_list);
-void fSetAvailability(BRAIN_LIST* brain_list, char* name);
+void fSetAvailability(BRAIN_LIST* brain_list, char* ch_name);
+void fBrainStart(BRAIN_LIST* brain_list);

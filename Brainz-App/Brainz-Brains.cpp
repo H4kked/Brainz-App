@@ -6,6 +6,26 @@
 #include "Brainz-Menu.h"
 #include "Brainz-Members.h"
 
+
+void fBrainStart(BRAIN_LIST* brain_list)
+{
+	BRAIN* first_brain;
+	first_brain = (BRAIN*)malloc(sizeof(*brain_list));
+	first_brain->desc = (char*)"The first brain ever";
+	first_brain->id = -1;
+	first_brain->is_available = 0;
+	first_brain->list = NULL;
+	first_brain->name = (char*)"First Brain";
+	first_brain->next = NULL;
+	first_brain->note = 0;
+	first_brain->previous = NULL;
+
+	brain_list->first = first_brain;
+	brain_list->last = first_brain;
+	brain_list->size = 0;
+	fGetBrains(brain_list);
+}
+
 void fMainSaves()
 {
 	BRAIN_LIST* brain_list;
@@ -31,7 +51,14 @@ void fMainSaves()
 	//fDisplayBrainList(brain_list);
 	//fDelBrain(brain_list);
 	//fDisplayBrainList(brain_list);
-	fSetAvailability(brain_list, (char*)"KEVIN");
+
+	char* ch_name;
+	ch_name = (char*)malloc(15);
+	printf("Enter the name of the brain you want to borrow : ");
+	fgets(ch_name, 15, stdin);
+	ch_name[strlen(ch_name) - 1] = '\0';
+
+	fSetAvailability(brain_list, ch_name);
 	fDisplayBrainList(brain_list);
 }
 
@@ -290,12 +317,20 @@ void fDelBrain(BRAIN_LIST* brain_list)
 }
 
 
-void fSetAvailability(BRAIN_LIST* brain_list, char* name)
+void fSetAvailability(BRAIN_LIST* brain_list, char* ch_name)
 {
 	BRAIN* ch_brain;
 	ch_brain = (BRAIN*)malloc(sizeof(*ch_brain));
 	ch_brain = brain_list->first->next->next;
-	while (strcmp(ch_brain->name, name) != 0)
+	
+	/*
+	char* ch_name;
+	ch_name = (char*)malloc(15);
+	printf("Enter the name of the brain you want to borrow : ");
+	fgets(ch_name, 15, stdin);
+	ch_name[strlen(ch_name) - 1] = '\0';*/
+
+	while (strcmp(ch_brain->name, ch_name) != 0)
 	{
 		ch_brain = ch_brain->next;
 		if (ch_brain == NULL)
@@ -306,7 +341,7 @@ void fSetAvailability(BRAIN_LIST* brain_list, char* name)
 
 	if (ch_brain == NULL)
 	{
-		printf("There is no brain with this name");
+		printf("There is no brain with this name\n");
 	}
 	else
 	{
