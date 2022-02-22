@@ -1,5 +1,5 @@
 #pragma once
-#include "Brainz-App.h"
+#include "Brainz-Members.h"
 
 void fMainSaves();
 void fGetBrains(BRAIN_LIST* brain_list);
