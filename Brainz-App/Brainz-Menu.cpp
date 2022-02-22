@@ -9,8 +9,7 @@
 
 void fMenuDisplay(MEMBER_LIST* list)
 {
-	HWND hwnd = GetForegroundWindow();
-	ShowWindow(hwnd, SW_MAXIMIZE);
+	fFullScreen();
 	printf("\n\n\n\n\n");
 	fPrintLogo();
 	fPrintLoading();
@@ -79,4 +78,9 @@ void fPrintLoading()
 	printf(".");
 	Sleep(2000);
 	printf("	Initialized !");
+}
+void fFullScreen()
+{
+	HWND hwnd = GetForegroundWindow();
+	ShowWindow(hwnd, SW_MAXIMIZE);
 }
