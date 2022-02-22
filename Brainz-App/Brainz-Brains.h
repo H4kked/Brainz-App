@@ -8,3 +8,4 @@ void fSplitBrain(int* id, char* name, char* description, int* is_available, floa
 void fDisplayBrainList(BRAIN_LIST* brain_list);
 void fAddBrain(BRAIN_LIST* brain_list);
 void fWriteBrain(BRAIN_LIST* brain_list);
+void fDelBrain(BRAIN_LIST* brain_list);
