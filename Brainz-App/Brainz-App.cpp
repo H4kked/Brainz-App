@@ -12,6 +12,6 @@ int main()
 	member_list = (MEMBER_LIST*)malloc(sizeof(*member_list));
 	BRAIN_LIST* brains_list;
 	brains_list = (BRAIN_LIST*)malloc(sizeof(*brains_list));
-	fMenuDisplay(member_list);
+	fMenuDisplay(member_list, brains_list);
 	return 0;
 }

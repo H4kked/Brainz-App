@@ -11,6 +11,6 @@ void fAddMember(MEMBER_LIST* member_list);
 void fDelMember(MEMBER_LIST* member_list);
 void fUpgradeMember(MEMBER_LIST* member_list);
 
-void fLogIn(MEMBER_LIST* list);
-void fSignUp(MEMBER_LIST* list);
+void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
+void fSignUp(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
 void fLoggedMenu(MEMBER_LIST* list, MEMBER* member);

@@ -8,12 +8,12 @@
 #include "Brainz-Members.h"
 #include "Brainz-Brains.h"
 
-void fMenuDisplay(MEMBER_LIST* member_list)
+void fMenuDisplay(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
 	fFullScreen();
 	printf("\n\n\n\n\n");
 	fPrintLogo();
-	fPrintLoading(member_list);
+	fPrintLoading(member_list, brain_list);
 	Sleep(1000);
 
 	int choice;
@@ -24,10 +24,10 @@ void fMenuDisplay(MEMBER_LIST* member_list)
 	switch (choice)
 	{
 	case 1:
-		fLogIn(member_list);
+		fLogIn(member_list, brain_list);
 		break;
 	case 2:
-		fSignUp(member_list);
+		fSignUp(member_list, brain_list);
 		break;
 	default:
 		exit(0);
@@ -66,7 +66,7 @@ void fPrintLogo()
 											  =============================inc.\n\n");
 	printf("										Welcome to BRAINZ ! The place where skills become yours.\n\n\n\n\n");
 }
-void fPrintLoading(MEMBER_LIST* member_list)
+void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
 	//MAKES US LOOK LIKE BOSSES
 	Sleep(3000);
@@ -76,7 +76,7 @@ void fPrintLoading(MEMBER_LIST* member_list)
 	fMemberStart(member_list);
 	Sleep(1000);
 	printf(".");
-	fMainSaves();
+	fBrainStart(brain_list);
 	Sleep(1000);
 	printf(".");
 	Sleep(2000);
