@@ -3,6 +3,7 @@
 #include <malloc.h>
 #include <stdlib.h>
 #include "Brainz-Brains.h"
+#include "Brainz-Menu.h"
 #include "Brainz-Members.h"
 
 void fMainSaves()

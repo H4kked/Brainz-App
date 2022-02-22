@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "Brainz-Members.h"
 #include "Brainz-Brains.h"
-
+#include "Brainz-Menu.h"
 
 
 int main() 
@@ -13,6 +13,6 @@ int main()
 	BRAIN_LIST* brains_list;
 	brains_list = (BRAIN_LIST*)malloc(sizeof(*brains_list));
 	//fMenuDisplay(list);
-	fMainSaves();
+	fMemberSaves();
 	return 0;
 }

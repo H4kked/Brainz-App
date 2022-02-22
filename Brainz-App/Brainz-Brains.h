@@ -1,4 +1,5 @@
 #pragma once
+#include "Brainz-Menu.h"
 #include "Brainz-Members.h"
 
 void fMainSaves();
