@@ -40,7 +40,7 @@ void fGetBrains(BRAIN_LIST* brain_list)
 
 	while (fgets(str, 200, brain_file) != NULL)
 	{
-		printf("%s\n", str);
+		//printf("%s\n", str);
 		int id = 0;
 		char* name;
 		char* description;
@@ -51,7 +51,7 @@ void fGetBrains(BRAIN_LIST* brain_list)
 		fSplitBrain(&id, name, description, &is_available, &note, str);
 		fAddEnd(brain_list, id, name, description, is_available, note);
 
-		printf("last : %s\nbefore_last : \nsecond : %s\nfirst : \n\n", brain_list->last->name, brain_list->last->previous->name, brain_list->first->next->name, brain_list->first->name);
+		//printf("last : %s\nbefore_last : \nsecond : %s\nfirst : \n\n", brain_list->last->name, brain_list->last->previous->name, brain_list->first->next->name, brain_list->first->name);
 	}
 	fclose(brain_file);
 }
@@ -134,25 +134,29 @@ void fDisplayBrainList(BRAIN_LIST* brain_list)
 	BRAIN* brain;
 	brain = (BRAIN*)malloc(sizeof(*brain));
 	brain = brain_list->first;
-	brain = brain->next;
-	printf("%s\n", brain->name);
+	brain = brain->next->next;
 	char* available;
 	available = (char*)malloc(sizeof(*available));
 
+	printf("+------+-----------------+----------------------------------------------------+---------------+--------+\n");
+	printf("|  id  |      name       |                   Description                      |  AVAILABILITY | NOTE/5 |\n");
+	printf("+------+-----------------+----------------------------------------------------+---------------+--------+\n");
 	while (brain != NULL)
 	{
 		if (brain->is_available == 1) // if brain->is_available == 0 then brain is NOT_AVAILABLE, else the brain is AVAILABLE
 		{
-			available = (char*)"AVAILABLE    \0";
+			available = (char*)"    AVAILABLE\0";
 		}
 		else
 		{
 			available = (char*)"NOT_AVAILABLE\0";
 		}
-		printf("%04d | %15s | %50s | %s | %.2f/5\n", brain->id, brain->name, brain->desc, available, brain->note);
+		printf("| %04d | %15s | %50s | %s | %.2f/5 |\n", brain->id, brain->name, brain->desc, available, brain->note);
 		
 		brain = brain->next;
 	}
+	printf("+------+-----------------+----------------------------------------------------+---------------+--------+\n");
+	printf("  number of brains : %04d\n", brain_list->size-1);
 }
 
 void fAddEnd(BRAIN_LIST* brain_list, int id, char* name, char* description, int is_available, float note)
