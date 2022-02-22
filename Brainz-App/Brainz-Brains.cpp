@@ -316,7 +316,6 @@ void fDelBrain(BRAIN_LIST* brain_list)
 	}
 }
 
-
 void fSetAvailability(BRAIN_LIST* brain_list, char* ch_name)
 {
 	BRAIN* ch_brain;
