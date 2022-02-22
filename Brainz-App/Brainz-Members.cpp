@@ -205,8 +205,28 @@ void fAddMember(MEMBER_LIST* member_list)
 	fgets(description, 50, stdin);
 	description[strlen(description) - 1] = '\0';
 
-	fAddMemberEnd(member_list, username, password, description, is_admin, NULL);
-	fWriteMember(member_list);
+	MEMBER* check_member;
+	check_member = (MEMBER*)malloc(sizeof(*check_member));
+	check_member = member_list->first;
+
+	while (strcmp(check_member->username, username) != 0)
+	{
+		check_member = check_member->next;
+		if (check_member == NULL)
+		{
+			break;
+		}
+	}
+
+	if (check_member != NULL)
+	{
+		printf("This username is already taken, please choose another\n");
+		fAddMember(member_list);
+	}
+	else {
+		fAddMemberEnd(member_list, username, password, description, is_admin, NULL);
+		fWriteMember(member_list);
+	}
 }
 void fWriteMember(MEMBER_LIST* member_list)
 {
