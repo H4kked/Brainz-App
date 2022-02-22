@@ -16,7 +16,7 @@ void fMenuDisplay(MEMBER_LIST* list)
 	Sleep(1000);
 
 	int choice;
-	printf("\n\n\n\n   										     Log in (1) - Sign Up (2) - Exit (9)\nEntry: ");
+	printf("\n\n\n\n   										     Log in (1) - Sign Up (2) - Exit (9)\n   												Entry: ");
 	do {
 		scanf_s("%d", &choice);
 	} while ((choice > 2 && choice < 9) || (choice > 9) || isdigit(choice) == 1);
