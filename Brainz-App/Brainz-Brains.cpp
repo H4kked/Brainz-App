@@ -26,8 +26,8 @@ void fMainSaves()
 	fGetBrains(brain_list);
 	fDisplayBrainList(brain_list);
 	printf("\n\n");
-	//fAddBrain(brain_list);
-	//fDisplayBrainList(brain_list);
+	fAddBrain(brain_list);
+	fDisplayBrainList(brain_list);
 	fDelBrain(brain_list);
 	fDisplayBrainList(brain_list);
 }
@@ -151,7 +151,8 @@ void fDisplayBrainList(BRAIN_LIST* brain_list)
 	brain = brain->next->next;						// The third brain on the list is the first that we want to display
 	char* available;
 	available = (char*)malloc(sizeof(*available));
-	//                     //
+
+
 	printf("+------+-----------------+------------------------------------------------------------------------------------------------------+---------------+--------+\n");
 	printf("|  id  |      name       |                                              Description                                             |  AVAILABILITY | NOTE/5 |\n");
 	printf("+------+-----------------+------------------------------------------------------------------------------------------------------+---------------+--------+\n");
@@ -219,7 +220,7 @@ void fWriteBrain(BRAIN_LIST* brain_list)
 {
 	FILE* brain_file;
 	brain_file = (FILE*)malloc(sizeof(*brain_file));
-	char path[] = "brain.txt";
+	char path[] = "test.txt";
 	fopen_s(&brain_file, path, "w+");
 	
 	BRAIN* my_brain;
@@ -232,7 +233,7 @@ void fWriteBrain(BRAIN_LIST* brain_list)
 		fprintf(brain_file, "%04d/%s/%s/%d/%.2f\n", my_brain->id, my_brain->name, my_brain->desc, my_brain->is_available, my_brain->note);
 		my_brain = my_brain->next;
 	}
-	
+	fclose(brain_file);
 }
 
 void fDelBrain(BRAIN_LIST* brain_list)
@@ -281,5 +282,6 @@ void fDelBrain(BRAIN_LIST* brain_list)
 			}
 		}
 		brain_list->size -= 1;
+		fWriteBrain(brain_list);
 	}
 }
