@@ -31,7 +31,7 @@ void fGetMember(MEMBER_LIST* member_list)
 
 	FILE* member_file;
 	member_file = (FILE*)malloc(sizeof(FILE*));
-	char path[] = "member.txt";
+	char path[] = "test.txt";
 	fopen_s(&member_file, path, "r+");
 	char* str;
 	str = (char*)malloc(200);
@@ -189,11 +189,11 @@ void fAddMember(MEMBER_LIST* member_list)
 {
 	int is_admin = 0;
 	char* username;
-	username = (char*)malloc(15);
+	username = (char*)malloc(20);
 	char* password;
-	password = (char*)malloc(15);
+	password = (char*)malloc(20);
 	char* description;
-	description = (char*)malloc(100);
+	description = (char*)malloc(101);
 	printf("Enter you username (15 characters max) : ");
 	getchar();
 	fgets(username, 15, stdin);
@@ -232,7 +232,7 @@ void fWriteMember(MEMBER_LIST* member_list)
 {
 	FILE* member_file;
 	member_file = (FILE*)malloc(sizeof(*member_file));
-	char path[] = "member.txt";
+	char path[] = "test.txt";
 	fopen_s(&member_file, path, "w+");
 
 	MEMBER* my_member;
@@ -340,20 +340,24 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	//INITIALIZE LIST TO GO THROUGH
 	MEMBER* current_member;
 	current_member = (MEMBER*)malloc(sizeof(*current_member));
-	current_member = member_list->first;
+	current_member = member_list->first->next;
 
 	//USER PARAMETERS
 	char* username;
 	char* password;
-	getchar();
-	printf("\n												Username: ");
 	username = (char*)malloc(sizeof(*username));
+	password = (char*)malloc(sizeof(*password));
+
+	getchar();
+
+	printf("\n												Username: ");
 	fgets(username, 15, stdin);
 	username[strlen(username) - 1] = '\0';
+
 	printf("\n												Password: ");
-	password = (char*)malloc(sizeof(*password));
 	fgets(password, 15, stdin);
 	password[strlen(password) - 1] = '\0';
+
 	printf("\n									Press 9 to exit. Press any key to continue.\n");
 	int n, is_recognized = 0;
 	scanf_s("%d", &n);
@@ -368,6 +372,8 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		//USER CHECK
 		do
 		{
+			printf("%s %s\n", current_member->username, current_member->password);
+			printf("%s %s\n", username, password);
 			if (strcmp(username, current_member->username) == 0)
 			{
 				if (strcmp(password, current_member->password) == 0)
@@ -382,7 +388,7 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 				}
 			}
 			current_member = current_member->next;
-		} while (current_member->next != NULL);
+		} while (current_member->previous->next != NULL);
 	}
 	if (is_recognized == 0)
 	{
