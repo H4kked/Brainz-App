@@ -13,7 +13,7 @@ struct MEMBER
 	char* password;
 	char* desc;
 	int is_admin;
-	int* brain_id;
+	int brain_id;
 	MEMBER* previous;
 	MEMBER* next;
 };

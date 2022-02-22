@@ -27,6 +27,8 @@ void fMemberSaves()
 	member_list->size = 0;
 	fGetMember(member_list);
 	fDisplayMemberList(member_list);
+	fAddMember(member_list);
+	fDisplayMemberList(member_list);
 }
 void fGetMember(MEMBER_LIST* member_list)
 {
@@ -45,23 +47,22 @@ void fGetMember(MEMBER_LIST* member_list)
 		char* username;
 		char* password;
 		char* description;
-		int is_admin = 0;
+		int is_admin = 1;
 		int brain_id = 0;
 		password = (char*)malloc(20);
 		username = (char*)malloc(20);
 		description = (char*)malloc(180);
-		fSplitMember(username, password, description, &is_admin, &brain_id, str);
-		fAddMemberEnd(member_list, username, password, description, is_admin, &brain_id);
+		fSplitMember(username, password, description, &is_admin, brain_id, str);
+		fAddMemberEnd(member_list, username, password, description, is_admin, brain_id);
 
 		//printf("last : %s\nbefore_last : \nsecond : %s\nfirst : \n\n", member_list->last->name, member_list->last->previous->name, member_list->first->next->name, member_list->first->name);
 	}
 	fclose(member_file);
 }
-void fSplitMember(char* username, char* password, char* description, int* is_admin, int* brain_id, char* str)
+void fSplitMember(char* username, char* password, char* description, int* is_admin, int brain_id, char* str)
 {
 	int pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 	char splitter = '/';
-	char* ret;
 	int length = strlen(str);
 
 	for (int i = 0; i < length; i++)
@@ -125,7 +126,7 @@ void fSplitMember(char* username, char* password, char* description, int* is_adm
 		temp[i - pos4] = str[i];
 	}
 	temp[length - pos4 - 1] = '\0';
-	*brain_id = atoi(temp);
+	brain_id = atoi(temp);
 }
 void fDisplayMemberList(MEMBER_LIST* member_list)
 {
@@ -146,9 +147,9 @@ void fDisplayMemberList(MEMBER_LIST* member_list)
 	char* admin;
 	admin = (char*)malloc(sizeof(*admin));
 
-	printf("+-----------------+-----------------+----------+-----------------+\n");
-	printf("|       Name      |     Password    | Is Admin |  Current Brain  | \n");
-	printf("+-----------------+-----------------+----------+-----------------+\n");
+	printf("+-----------------+-----------------+-----------+-----------------+\n");
+	printf("|       Name      |     Password    |  Is Admin |  Current Brain  | \n");
+	printf("+-----------------+-----------------+-----------+-----------------+\n");
 	while (member != NULL)
 	{
 		// We want to know if the member is admin or not
@@ -160,14 +161,14 @@ void fDisplayMemberList(MEMBER_LIST* member_list)
 		{
 			admin = (char*)"NOT_ADMIN\0";
 		}
-		printf("| %15s | 15s | %50s | %s | %15s |\n", member->username, member->password, member->desc, admin, member->brain_id);
+		printf("| %15s | %15s | %s |            %04d |\n", member->username, member->password, admin, member->brain_id);
 
 		member = member->next;
 	}
-	printf("+-----------------+-----------------+----------+-----------------+\n");
+	printf("+-----------------+-----------------+-----------+-----------------+\n");
 	printf("  number of members : %04d\n", member_list->size - 1);
 }
-void fAddMemberEnd(MEMBER_LIST* member_list, char* username, char* password, char* description, int is_admin, int* brain_id)
+void fAddMemberEnd(MEMBER_LIST* member_list, char* username, char* password, char* description, int is_admin, int brain_id)
 {
 	MEMBER* my_member;
 	my_member = (MEMBER*)malloc(sizeof(*my_member));
@@ -187,6 +188,47 @@ void fAddMemberEnd(MEMBER_LIST* member_list, char* username, char* password, cha
 
 	// Add one to the size of the list
 	member_list->size += 1;
+}
+void fAddMember(MEMBER_LIST* member_list)
+{
+	int is_admin = 0;
+	char* username;
+	username = (char*)malloc(15);
+	char* password;
+	password = (char*)malloc(15);
+	char* description;
+	description = (char*)malloc(100);
+	printf("Enter you username (15 characters max) : ");
+	fgets(username, 15, stdin);
+	username[strlen(username) - 1] = '\0';
+	printf("Enter you password (15 characters max) : ");
+	fgets(password, 15, stdin);
+	password[strlen(password) - 1] = '\0';
+	printf("Enter your description (100 characters max) : ");
+	fgets(description, 50, stdin);
+	description[strlen(description) - 1] = '\0';
+
+	fAddMemberEnd(member_list, username, password, description, is_admin, NULL);
+	fWriteMember(member_list);
+}
+void fWriteMember(MEMBER_LIST* member_list)
+{
+	FILE* member_file;
+	member_file = (FILE*)malloc(sizeof(*member_file));
+	char path[] = "member.txt";
+	fopen_s(&member_file, path, "w+");
+
+	MEMBER* my_member;
+	my_member = (MEMBER*)malloc(sizeof(*my_member));
+	my_member = member_list->first->next;
+
+	// We want the member to be written as : username/password/description/is_admin/current_brain->id
+	while (my_member != NULL)
+	{
+		fprintf(member_file, "%s/%s/%s/%d/%04d\n", my_member->username, my_member->password, my_member->desc, my_member->is_admin, my_member->brain_id);
+		my_member = my_member->next;
+	}
+
 }
 
 void fSignUp(MEMBER_LIST* member_list)
