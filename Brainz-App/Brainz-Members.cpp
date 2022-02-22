@@ -4,7 +4,7 @@
 #include <malloc.h>
 #include <ctype.h>
 #include <Windows.h>
-#include "Brainz-App.h"
+#include "Brainz-Members.h"
 
 void fMenuDisplay(MEMBER_LIST* list)
 {
