@@ -58,8 +58,8 @@ struct BRAIN_LIST
 	BRAIN* last;
 };
 
-void fMenuDisplay(MEMBER_LIST* list);
+void fMenuDisplay(MEMBER_LIST* list, BRAIN_LIST* brain_list);
 void clear_screen(char fill = ' ');
 void fPrintLogo();
-void fPrintLoading();
+void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
 void fFullScreen();
