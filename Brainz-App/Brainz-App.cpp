@@ -13,6 +13,7 @@ int main()
 	BRAIN_LIST* brains_list;
 	brains_list = (BRAIN_LIST*)malloc(sizeof(*brains_list));
 	//fMenuDisplay(list);
+
 	fMemberSaves();
 	return 0;
 }
