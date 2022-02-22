@@ -2,7 +2,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <stdlib.h>
-#include "Brainz-Saves.h"
+#include "Brainz-Brains.h"
 #include "Brainz-App.h"
 
 void fMainSaves()
@@ -131,10 +131,21 @@ void fSplitBrain(int* id, char* name, char* description, int* is_available, floa
 
 void fDisplayBrainList(BRAIN_LIST* brain_list)
 {
+	/*
+	* We want the information to be displayed as the example below :
+	+------+-----------------+----------------------------------------------------+---------------+--------+
+	|  id  |      name       |                   Description                      |  AVAILABILITY | NOTE/5 |
+	+------+-----------------+----------------------------------------------------+---------------+--------+
+	| 0003 |             GOD |			                  The Almighty GOD's Bain |	NOT_AVAILABLE |	  5/5  |
+	|      |                 |													  |				  |		   |
+	+------+-----------------+----------------------------------------------------+---------------+--------+
+	*/
+
+
 	BRAIN* brain;
 	brain = (BRAIN*)malloc(sizeof(*brain));
-	brain = brain_list->first;
-	brain = brain->next->next;
+	brain = brain_list->first;                      // Recover the first brain in an object of the type BRAIN
+	brain = brain->next->next;						// The third brain on the list is the first that we want to display
 	char* available;
 	available = (char*)malloc(sizeof(*available));
 
@@ -143,6 +154,7 @@ void fDisplayBrainList(BRAIN_LIST* brain_list)
 	printf("+------+-----------------+----------------------------------------------------+---------------+--------+\n");
 	while (brain != NULL)
 	{
+		// We want to know if the brain is available or not
 		if (brain->is_available == 1) // if brain->is_available == 0 then brain is NOT_AVAILABLE, else the brain is AVAILABLE
 		{
 			available = (char*)"    AVAILABLE\0";
