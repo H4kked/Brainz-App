@@ -29,6 +29,8 @@ void fMainSaves()
 	printf("\n\n");
 	fAddBrain(brain_list);
 	fDisplayBrainList(brain_list);
+	fDelBrain(brain_list);
+	fDisplayBrainList(brain_list);
 }
 
 void fGetBrains(BRAIN_LIST* brain_list)
@@ -151,9 +153,10 @@ void fDisplayBrainList(BRAIN_LIST* brain_list)
 	char* available;
 	available = (char*)malloc(sizeof(*available));
 
-	printf("+------+-----------------+----------------------------------------------------+---------------+--------+\n");
-	printf("|  id  |      name       |                   Description                      |  AVAILABILITY | NOTE/5 |\n");
-	printf("+------+-----------------+----------------------------------------------------+---------------+--------+\n");
+
+	printf("+------+-----------------+------------------------------------------------------------------------------------------------------+---------------+--------+\n");
+	printf("|  id  |      name       |                                              Description                                             |  AVAILABILITY | NOTE/5 |\n");
+	printf("+------+-----------------+------------------------------------------------------------------------------------------------------+---------------+--------+\n");
 	while (brain != NULL)
 	{
 		// We want to know if the brain is available or not
@@ -165,11 +168,11 @@ void fDisplayBrainList(BRAIN_LIST* brain_list)
 		{
 			available = (char*)"NOT_AVAILABLE\0";
 		}
-		printf("| %04d | %15s | %50s | %s | %.2f/5 |\n", brain->id, brain->name, brain->desc, available, brain->note);
+		printf("| %04d | %15s | %100s | %s | %.2f/5 |\n", brain->id, brain->name, brain->desc, available, brain->note);
 		
 		brain = brain->next;
 	}
-	printf("+------+-----------------+----------------------------------------------------+---------------+--------+\n");
+	printf("+------+-----------------+------------------------------------------------------------------------------------------------------+---------------+--------+\n");
 	printf("  number of brains : %04d\n", brain_list->size-1);
 }
 
@@ -202,12 +205,12 @@ void fAddBrain(BRAIN_LIST* brain_list)
 	char* name;
 	name = (char*)malloc(15);
 	char* description;
-	description = (char*)malloc(50);
+	description = (char*)malloc(100);
 	printf("Enter the name of the brain (15 characters max) : ");
 	fgets(name, 15, stdin);
 	name[strlen(name) - 1] = '\0';
-	printf("Enter the description of the brain (50 characters max) : ");
-	fgets(description, 50, stdin);
+	printf("Enter the description of the brain (100 characters max) : ");
+	fgets(description, 100, stdin);
 	description[strlen(description) - 1] = '\0';
 
 	fAddEnd(brain_list, id, name, description, is_available, NULL);
@@ -218,7 +221,7 @@ void fWriteBrain(BRAIN_LIST* brain_list)
 {
 	FILE* brain_file;
 	brain_file = (FILE*)malloc(sizeof(*brain_file));
-	char path[] = "brain.txt";
+	char path[] = "test.txt";
 	fopen_s(&brain_file, path, "w+");
 	
 	BRAIN* my_brain;
@@ -231,5 +234,55 @@ void fWriteBrain(BRAIN_LIST* brain_list)
 		fprintf(brain_file, "%04d/%s/%s/%d/%.2f\n", my_brain->id, my_brain->name, my_brain->desc, my_brain->is_available, my_brain->note);
 		my_brain = my_brain->next;
 	}
-	
+	fclose(brain_file);
+}
+
+void fDelBrain(BRAIN_LIST* brain_list)
+{
+	BRAIN* del_brain;
+	del_brain = (BRAIN*)malloc(sizeof(*del_brain));
+	del_brain = brain_list->first;
+
+	char* del_name;
+	del_name = (char*)malloc(15);
+	printf("Enter the name of the brain you want to delete : ");
+	fgets(del_name, 15, stdin);
+	del_name[strlen(del_name) - 1] = '\0';
+
+	while (strcmp(del_brain->name, del_name) != 0 && del_brain != NULL)
+	{
+		del_brain = del_brain->next;
+		if (del_brain == NULL)
+		{
+			break;
+		}
+	}
+
+	if (del_brain == NULL)
+	{
+		printf("There is no brain with this name...\n\n");
+	}
+	else
+	{
+		printf("\n");
+
+		if (strcmp(del_brain->name, brain_list->last->name) == 0)
+		{
+			brain_list->last = del_brain->previous;
+			del_brain->previous->next = NULL;
+		}
+		else
+		{
+			del_brain->previous->next = del_brain->next;
+			del_brain->next->previous = del_brain->previous;
+			del_brain = del_brain->next;
+			while (del_brain != NULL)
+			{
+				del_brain->id -= 1;
+				del_brain = del_brain->next;
+			}
+		}
+		brain_list->size -= 1;
+		fWriteBrain(brain_list);
+	}
 }
