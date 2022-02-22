@@ -25,8 +25,10 @@ void fMainSaves()
 	brain_list->size = 0;
 	fGetBrains(brain_list);
 	fDisplayBrainList(brain_list);
+	printf("\n\n");
+	fAddBrain(brain_list);
+	fDisplayBrainList(brain_list);
 }
-
 
 void fGetBrains(BRAIN_LIST* brain_list)
 {
@@ -128,7 +130,6 @@ void fSplitBrain(int* id, char* name, char* description, int* is_available, floa
 	*note = atof(temp);
 }
 
-
 void fDisplayBrainList(BRAIN_LIST* brain_list)
 {
 	/*
@@ -191,4 +192,27 @@ void fAddEnd(BRAIN_LIST* brain_list, int id, char* name, char* description, int 
 
 	// Add one to the size of the list
 	brain_list->size += 1;
+}
+
+void fAddBrain(BRAIN_LIST* brain_list)
+{
+	int id = brain_list->last->id + 1;
+	int is_available = 1;
+	char* name;
+	name = (char*)malloc(15);
+	char* description;
+	description = (char*)malloc(50);
+	printf("Enter the name of the brain (15 characters max) : ");
+	fgets(name, 15, stdin);
+	name[strlen(name) - 1] = '\0';
+	printf("Enter the description of the brain (50 characters max) : ");
+	fgets(description, 50, stdin);
+	description[strlen(description) - 1] = '\0';
+
+	fAddEnd(brain_list, id, name, description, is_available, NULL);
+}
+
+void fWriteBrain(BRAIN_LIST* brain_list)
+{
+	
 }
