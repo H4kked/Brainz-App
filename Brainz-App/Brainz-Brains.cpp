@@ -26,8 +26,10 @@ void fMainSaves()
 	brain_list->size = 0;
 	fGetBrains(brain_list);
 	fDisplayBrainList(brain_list);
+	printf("\n\n");
+	fAddBrain(brain_list);
+	fDisplayBrainList(brain_list);
 }
-
 
 void fGetBrains(BRAIN_LIST* brain_list)
 {
@@ -129,7 +131,6 @@ void fSplitBrain(int* id, char* name, char* description, int* is_available, floa
 	*note = atof(temp);
 }
 
-
 void fDisplayBrainList(BRAIN_LIST* brain_list)
 {
 	/*
@@ -192,4 +193,43 @@ void fAddEnd(BRAIN_LIST* brain_list, int id, char* name, char* description, int 
 
 	// Add one to the size of the list
 	brain_list->size += 1;
+}
+
+void fAddBrain(BRAIN_LIST* brain_list)
+{
+	int id = brain_list->last->id + 1;
+	int is_available = 1;
+	char* name;
+	name = (char*)malloc(15);
+	char* description;
+	description = (char*)malloc(50);
+	printf("Enter the name of the brain (15 characters max) : ");
+	fgets(name, 15, stdin);
+	name[strlen(name) - 1] = '\0';
+	printf("Enter the description of the brain (50 characters max) : ");
+	fgets(description, 50, stdin);
+	description[strlen(description) - 1] = '\0';
+
+	fAddEnd(brain_list, id, name, description, is_available, NULL);
+	fWriteBrain(brain_list);
+}
+
+void fWriteBrain(BRAIN_LIST* brain_list)
+{
+	FILE* brain_file;
+	brain_file = (FILE*)malloc(sizeof(*brain_file));
+	char path[] = "brain.txt";
+	fopen_s(&brain_file, path, "w+");
+	
+	BRAIN* my_brain;
+	my_brain = (BRAIN*)malloc(sizeof(*my_brain));
+	my_brain = brain_list->first->next;
+
+	// We want the brain to be written as : id/name/description/is_avilable/note
+	while (my_brain != NULL)
+	{
+		fprintf(brain_file, "%04d/%s/%s/%d/%.2f\n", my_brain->id, my_brain->name, my_brain->desc, my_brain->is_available, my_brain->note);
+		my_brain = my_brain->next;
+	}
+	
 }

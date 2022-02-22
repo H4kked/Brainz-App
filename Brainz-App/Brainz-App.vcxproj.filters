@@ -49,5 +49,8 @@
     <Text Include="member.txt">
       <Filter>Fichiers de ressources</Filter>
     </Text>
+    <Text Include="test.txt">
+      <Filter>Fichiers de ressources</Filter>
+    </Text>
   </ItemGroup>
 </Project>
