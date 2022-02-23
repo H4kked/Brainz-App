@@ -78,5 +78,7 @@ void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
 void fFullScreen();
 
 void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list);
+void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
+void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
 
 void fGetDate(char* date);

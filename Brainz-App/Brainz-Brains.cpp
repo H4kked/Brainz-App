@@ -365,6 +365,7 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 	// ASK WHAT BRAIN WILL BE BORROWED
 	char* name;
 	name = (char*)malloc(sizeof(*name));
+	Sleep(1);
 	printf("							Enter the name of the brain you want to borrow : ");
 	fgets(name, 15, stdin);
 	name[strlen(name) - 1] = '\0';
@@ -404,7 +405,7 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 			fWriteMember(member_list);
 
 			// RETURNS ON THE USER'S SCREEN
-			printf("				Brain borrowed. Thanks for using our app !");
+			printf("				Brain borrowed. Thanks for using our app ! \n");
 			Sleep(3000);
 			fUserScreen(current_member, brain_list, member_list);
 		}
@@ -427,6 +428,8 @@ void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 	}
 
 	returned_brain->is_available = 1;
-	member_list->logged->brain_id = 0000;
+	member_list->logged->brain_id = 0;
+	fWriteBrain(brain_list);
+	fWriteMember(member_list);
 	printf("									Brain returned. Thanks for using our app!");
 }

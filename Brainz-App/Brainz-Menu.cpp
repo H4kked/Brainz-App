@@ -93,6 +93,7 @@ void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* me
 	clear_screen(' ');
 	Sleep(50);
 	fPrintLogo();
+	printf("%s\n", member_list->logged->username);
 
 	printf("										1 - BORROW A BRAIN\n");
 	printf("										2 - RETURN A BRAIN\n");
@@ -112,13 +113,66 @@ void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* me
 			break;
 		case 2:
 			fReturnBrain(member_list, brain_list, current_member);
+			break;
 		case 3:
+			if (member_list->logged->is_admin == 0)
+			{
+				fMemberAccountScreen(member_list, brain_list);
+			}
+			else
+			{
+				fAdminAccountScreen(member_list, brain_list);
+			}
 			printf("my account");
 			break;
 		case 9:
 			printf("exit");
 			break;
 	}
+}
+void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+{
+	// PRINT THE LOGO
+	fPrintLogo();
+
+	// PRINT USER NAME
+	printf("										+-----------------+\n");
+	printf("										| %15s |\n", member_list->logged->username);
+	printf("										+-----------------+\n");
+
+	// PRINT USER DESCRIPTION
+	printf("					Description : %s\n", member_list->logged->desc);
+
+	// CHECK IF USER HAS BORROWED A BRAIN
+	if (member_list->logged->brain_id != 0)
+	{
+		BRAIN* brain;
+		brain = (BRAIN*)malloc(sizeof(*brain));
+
+		while (brain->id != member_list->logged->brain_id && brain != NULL)
+		{
+			brain = brain->next;
+			if (brain == NULL)
+			{
+				break;
+			}
+		}
+
+		// IF USER HAS BORROWED A BRAIN, PRINT BRAIN INFORMATION
+		printf("			Current brain : \n\n");
+		printf("						Name : %s\n", brain->name);
+		printf("						Description : %s\n\n\n", brain->desc);
+	}
+	else
+	{
+		// ELSE PRINT NONE
+		printf("			Current brain : NONE\n\n\n");
+	}
+
+}
+void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+{
+	printf("oui");
 }
 
 void fGetDate(char* date)

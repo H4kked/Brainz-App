@@ -362,7 +362,7 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	fgets(password, 15, stdin);
 	password[strlen(password) - 1] = '\0';
 
-	printf("\n										Press 9 to exit. Enter 1 to continue.\n");
+	printf("\n											Press 9 to exit. Enter 1 to continue.\n");
 	int n, is_recognized = 0;
 	scanf_s("%d", &n);
 
@@ -383,7 +383,7 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 					//THE USER HAS BEEN RECOGNIZED
 					member_list->logged = current_member;
 					is_recognized = 1;
-					printf("										Connected ! Welcome, %s.\n", username);
+					printf("											    Connected ! Welcome, %s.\n", username);
 					Sleep(2000);
 
 					fLoggedMenu(member_list, brain_list, current_member);
