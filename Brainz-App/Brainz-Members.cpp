@@ -398,5 +398,18 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 }
 void fLoggedMenu(MEMBER_LIST* member_list, MEMBER* current_member)
 {
-	
+	if (current_member->is_admin == 1)
+	{
+
+	}
+	if (current_member->is_admin == 0)
+	{
+
+	}
+	else
+	{
+		printf("A problem occured. Please contact an administrator for help.");
+		Sleep(5000);
+		exit(0);
+	}
 }
