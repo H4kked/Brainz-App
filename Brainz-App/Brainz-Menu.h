@@ -27,7 +27,7 @@ struct MEMBER_LIST
 };
 struct COMMENT
 {
-	MEMBER* member;
+	char* member_name;
 	char* comment;
 	int note;
 	char* date;
