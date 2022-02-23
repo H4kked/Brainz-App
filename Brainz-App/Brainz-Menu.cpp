@@ -46,6 +46,36 @@ void clear_screen(char fill) {
 	FillConsoleOutputAttribute(console, s.wAttributes, cells, tl, &written);
 	SetConsoleCursorPosition(console, tl);
 }
+void color_screen()
+{
+	HANDLE  hConsole;
+	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	int txt_col = 0;
+	int bgd_color = 0;
+	int col = 0;
+
+	printf("\nChoose the text and background color (ex : 0 15) : \n");
+	printf("0 - Black		8 - Gray\n");
+	printf("1 - Blue		9 - Light Blue\n");
+	printf("2 - Green		10 - Light Green\n");
+	printf("3 - Aqua		11 - Light Aqua\n");
+	printf("4 - Red			12 - Light Red\n");
+	printf("5 - Purple		13 - Light Purple\n");
+	printf("6 - Yellow		14 - Light Yellow\n");
+	printf("7 - White		15 - Bright White\n\n");
+	scanf_s("%d %d", &txt_col, &bgd_color);
+
+	col = txt_col + 16 * bgd_color;
+
+	// color your text in Windows console mode
+	// colors are 0=black 1=blue 2=green and so on to 15=white  
+	// colorattribute = foreground + background * 16
+	// to get red text on yellow use 4 + 14*16 = 228
+	// light red on yellow would be 12 + 14*16 = 236
+
+	FlushConsoleInputBuffer(hConsole);
+	SetConsoleTextAttribute(hConsole, col);
+}
 void fPrintLogo()
 {
 	//PRINT THE LOGO WHAT DO YOU WANT ME TO SAY
@@ -123,7 +153,6 @@ void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* me
 			{
 				fAdminAccountScreen(member_list, brain_list);
 			}
-			printf("my account");
 			break;
 		case 9:
 			printf("exit");
@@ -132,22 +161,25 @@ void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* me
 }
 void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
+	clear_screen(' ');
+
 	// PRINT THE LOGO
 	fPrintLogo();
 
 	// PRINT USER NAME
-	printf("										+-----------------+\n");
-	printf("										| %15s |\n", member_list->logged->username);
-	printf("										+-----------------+\n");
+	printf("\n\n												+-----------------+\n");
+	printf("												| %15s |\n", member_list->logged->username);
+	printf("												+-----------------+\n");
 
 	// PRINT USER DESCRIPTION
-	printf("					Description : %s\n", member_list->logged->desc);
+	printf("									Description : %s\n", member_list->logged->desc);
 
 	// CHECK IF USER HAS BORROWED A BRAIN
 	if (member_list->logged->brain_id != 0)
 	{
 		BRAIN* brain;
 		brain = (BRAIN*)malloc(sizeof(*brain));
+		brain = brain_list->first;
 
 		while (brain->id != member_list->logged->brain_id && brain != NULL)
 		{
@@ -159,16 +191,47 @@ void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		}
 
 		// IF USER HAS BORROWED A BRAIN, PRINT BRAIN INFORMATION
-		printf("			Current brain : \n\n");
-		printf("						Name : %s\n", brain->name);
-		printf("						Description : %s\n\n\n", brain->desc);
+		printf("\n\n								Current brain : \n\n");
+		printf("											Name : %s\n", brain->name);
+		printf("											Description : %s\n\n\n", brain->desc);
 	}
 	else
 	{
 		// ELSE PRINT NONE
-		printf("			Current brain : NONE\n\n\n");
+		printf("\n\n								Current brain : NONE\n\n\n");
 	}
 
+	printf("								+------+");
+	printf("								|-MENU-|");
+	printf("								+------+");
+
+	printf("						1 - Edit description");
+	printf("						2 - Return brain");
+	printf("						3 - Delete account");
+	printf("						9 - Return to main menu");
+
+	int choice = 0;
+	switch (choice)
+	{
+		case 1:
+			char* new_desc;
+			new_desc = (char*)malloc(sizeof(*new_desc));
+			fgets(new_desc, 100, stdin);
+
+			member_list->logged->desc = new_desc;
+			fWriteMember(member_list);
+			break;
+		case 2:
+			fReturnBrain(member_list, brain_list, member_list->logged);
+			break;
+		case 3:
+			fDelMember(member_list);
+			break;
+		case 9:
+			fUserScreen(member_list->logged, brain_list, member_list);
+			break;
+	}
+	fUserScreen(member_list->logged, brain_list, member_list);
 }
 void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {

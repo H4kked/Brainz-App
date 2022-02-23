@@ -48,14 +48,14 @@ void fGetMember(MEMBER_LIST* member_list)
 		password = (char*)malloc(20);
 		username = (char*)malloc(20);
 		description = (char*)malloc(180);
-		fSplitMember(username, password, description, &is_admin, brain_id, str);
+		fSplitMember(username, password, description, &is_admin, &brain_id, str);
 		fAddMemberEnd(member_list, username, password, description, is_admin, brain_id);
 
 		//printf("last : %s\nbefore_last : \nsecond : %s\nfirst : \n\n", member_list->last->name, member_list->last->previous->name, member_list->first->next->name, member_list->first->name);
 	}
 	fclose(member_file);
 }
-void fSplitMember(char* username, char* password, char* description, int* is_admin, int brain_id, char* str)
+void fSplitMember(char* username, char* password, char* description, int* is_admin, int* brain_id, char* str)
 {
 	int pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 	char splitter = '/';
@@ -116,13 +116,13 @@ void fSplitMember(char* username, char* password, char* description, int* is_adm
 	temp[pos4 - pos3 - 1] = '\0';
 	*is_admin = atoi(temp);
 
-	// Recover the note of the member
+	// Recover the brain_id of the member
 	for (int i = pos4; i < length; i++)
 	{
 		temp[i - pos4] = str[i];
 	}
 	temp[length - pos4 - 1] = '\0';
-	brain_id = atoi(temp);
+	*brain_id = atoi(temp);
 }
 void fDisplayMemberList(MEMBER_LIST* member_list)
 {
@@ -202,7 +202,7 @@ void fAddMember(MEMBER_LIST* member_list)
 	fgets(password, 15, stdin);
 	password[strlen(password) - 1] = '\0';
 	printf("Enter your description (100 characters max) : ");
-	fgets(description, 50, stdin);
+	fgets(description, 100, stdin);
 	description[strlen(description) - 1] = '\0';
 
 	MEMBER* check_member;
@@ -382,9 +382,10 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 				{
 					//THE USER HAS BEEN RECOGNIZED
 					member_list->logged = current_member;
+
 					is_recognized = 1;
 					printf("											    Connected ! Welcome, %s.\n", username);
-					Sleep(2000);
+					Sleep(3000);
 
 					fLoggedMenu(member_list, brain_list, current_member);
 					break;
