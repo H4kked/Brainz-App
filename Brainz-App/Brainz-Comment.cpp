@@ -96,7 +96,7 @@ void fGetComment(MASTER_COMMENT* master_list)
 	char path[] = "comment.txt";
 	fopen_s(&comment_file, path, "r+");
 	char* str;
-	str = (char*)malloc(200);
+	str = (char*)malloc(250);
 
 	while (fgets(str, 200, comment_file) != NULL)
 	{
@@ -133,6 +133,7 @@ void fGetComment(MASTER_COMMENT* master_list)
 			fAddComment(master_list, brain_id, date, description, note, member_name);
 		}
 	}
+	fclose(comment_file);
 }
 
 void fSplitComment(int* brain_id, char* date, char* description, float* note, char* member_name, char* str)
@@ -234,8 +235,6 @@ void fAddCommentList(MASTER_COMMENT* master_list, int brain_id, char* date, char
 	comment_list->next = NULL;
 	master_list->last = comment_list;
 	master_list->size += 1;
-
-	fWriteComment(master_list);
 }
 
 void fAddComment(MASTER_COMMENT* master_list, int brain_id, char* date, char* description, float note, char* member_name)
@@ -268,7 +267,7 @@ void fAddComment(MASTER_COMMENT* master_list, int brain_id, char* date, char* de
 	comment->previous = comment_list->last;
 	comment_list->last = comment;
 
-	fWriteComment(master_list);
+	
 }
 
 void fDisplayComment(MASTER_COMMENT* master_list, int brain_id)
@@ -350,6 +349,7 @@ void fPostComment(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, int bra
 	{
 		fAddComment(master_list, brain_id, date, description, note, member_name);
 	}	
+	fWriteComment(master_list);
 }
 
 void fWriteComment(MASTER_COMMENT* master_list)
