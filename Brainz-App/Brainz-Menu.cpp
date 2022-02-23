@@ -1,4 +1,4 @@
-#include <stdio.h>
+﻿#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <malloc.h>
@@ -159,6 +159,53 @@ void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* me
 			break;
 	}
 }
+void fAdminScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list)
+{
+	clear_screen(' ');
+	Sleep(50);
+	fPrintLogo();
+
+	printf("										1 - BORROW A BRAIN\n");
+	printf("										2 - RETURN A BRAIN\n");
+	printf("										3 - MY ACCOUNT\n");
+	printf("										4 - MANAGE BRAINS\n");
+	printf("										5 - MANAGE MEMBERS\n");
+	printf("\n										9 - EXIT\n");
+	printf("\n										Entry : ");
+
+	int choice = 0;
+	scanf_s("%d", &choice);
+
+	switch (choice)
+	{
+	case 1:
+		clear_screen(' ');
+		fPrintLogo();
+		fBorrowBrain(member_list, brain_list, current_member);
+		break;
+	case 2:
+		fReturnBrain(member_list, brain_list, current_member);
+		break;
+	case 3:
+		if (member_list->logged->is_admin == 0)
+		{
+			fMemberAccountScreen(member_list, brain_list);
+		}
+		else
+		{
+			fAdminAccountScreen(member_list, brain_list);
+		}
+		break;
+	case 4:
+		fBrainManagement(member_list, brain_list);
+		break;
+	case 5:
+		fMemberManagement(member_list, brain_list);
+	case 9:
+		printf("exit");
+		break;
+	}
+}
 void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
 	clear_screen(' ');
@@ -225,7 +272,7 @@ void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 			fReturnBrain(member_list, brain_list, member_list->logged);
 			break;
 		case 3:
-			fDelMember(member_list);
+			fDelMember(member_list, brain_list);
 			break;
 		case 9:
 			fUserScreen(member_list->logged, brain_list, member_list);
@@ -235,7 +282,77 @@ void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 }
 void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
-	printf("oui");
+	clear_screen(' ');
+
+	// PRINT THE LOGO
+	fPrintLogo();
+
+	// PRINT USER NAME
+	printf("\n\n												+-------------------+\n");
+	printf("												| ★%15s★ |\n", member_list->logged->username);
+	printf("												+-------------------+\n");
+
+	// PRINT USER DESCRIPTION
+	printf("									Description : %s\n", member_list->logged->desc);
+
+	// CHECK IF USER HAS BORROWED A BRAIN
+	if (member_list->logged->brain_id != 0)
+	{
+		BRAIN* brain;
+		brain = (BRAIN*)malloc(sizeof(*brain));
+		brain = brain_list->first;
+
+		while (brain->id != member_list->logged->brain_id && brain != NULL)
+		{
+			brain = brain->next;
+			if (brain == NULL)
+			{
+				break;
+			}
+		}
+
+		// IF USER HAS BORROWED A BRAIN, PRINT BRAIN INFORMATION
+		printf("\n\n								Current brain : \n\n");
+		printf("											Name : %s\n", brain->name);
+		printf("											Description : %s\n\n\n", brain->desc);
+	}
+	else
+	{
+		// ELSE PRINT NONE
+		printf("\n\n								Current brain : NONE\n\n\n");
+	}
+
+	printf("								+------+");
+	printf("								|-MENU-|");
+	printf("								+------+");
+
+	printf("						1 - Edit description");
+	printf("						2 - Return brain");
+	printf("						3 - Delete account");
+	printf("						9 - Return to main menu");
+
+	int choice = 0;
+	switch (choice)
+	{
+	case 1:
+		char* new_desc;
+		new_desc = (char*)malloc(sizeof(*new_desc));
+		fgets(new_desc, 100, stdin);
+
+		member_list->logged->desc = new_desc;
+		fWriteMember(member_list);
+		break;
+	case 2:
+		fReturnBrain(member_list, brain_list, member_list->logged);
+		break;
+	case 3:
+		fDelMember(member_list, brain_list);
+		break;
+	case 9:
+		fUserScreen(member_list->logged, brain_list, member_list);
+		break;
+	}
+	fUserScreen(member_list->logged, brain_list, member_list);
 }
 
 void fGetDate(char* date)

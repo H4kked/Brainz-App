@@ -204,6 +204,10 @@ void fDisplayBrainList(BRAIN_LIST* brain_list)
 	}
 	printf("+------+-----------------+------------------------------------------------------------------------------------------------------+---------------+--------+\n");
 	printf("  number of brains : %04d\n", brain_list->size-1);
+
+	printf("Enter any key to continue.");
+	char c;
+	scanf_s("%c\n", &c);
 }
 
 void fAddEnd(BRAIN_LIST* brain_list, int id, char* name, char* description, int is_available, float note)
@@ -236,6 +240,10 @@ void fAddBrain(BRAIN_LIST* brain_list)
 	name = (char*)malloc(15);
 	char* description;
 	description = (char*)malloc(100);
+
+	Sleep(50);
+	getchar();
+
 	printf("Enter the name of the brain (15 characters max) : ");
 	fgets(name, 15, stdin);
 	name[strlen(name) - 1] = '\0';
@@ -366,6 +374,7 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 	char* name;
 	name = (char*)malloc(sizeof(*name));
 	Sleep(1);
+	getchar();
 	printf("							Enter the name of the brain you want to borrow : ");
 	fgets(name, 15, stdin);
 	name[strlen(name) - 1] = '\0';
@@ -432,4 +441,44 @@ void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 	fWriteBrain(brain_list);
 	fWriteMember(member_list);
 	printf("									Brain returned. Thanks for using our app!");
+	fUserScreen(member_list->logged, brain_list, member_list);
+}
+
+void fBrainManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+{
+	clear_screen(' ');
+	Sleep(50);
+	fPrintLogo();
+
+	printf("										1 - ADD A BRAIN\n");
+	printf("										2 - DELETE A BRAIN\n");
+	printf("										3 - SEE BRAIN LIST\n");
+	printf("\n										9 - EXIT\n");
+	printf("\n										Entry : ");
+
+	int choice = 0;
+	scanf_s("%d", &choice);
+
+	switch (choice)
+	{
+	case 1:
+		clear_screen(' ');
+		fPrintLogo();
+		fAddBrain(brain_list);
+		break;
+	case 2:
+		clear_screen(' ');
+		fPrintLogo();
+		fDelBrain(brain_list);
+		break;
+	case 3:
+		clear_screen(' ');
+		fPrintLogo();
+		fDisplayBrainList(brain_list);
+		break;
+	case 9:
+		fAdminScreen(member_list->logged, brain_list, member_list);
+		break;
+	}
+	fAdminScreen(member_list->logged, brain_list, member_list);
 }

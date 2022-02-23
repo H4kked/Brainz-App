@@ -4,6 +4,7 @@
 #include <malloc.h>
 #include <ctype.h>
 #include <Windows.h>
+#include "Brainz-Brains.h"
 #include "Brainz-Menu.h"
 #include "Brainz-Members.h"
 
@@ -163,6 +164,10 @@ void fDisplayMemberList(MEMBER_LIST* member_list)
 	}
 	printf("+-----------------+-----------------+-----------+-----------------+\n");
 	printf("  number of members : %04d\n", member_list->size - 1);
+
+	printf("Enter any key to continue.");
+	char c;
+	scanf_s("%c\n", &c);
 }
 void fAddMemberEnd(MEMBER_LIST* member_list, char* username, char* password, char* description, int is_admin, int brain_id)
 {
@@ -248,7 +253,7 @@ void fWriteMember(MEMBER_LIST* member_list)
 	fclose(member_file);
 	fMemberStart(member_list);
 }
-void fDelMember(MEMBER_LIST* member_list)
+void fDelMember(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
 	MEMBER* del_member;
 	del_member = (MEMBER*)malloc(sizeof(*del_member));
@@ -284,6 +289,7 @@ void fDelMember(MEMBER_LIST* member_list)
 		}
 		else
 		{
+			fReturnBrain(member_list, brain_list, member_list->logged);
 			del_member->previous->next = del_member->next;
 			del_member->next->previous = del_member->previous;
 			del_member = del_member->next;
@@ -406,7 +412,7 @@ void fLoggedMenu(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curre
 {
 	if (current_member->is_admin == 1)
 	{
-		printf("bah attends je l'ai pas encore fait");
+		fAdminScreen(member_list->logged, brain_list, member_list);
 		exit(0);
 	}
 	else if (current_member->is_admin == 0)
@@ -420,4 +426,49 @@ void fLoggedMenu(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curre
 		Sleep(5000);
 		exit(0);
 	}
+}
+
+void fMemberManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+{
+	clear_screen(' ');
+	Sleep(50);
+	fPrintLogo();
+
+	printf("										1 - ADD A MEMBER\n");
+	printf("										2 - DELETE A MEMBER\n");
+	printf("										3 - UPGRADE A MEMBER\n");
+	printf("										4 - SEE MEMBER LIST\n");
+	printf("\n										9 - EXIT\n");
+	printf("\n										Entry : ");
+
+	int choice = 0;
+	scanf_s("%d", &choice);
+
+	switch (choice)
+	{
+	case 1:
+		clear_screen(' ');
+		fPrintLogo();
+		fAddMember(member_list);
+		break;
+	case 2:
+		clear_screen(' ');
+		fPrintLogo();
+		fDelMember(member_list, brain_list);
+		break;
+	case 3:
+		clear_screen(' ');
+		fPrintLogo();
+		fUpgradeMember(member_list);
+		break;
+	case 4:
+		clear_screen(' ');
+		fPrintLogo();
+		fDisplayMemberList(member_list);
+		break;
+	case 9:
+		fAdminScreen(member_list->logged, brain_list, member_list);
+		break;
+	}
+	fAdminScreen(member_list->logged, brain_list, member_list);
 }
