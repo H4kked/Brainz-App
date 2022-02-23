@@ -94,10 +94,11 @@ void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* me
 	Sleep(50);
 	fPrintLogo();
 
-	printf("								1 - BORROW A BRAIN\n");
-	printf("								2 - MY ACCOUNT\n");
-	printf("\n								9 - EXIT\n");
-	printf("\n								Entry : ");
+	printf("										1 - BORROW A BRAIN\n");
+	printf("										2 - RETURN A BRAIN\n");
+	printf("										3 - MY ACCOUNT\n");
+	printf("\n										9 - EXIT\n");
+	printf("\n										Entry : ");
 
 	int choice = 0;
 	scanf_s("%d", &choice);
@@ -110,6 +111,8 @@ void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* me
 			fBorrowBrain(member_list, brain_list, current_member);
 			break;
 		case 2:
+			fReturnBrain(member_list, brain_list, current_member);
+		case 3:
 			printf("my account");
 			break;
 		case 9:

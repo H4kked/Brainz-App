@@ -2,6 +2,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <stdlib.h>
+#include <Windows.h>
 #include "Brainz-Brains.h"
 #include "Brainz-Menu.h"
 #include "Brainz-Members.h"
@@ -378,6 +379,7 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 		}
 	}
 
+	// THE BRAIN'S NAME HAS NOT BEEN RECOGNIZED IN THE LIST
 	if (borrowed_brain == NULL)
 	{
 		printf("						There is no brain with this name.\n");
@@ -387,15 +389,44 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 	{
 		if (borrowed_brain->is_available == 0)
 		{
-			printf("		This brain has already been brrowed. Please select another brain.");
+			// THE BRAIN IS NOT AVAILABLE, RE-DO THE FUNCTION
+			printf("		This brain has already been borrowed. Please select another brain.");
 			fBorrowBrain(member_list, brain_list, current_member);
 		}
 		else
 		{
+			// INDICATES THE BRAIN AS NON AVAILABLE AND INDICATES IT ON THE USERS PROFILE
 			borrowed_brain->is_available = 0;
 			current_member->brain_id = borrowed_brain->id;
+
+			// RE-BUILD THE TXT FILES AND LISTS
+			fWriteBrain(brain_list);
+			fWriteMember(member_list);
+
+			// RETURNS ON THE USER'S SCREEN
+			printf("				Brain borrowed. Thanks for using our app !");
+			Sleep(3000);
+			fUserScreen(current_member, brain_list, member_list);
 		}
-		fWriteBrain(brain_list);
-		fWriteMember(member_list);
 	}
+}
+
+void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* current_member)
+{
+	BRAIN* returned_brain;
+	returned_brain = (BRAIN*)malloc(sizeof(returned_brain));
+	returned_brain = brain_list->first;
+	
+	while (returned_brain->id != member_list->logged->brain_id && returned_brain != NULL)
+	{
+		returned_brain = returned_brain->next;
+		if (returned_brain == NULL)
+		{
+			break;
+		}
+	}
+
+	returned_brain->is_available = 1;
+	member_list->logged->brain_id = 0000;
+	printf("									Brain returned. Thanks for using our app!");
 }

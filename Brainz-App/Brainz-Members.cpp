@@ -381,6 +381,7 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 				if (strcmp(password, current_member->password) == 0)
 				{
 					//THE USER HAS BEEN RECOGNIZED
+					member_list->logged = current_member;
 					is_recognized = 1;
 					printf("										Connected ! Welcome, %s.\n", username);
 					Sleep(2000);
