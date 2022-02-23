@@ -2,6 +2,7 @@
 #include <string.h>
 #include <malloc.h>
 #include <stdlib.h>
+#include <windows.h>
 #include "Brainz-Brains.h"
 #include "Brainz-Menu.h"
 #include "Brainz-Members.h"
@@ -47,9 +48,26 @@ void fTestComment()
 	fFullScreen();
 	MASTER_COMMENT* master_list;
 	master_list = (MASTER_COMMENT*)malloc(sizeof(*master_list));
+	MEMBER_LIST* member_list;
+	member_list = (MEMBER_LIST*)malloc(sizeof(*member_list));
+	MEMBER* current_mem;
+	current_mem = (MEMBER*)malloc(sizeof(*current_mem));
+	current_mem->username = (char*)"pierre";
+	member_list->logged = current_mem;
 
+
+	fMemberStart(member_list);
 	fCommentStart(master_list);
 	fDisplayCommentList(master_list);
+	fDisplayComment(master_list, 0002);
+	Sleep(2000);
+	clear_screen(' ');
+	fPostComment(master_list, member_list, 0006);
+	fDisplayComment(master_list, 0006);
+	Sleep(5000);
+	clear_screen(' ');
+	getchar();
+	fPostComment(master_list, member_list, 0002);
 	fDisplayComment(master_list, 0002);
 }
 
@@ -216,6 +234,8 @@ void fAddCommentList(MASTER_COMMENT* master_list, int brain_id, char* date, char
 	comment_list->next = NULL;
 	master_list->last = comment_list;
 	master_list->size += 1;
+
+	fWriteComment(master_list);
 }
 
 void fAddComment(MASTER_COMMENT* master_list, int brain_id, char* date, char* description, float note, char* member_name)
@@ -247,6 +267,8 @@ void fAddComment(MASTER_COMMENT* master_list, int brain_id, char* date, char* de
 	comment_list->last->next = comment;
 	comment->previous = comment_list->last;
 	comment_list->last = comment;
+
+	fWriteComment(master_list);
 }
 
 void fDisplayComment(MASTER_COMMENT* master_list, int brain_id)
@@ -291,5 +313,69 @@ void fDisplayComment(MASTER_COMMENT* master_list, int brain_id)
 
 void fPostComment(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, int brain_id)
 {
+	COMMENT_LIST* comment_list;
+	comment_list = (COMMENT_LIST*)malloc(sizeof(*comment_list));
+	comment_list = master_list->first;
 
+	char* description;
+	char* date;
+	char* member_name;
+	float note;
+	description = (char*)malloc(160);
+	date = (char*)malloc(15);
+	member_name = (char*)malloc(15);
+	fGetDate(date);
+	printf("Enter your comment (160 characters max) : ");
+	fgets(description, 160, stdin);
+	Sleep(250);
+	printf("Enter the note of this brain : ");
+	scanf_s("%f", &note);
+	description[strlen(description) - 1] = '\0';
+	member_name = member_list->logged->username;
+
+	while (comment_list->brain_id != brain_id)
+	{
+		comment_list = comment_list->next;
+		if (comment_list == NULL)
+		{
+			break;
+		}
+	}
+
+	if (comment_list == NULL)
+	{
+		fAddCommentList(master_list, brain_id, date, description, note, member_name);
+	}
+	else
+	{
+		fAddComment(master_list, brain_id, date, description, note, member_name);
+	}	
+}
+
+void fWriteComment(MASTER_COMMENT* master_list)
+{
+	FILE* comment_file;
+	comment_file = (FILE*)malloc(sizeof(*comment_file));
+	char path[] = "comment.txt";
+	fopen_s(&comment_file, path, "w+");
+
+	COMMENT_LIST* my_comment_list;
+	my_comment_list = (COMMENT_LIST*)malloc(sizeof(*my_comment_list));
+	my_comment_list = master_list->first->next;
+
+	COMMENT* my_comment;
+	my_comment = (COMMENT*)malloc(sizeof(*my_comment));
+
+	// We want the brain to be written as : brain_id/member_name/date/note/description
+	while (my_comment_list != NULL)
+	{
+		my_comment = my_comment_list->first;
+		while (my_comment != NULL)
+		{
+			fprintf(comment_file, "%04d/%s/%s/%.2f/%s\n", my_comment->brain_id, my_comment->member_name, my_comment->date, my_comment->note, my_comment->comment);
+			my_comment = my_comment->next;
+		}
+		my_comment_list = my_comment_list->next;
+	}
+	fclose(comment_file);
 }
