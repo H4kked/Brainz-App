@@ -27,9 +27,9 @@ struct MEMBER_LIST
 };
 struct COMMENT
 {
-	MEMBER* member;
+	char* member_name;
 	char* comment;
-	int note;
+	float note;
 	char* date;
 	int brain_id;
 	COMMENT* previous;

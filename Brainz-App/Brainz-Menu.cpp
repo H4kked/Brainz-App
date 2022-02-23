@@ -197,5 +197,4 @@ void fGetDate(char* date)
 	sprintf_s(date, 15, "%02d-%02d-%4d", day, month, year);  // Convert the integers to a date under the format DD-MM-YYYY
 	//printf("Today (but different) is : %s", date);
 
-
 }

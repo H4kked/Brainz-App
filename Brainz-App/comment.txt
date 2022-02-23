@@ -1,2 +1,4 @@
 brain_id/member_name/date/note/comment
 0002/pierre/22-02-2022/5/It is the best brain I've ever used. I used it to develop this app to increase my coding skills and it worked perfectly
+0007/mathis/23-02-2022/3/meh
+0002/coucou/23-02-2022/5/I never borrowed it but it is fine

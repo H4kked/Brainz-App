@@ -85,7 +85,7 @@ void fSplitMember(char* username, char* password, char* description, int* is_adm
 	}
 
 	char* temp;
-	temp = (char*)malloc(100);
+	temp = (char*)malloc(200);
 
 	// Recover the name of the member
 	for (int i = 0; i < pos1; i++)
