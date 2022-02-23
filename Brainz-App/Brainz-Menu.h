@@ -76,4 +76,7 @@ void clear_screen(char fill = ' ');
 void fPrintLogo();
 void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
 void fFullScreen();
+
+void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list);
+
 void fGetDate(char* date);

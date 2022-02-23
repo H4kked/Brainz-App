@@ -31,7 +31,7 @@ void fGetMember(MEMBER_LIST* member_list)
 
 	FILE* member_file;
 	member_file = (FILE*)malloc(sizeof(FILE*));
-	char path[] = "test.txt";
+	char path[] = "member.txt";
 	fopen_s(&member_file, path, "r+");
 	char* str;
 	str = (char*)malloc(200);
@@ -232,7 +232,7 @@ void fWriteMember(MEMBER_LIST* member_list)
 {
 	FILE* member_file;
 	member_file = (FILE*)malloc(sizeof(*member_file));
-	char path[] = "test.txt";
+	char path[] = "member.txt";
 	fopen_s(&member_file, path, "w+");
 
 	MEMBER* my_member;
@@ -246,6 +246,7 @@ void fWriteMember(MEMBER_LIST* member_list)
 		my_member = my_member->next;
 	}
 	fclose(member_file);
+	fMemberStart(member_list);
 }
 void fDelMember(MEMBER_LIST* member_list)
 {
@@ -317,7 +318,7 @@ void fUpgradeMember(MEMBER_LIST* member_list)
 	}
 	if (up_member == NULL)
 	{
-		printf("There is no member with this username...\n\n");
+		printf("There is no member with this username.\n\n");
 	}
 	else
 	{
@@ -348,7 +349,10 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	username = (char*)malloc(sizeof(*username));
 	password = (char*)malloc(sizeof(*password));
 
-	getchar();
+	clear_screen(' ');
+	fPrintLogo();
+	char c;
+	scanf_s("%c", &c);
 
 	printf("\n												Username: ");
 	fgets(username, 15, stdin);
@@ -358,7 +362,7 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	fgets(password, 15, stdin);
 	password[strlen(password) - 1] = '\0';
 
-	printf("\n									Press 9 to exit. Press any key to continue.\n");
+	printf("\n										Press 9 to exit. Enter 1 to continue.\n");
 	int n, is_recognized = 0;
 	scanf_s("%d", &n);
 
@@ -378,10 +382,10 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 				{
 					//THE USER HAS BEEN RECOGNIZED
 					is_recognized = 1;
-					printf("											Connected ! Welcome, %s.\n", username);
+					printf("										Connected ! Welcome, %s.\n", username);
 					Sleep(2000);
 
-					fLoggedMenu(member_list, current_member);
+					fLoggedMenu(member_list, brain_list, current_member);
 					break;
 				}
 			}
@@ -396,15 +400,17 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		fLogIn(member_list, brain_list);
 	}
 }
-void fLoggedMenu(MEMBER_LIST* member_list, MEMBER* current_member)
+void fLoggedMenu(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* current_member)
 {
 	if (current_member->is_admin == 1)
 	{
-
+		printf("bah attends je l'ai pas encore fait");
+		exit(0);
 	}
-	if (current_member->is_admin == 0)
+	else if (current_member->is_admin == 0)
 	{
-
+		fUserScreen(current_member, brain_list, member_list);
+		exit(0);
 	}
 	else
 	{

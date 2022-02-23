@@ -88,6 +88,35 @@ void fFullScreen()
 	HWND hwnd = GetForegroundWindow();
 	ShowWindow(hwnd, SW_MAXIMIZE);
 }
+void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list)
+{
+	clear_screen(' ');
+	Sleep(50);
+	fPrintLogo();
+
+	printf("								1 - BORROW A BRAIN\n");
+	printf("								2 - MY ACCOUNT\n");
+	printf("\n								9 - EXIT\n");
+	printf("\n								Entry : ");
+
+	int choice = 0;
+	scanf_s("%d", &choice);
+
+	switch (choice)
+	{
+		case 1:
+			clear_screen(' ');
+			fPrintLogo();
+			fBorrowBrain(member_list, brain_list, current_member);
+			break;
+		case 2:
+			printf("my account");
+			break;
+		case 9:
+			printf("exit");
+			break;
+	}
+}
 
 void fGetDate(char* date)
 {

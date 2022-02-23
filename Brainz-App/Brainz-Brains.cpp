@@ -264,6 +264,7 @@ void fWriteBrain(BRAIN_LIST* brain_list)
 		my_brain = my_brain->next;
 	}
 	fclose(brain_file);
+	fBrainStart(brain_list);
 }
 
 void fDelBrain(BRAIN_LIST* brain_list)
@@ -321,13 +322,6 @@ void fSetAvailability(BRAIN_LIST* brain_list, char* ch_name)
 	BRAIN* ch_brain;
 	ch_brain = (BRAIN*)malloc(sizeof(*ch_brain));
 	ch_brain = brain_list->first->next->next;
-	
-	/*
-	char* ch_name;
-	ch_name = (char*)malloc(15);
-	printf("Enter the name of the brain you want to borrow : ");
-	fgets(ch_name, 15, stdin);
-	ch_name[strlen(ch_name) - 1] = '\0';*/
 
 	while (strcmp(ch_brain->name, ch_name) != 0)
 	{
@@ -356,4 +350,52 @@ void fSetAvailability(BRAIN_LIST* brain_list, char* ch_name)
 	}
 
 
+}
+
+void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* current_member)
+{
+	BRAIN* borrowed_brain;
+	borrowed_brain = (BRAIN*)malloc(sizeof(*borrowed_brain));
+	borrowed_brain = brain_list->first;
+
+	// DISPLAY ALL THE BRAINS
+	fDisplayBrainList(brain_list);
+
+	// ASK WHAT BRAIN WILL BE BORROWED
+	char* name;
+	name = (char*)malloc(sizeof(*name));
+	printf("							Enter the name of the brain you want to borrow : ");
+	fgets(name, 15, stdin);
+	name[strlen(name) - 1] = '\0';
+
+	// SEARCH THE BRAIN THROUGH THE LIST
+	while (strcmp(borrowed_brain->name, name) != 0 && borrowed_brain != NULL)
+	{
+		borrowed_brain = borrowed_brain->next;
+		if (borrowed_brain == NULL)
+		{
+			break;
+		}
+	}
+
+	if (borrowed_brain == NULL)
+	{
+		printf("						There is no brain with this name.\n");
+		fBorrowBrain(member_list, brain_list, current_member);
+	}
+	else
+	{
+		if (borrowed_brain->is_available == 0)
+		{
+			printf("		This brain has already been brrowed. Please select another brain.");
+			fBorrowBrain(member_list, brain_list, current_member);
+		}
+		else
+		{
+			borrowed_brain->is_available = 0;
+			current_member->brain_id = borrowed_brain->id;
+		}
+		fWriteBrain(brain_list);
+		fWriteMember(member_list);
+	}
 }
