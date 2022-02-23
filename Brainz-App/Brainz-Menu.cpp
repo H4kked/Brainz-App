@@ -143,6 +143,7 @@ void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* me
 			break;
 		case 2:
 			fReturnBrain(member_list, brain_list, current_member);
+			fUserScreen(member_list->logged, brain_list, member_list);
 			break;
 		case 3:
 			if (member_list->logged->is_admin == 0)
@@ -186,6 +187,7 @@ void fAdminScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* m
 		break;
 	case 2:
 		fReturnBrain(member_list, brain_list, current_member);
+		fAdminScreen(member_list->logged, brain_list, member_list);
 		break;
 	case 3:
 		if (member_list->logged->is_admin == 0)
@@ -250,16 +252,18 @@ void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		printf("\n\n								Current brain : NONE\n\n\n");
 	}
 
-	printf("								+------+");
-	printf("								|-MENU-|");
-	printf("								+------+");
+	printf("								+------+\n");
+	printf("								|-MENU-|\n");
+	printf("								+------+\n");
 
-	printf("						1 - Edit description");
-	printf("						2 - Return brain");
-	printf("						3 - Delete account");
-	printf("						9 - Return to main menu");
+	printf("						1 - Edit description\n");
+	printf("						2 - Return brain\n");
+	printf("						3 - Delete account\n");
+	printf("						9 - Return to main menu\n");
 
+	printf("\n							Entry : ");
 	int choice = 0;
+	scanf_s("%d", &choice);
 	switch (choice)
 	{
 		case 1:
@@ -324,17 +328,19 @@ void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		printf("\n\n								Current brain : NONE\n\n\n");
 	}
 
-	printf("								+------+");
-	printf("								|-MENU-|");
-	printf("								+------+");
+	printf("								+------+\n");
+	printf("								|-MENU-|\n");
+	printf("								+------+\n");
 
-	printf("						1 - Edit description");
-	printf("						2 - Return brain");
-	printf("						3 - Delete account");
-	printf("						9 - Return to main menu");
+	printf("						1 - Edit description\n");
+	printf("						2 - Return brain\n");
+	printf("						3 - Delete account\n");
+	printf("						9 - Return to main menu\n");
 
+	printf("\n							Entry : ");
 	int choice = 0;
-	switch (choice)
+	scanf_s("%d", &choice);
+	switch(choice)
 	{
 	case 1:
 		char* new_desc;
@@ -354,7 +360,7 @@ void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		fUserScreen(member_list->logged, brain_list, member_list);
 		break;
 	}
-	fUserScreen(member_list->logged, brain_list, member_list);
+	fAdminScreen(member_list->logged, brain_list, member_list);
 }
 
 void fGetDate(char* date)

@@ -441,7 +441,6 @@ void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 	fWriteBrain(brain_list);
 	fWriteMember(member_list);
 	printf("									Brain returned. Thanks for using our app!");
-	fUserScreen(member_list->logged, brain_list, member_list);
 }
 
 void fBrainManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
