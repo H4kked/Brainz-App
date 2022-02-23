@@ -1,2 +1,4 @@
 username/password/description/0/0000
 theAdmin/thePassword/The Best Admin Ever (He Is Not Payed And Has No Brain At All)/0/0000
+mathis/langrand/je suis mathis langrand/0/0000
+azerty/uiop/azertyuiop/0/0000

@@ -4,6 +4,7 @@ typedef struct MEMBER MEMBER;
 typedef struct MEMBER_LIST MEMBER_LIST;
 typedef struct COMMENT COMMENT;
 typedef struct COMMENT_LIST COMMENT_LIST;
+typedef struct MASTER_COMMENT MASTER_COMMENT;
 typedef struct BRAIN BRAIN;
 typedef struct BRAIN_LIST BRAIN_LIST;
 
@@ -26,20 +27,32 @@ struct MEMBER_LIST
 };
 struct COMMENT
 {
-	struct MEMBER* member;
+	MEMBER* member;
 	char* comment;
 	int note;
 	char* date;
+	int brain_id;
 	COMMENT* previous;
 	COMMENT* next;
 };
 struct COMMENT_LIST
 {
-	int name;
+	int brain_id;
 	int size;
 	COMMENT* first;
 	COMMENT* last;
+	COMMENT_LIST* next;
+	COMMENT_LIST* previous;
 };
+
+struct MASTER_COMMENT
+{
+	int size;
+	COMMENT_LIST* first;
+	COMMENT_LIST* last;
+};
+
+
 struct BRAIN
 {
 	int id;
@@ -63,3 +76,4 @@ void clear_screen(char fill = ' ');
 void fPrintLogo();
 void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
 void fFullScreen();
+void fGetDate(char* date);

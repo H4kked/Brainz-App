@@ -140,11 +140,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Brainz-App.cpp" />
+    <ClCompile Include="Brainz-Comment.cpp" />
     <ClCompile Include="Brainz-Members.cpp" />
     <ClCompile Include="Brainz-Brains.cpp" />
     <ClCompile Include="Brainz-Menu.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Brainz-Comment.h" />
     <ClInclude Include="Brainz-Members.h" />
     <ClInclude Include="Brainz-Brains.h" />
     <ClInclude Include="Brainz-Menu.h" />
