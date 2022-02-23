@@ -155,9 +155,10 @@ void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* me
 			}
 			break;
 		case 9:
-			printf("exit");
+			fMenuDisplay(member_list, brain_list);
 			break;
 	}
+	fMenuDisplay(member_list, brain_list);
 }
 void fAdminScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list)
 {
@@ -202,9 +203,10 @@ void fAdminScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* m
 	case 5:
 		fMemberManagement(member_list, brain_list);
 	case 9:
-		printf("exit");
+		fMenuDisplay(member_list, brain_list);
 		break;
 	}
+	fMenuDisplay(member_list, brain_list);
 }
 void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
