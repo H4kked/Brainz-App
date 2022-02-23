@@ -29,7 +29,7 @@ struct COMMENT
 {
 	char* member_name;
 	char* comment;
-	int note;
+	float note;
 	char* date;
 	int brain_id;
 	COMMENT* previous;

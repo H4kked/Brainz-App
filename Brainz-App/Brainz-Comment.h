@@ -8,3 +8,5 @@ void fSplitComment(int* id, char* date, char* description, float* note, char* me
 void fAddCommentList(MASTER_COMMENT* master_list, int brain_id, char* date, char* description, float note, char* member_name);
 void fAddComment(MASTER_COMMENT* master_list, int brain_id, char* date, char* description, float note, char* member_name);
 void fDisplayCommentList(MASTER_COMMENT* master_list);
+void fDisplayComment(MASTER_COMMENT* master_list, int brain_id);
+void fPostComment(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, int brain_id);

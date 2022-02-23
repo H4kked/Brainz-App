@@ -38,7 +38,7 @@ void fCommentStart(MASTER_COMMENT* master_list)
 	// set the first element of the master list
 	master_list->first = comment_list;
 	master_list->last = comment_list;
-	master_list->size = 1;
+	master_list->size = 0;
 	fGetComment(master_list);
 }
 
@@ -50,13 +50,14 @@ void fTestComment()
 
 	fCommentStart(master_list);
 	fDisplayCommentList(master_list);
+	fDisplayComment(master_list, 0002);
 }
 
 void fDisplayCommentList(MASTER_COMMENT* master_list)
 {
 	COMMENT_LIST* comment_list;
 	comment_list = (COMMENT_LIST*)malloc(sizeof(*comment_list));
-	comment_list = master_list->first;
+	comment_list = master_list->first->next;
 
 	printf("+----------+-------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
 	printf("| Brain ID | Number of comment |                                                                           Last Comment                                                                           |\n");
@@ -91,7 +92,7 @@ void fGetComment(MASTER_COMMENT* master_list)
 		description = (char*)malloc(161);
 
 		fSplitComment(&brain_id, date, description, &note, member_name, str);
-		
+
 		COMMENT_LIST* comment_list;
 		comment_list = (COMMENT_LIST*)malloc(sizeof(*comment_list));
 		comment_list = master_list->first;
@@ -214,6 +215,7 @@ void fAddCommentList(MASTER_COMMENT* master_list, int brain_id, char* date, char
 	comment_list->previous = master_list->last;
 	comment_list->next = NULL;
 	master_list->last = comment_list;
+	master_list->size += 1;
 }
 
 void fAddComment(MASTER_COMMENT* master_list, int brain_id, char* date, char* description, float note, char* member_name)
@@ -245,4 +247,49 @@ void fAddComment(MASTER_COMMENT* master_list, int brain_id, char* date, char* de
 	comment_list->last->next = comment;
 	comment->previous = comment_list->last;
 	comment_list->last = comment;
+}
+
+void fDisplayComment(MASTER_COMMENT* master_list, int brain_id)
+{
+	COMMENT_LIST* comment_list;
+	comment_list = (COMMENT_LIST*)malloc(sizeof(*comment_list));
+	COMMENT* comment;
+	comment = (COMMENT*)malloc(sizeof(*comment));
+
+	comment_list = master_list->first;
+	while (comment_list->brain_id != brain_id)
+	{
+		comment_list = comment_list->next;
+		if (comment_list == NULL)
+		{
+			break;
+		}
+	}
+
+	if (comment_list == NULL)
+	{
+		printf("No comment on this particular brain...\n");
+	}
+	else
+	{
+		comment = comment_list->first;
+		while (comment != NULL)
+		{
+			printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+			printf("|      Username : %15s                                                                                             Publication Date : %12s      |\n", comment->member_name, comment->date);
+			printf("|                                                                                                                                                                  |\n");
+			printf("| %160s |\n", comment->comment);
+			printf("|                                                                                                                                                                  |\n");
+			printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+
+			comment = comment->next;
+		}
+	}
+
+
+}
+
+void fPostComment(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, int brain_id)
+{
+
 }
