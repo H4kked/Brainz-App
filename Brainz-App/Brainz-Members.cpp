@@ -380,8 +380,9 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	else
 	{
 		//USER CHECK
-		do
+		while (current_member != NULL)
 		{
+			printf("%s %s\n", current_member->username, current_member->password);
 			if (strcmp(username, current_member->username) == 0)
 			{
 				if (strcmp(password, current_member->password) == 0)
@@ -394,17 +395,19 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 					Sleep(3000);
 
 					fLoggedMenu(member_list, brain_list, current_member);
-					break;
 				}
 			}
+			printf("next\n");
 			current_member = current_member->next;
-		} while (current_member->previous->next != NULL);
+		}
 	}
+	printf("not recognized\n");
 	if (is_recognized == 0)
 	{
 		//THE USER HAS NOT BEEN RECOGNIZED
 		printf("									Incorrect username or password. Please try again.");
 		Sleep(3000);
+		free(current_member);
 		fLogIn(member_list, brain_list);
 	}
 }
