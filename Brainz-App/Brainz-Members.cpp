@@ -165,9 +165,7 @@ void fDisplayMemberList(MEMBER_LIST* member_list)
 	printf("+-----------------+-----------------+-----------+-----------------+\n");
 	printf("  number of members : %04d\n", member_list->size - 1);
 
-	printf("Enter any key to continue.");
-	char c;
-	scanf_s("%c\n", &c);
+	system("PAUSE");
 }
 void fAddMemberEnd(MEMBER_LIST* member_list, char* username, char* password, char* description, int is_admin, int brain_id)
 {
@@ -276,7 +274,7 @@ void fDelMember(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 
 	if (del_member == NULL)
 	{
-		printf("There is no member with this username...\n\n");
+		printf("There is no member with this username.\n\n");
 	}
 	else
 	{
@@ -325,10 +323,15 @@ void fUpgradeMember(MEMBER_LIST* member_list)
 	if (up_member == NULL)
 	{
 		printf("There is no member with this username.\n\n");
+		system("PAUSE");
+		fUpgradeMember(member_list);
 	}
 	else
 	{
 		up_member->is_admin = 1;
+		printf("Member upgraded.");
+		system("PAUSE");
+
 	}
 	fWriteMember(member_list);
 }

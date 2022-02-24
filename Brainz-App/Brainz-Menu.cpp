@@ -11,17 +11,20 @@
 
 void fMenuDisplay(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
+	clear_screen(' ');
 	fFullScreen();
 	printf("\n\n\n\n\n");
 	fPrintLogo();
 	fPrintLoading(member_list, brain_list);
 	Sleep(1000);
 
+	char choicee;
 	int choice;
 	printf("\n\n\n\n   										     Log in (1) - Sign Up (2) - Exit (9)\n   												Entry: ");
 	do {
-		scanf_s("%d", &choice);
-	} while ((choice > 2 && choice < 9) || (choice > 9) || isdigit(choice) == 1);
+		scanf_s("%c", &choicee);
+	} while (choicee < 48 || choicee > 57);
+	choice = choicee - 48;
 	switch (choice)
 	{
 	case 1:
@@ -30,8 +33,11 @@ void fMenuDisplay(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	case 2:
 		fSignUp(member_list, brain_list);
 		break;
-	default:
+	case 9:
 		exit(0);
+	default:
+		printf("														Don't mess with me.");
+		fMenuDisplay(member_list, brain_list);
 	}
 
 	clear_screen(' ');
@@ -75,6 +81,8 @@ void color_screen()
 
 	FlushConsoleInputBuffer(hConsole);
 	SetConsoleTextAttribute(hConsole, col);
+
+	clear_screen(' ');
 }
 void fPrintLogo()
 {
@@ -95,7 +103,7 @@ void fPrintLogo()
 											 | |_) | | | (_| | | | | | / /_ _    \n\
 											 |_.__/|_| \\____ |_|_| |_|/____|_|   \n\
 											  =============================inc.\n\n");
-	printf("										Welcome to BRAINZ ! The place where skills become yours.\n\n\n\n\n");
+	printf("										Welcome to BRAINZ ! The place where skills become yours.\n\n\n");
 }
 void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
@@ -131,9 +139,12 @@ void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* me
 	printf("\n										9 - EXIT\n");
 	printf("\n										Entry : ");
 
-	int choice = 0;
-	scanf_s("%d", &choice);
-
+	char choicee;
+	int choice;
+	do {
+		scanf_s("%c", &choicee);
+	} while (choicee < 48 || choicee > 57);
+	choice = choicee - 48;
 	switch (choice)
 	{
 		case 1:
@@ -175,9 +186,12 @@ void fAdminScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* m
 	printf("\n										9 - EXIT\n");
 	printf("\n										Entry : ");
 
-	int choice = 0;
-	scanf_s("%d", &choice);
-
+	char choicee;
+	int choice;
+	do {
+		scanf_s("%c", &choicee);
+	} while (choicee < 48 || choicee > 57);
+	choice = choicee - 48;
 	switch (choice)
 	{
 	case 1:
@@ -218,12 +232,12 @@ void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	fPrintLogo();
 
 	// PRINT USER NAME
-	printf("\n\n												+-----------------+\n");
+	printf("												+-----------------+\n");
 	printf("												| %15s |\n", member_list->logged->username);
 	printf("												+-----------------+\n");
 
 	// PRINT USER DESCRIPTION
-	printf("									Description : %s\n", member_list->logged->desc);
+	printf("\n							Description : %s\n", member_list->logged->desc);
 
 	// CHECK IF USER HAS BORROWED A BRAIN
 	if (member_list->logged->brain_id != 0)
@@ -243,8 +257,8 @@ void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 
 		// IF USER HAS BORROWED A BRAIN, PRINT BRAIN INFORMATION
 		printf("\n\n								Current brain : \n\n");
-		printf("											Name : %s\n", brain->name);
-		printf("											Description : %s\n\n\n", brain->desc);
+		printf("										Name : %s\n", brain->name);
+		printf("										Description : %s\n\n\n", brain->desc);
 	}
 	else
 	{
@@ -252,18 +266,22 @@ void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		printf("\n\n								Current brain : NONE\n\n\n");
 	}
 
-	printf("								+------+\n");
-	printf("								|-MENU-|\n");
-	printf("								+------+\n");
+	printf("												+------+\n");
+	printf("												|-MENU-|\n");
+	printf("												+------+\n");
 
-	printf("						1 - Edit description\n");
-	printf("						2 - Return brain\n");
-	printf("						3 - Delete account\n");
-	printf("						9 - Return to main menu\n");
+	printf("											1 - Edit description\n");
+	printf("											2 - Return brain\n");
+	printf("											3 - Delete account\n");
+	printf("											9 - Return to main menu\n");
 
-	printf("\n							Entry : ");
-	int choice = 0;
-	scanf_s("%d", &choice);
+	printf("\n												Entry : ");
+	char choicee;
+	int choice;
+	do {
+		scanf_s("%c", &choicee);
+	} while (choicee < 48 || choicee > 57);
+	choice = choicee - 48;
 	switch (choice)
 	{
 		case 1:
@@ -294,7 +312,7 @@ void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	fPrintLogo();
 
 	// PRINT USER NAME
-	printf("\n\n												+-------------------+\n");
+	printf("												+-------------------+\n");
 	printf("												| ★%15s★ |\n", member_list->logged->username);
 	printf("												+-------------------+\n");
 
@@ -319,8 +337,8 @@ void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 
 		// IF USER HAS BORROWED A BRAIN, PRINT BRAIN INFORMATION
 		printf("\n\n								Current brain : \n\n");
-		printf("											Name : %s\n", brain->name);
-		printf("											Description : %s\n\n\n", brain->desc);
+		printf("										Name : %s\n", brain->name);
+		printf("										Description : %s\n\n\n", brain->desc);
 	}
 	else
 	{
@@ -328,18 +346,24 @@ void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		printf("\n\n								Current brain : NONE\n\n\n");
 	}
 
-	printf("								+------+\n");
-	printf("								|-MENU-|\n");
-	printf("								+------+\n");
+	printf("												+------+\n");
+	printf("												|-MENU-|\n");
+	printf("												+------+\n");
 
-	printf("						1 - Edit description\n");
-	printf("						2 - Return brain\n");
-	printf("						3 - Delete account\n");
-	printf("						9 - Return to main menu\n");
+	printf("											1 - Edit description\n");
+	printf("											2 - Return brain\n");
+	printf("											3 - Delete account\n");
+	printf("											9 - Return to main menu\n");
 
-	printf("\n							Entry : ");
-	int choice = 0;
-	scanf_s("%d", &choice);
+	printf("\n												Entry : ");
+
+	char choicee;
+	int choice;
+	do {
+		scanf_s("%c", &choicee);
+	} while (choicee < 48 || choicee > 57);
+	choice = choicee - 48;
+
 	switch(choice)
 	{
 	case 1:

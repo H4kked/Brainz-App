@@ -205,9 +205,7 @@ void fDisplayBrainList(BRAIN_LIST* brain_list)
 	printf("+------+-----------------+------------------------------------------------------------------------------------------------------+---------------+--------+\n");
 	printf("  number of brains : %04d\n", brain_list->size-1);
 
-	printf("Enter any key to continue.");
-	char c;
-	scanf_s("%c\n", &c);
+	system("PAUSE");
 }
 
 void fAddEnd(BRAIN_LIST* brain_list, int id, char* name, char* description, int is_available, float note)
@@ -415,7 +413,7 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 
 			// RETURNS ON THE USER'S SCREEN
 			printf("				Brain borrowed. Thanks for using our app ! \n");
-			Sleep(3000);
+			system("PAUSE");
 			fUserScreen(current_member, brain_list, member_list);
 		}
 	}
@@ -441,6 +439,7 @@ void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 	fWriteBrain(brain_list);
 	fWriteMember(member_list);
 	printf("									Brain returned. Thanks for using our app!");
+	system("PAUSE");
 }
 
 void fBrainManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
