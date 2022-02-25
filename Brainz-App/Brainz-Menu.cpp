@@ -151,7 +151,6 @@ void fUserScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMEN
 	switch (choice)
 	{
 		case 1:
-			printf("%d\n", member_list->logged->brain_id);
 			if (member_list->logged->brain_id == 0)
 			{
 				clear_screen(' ');
@@ -162,11 +161,19 @@ void fUserScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMEN
 			{
 				printf("			You already have a brain. Return it before borrowing another one !\n");
 				system("PAUSE");
-				fUserScreen(brain_list, member_list, master_list);
 			}
+			fUserScreen(brain_list, member_list, master_list);
 			break;
 		case 2:
-			fReturnBrain(member_list, brain_list, master_list);
+			if (member_list->logged->brain_id == 0)
+			{
+				printf("			You don't have a brain to return.\n");
+				system("PAUSE");
+			}
+			else
+			{
+				fReturnBrain(member_list, brain_list, master_list);
+			}
 			fUserScreen(brain_list, member_list, master_list);
 			break;
 		case 3:
@@ -216,7 +223,15 @@ void fAdminScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMME
 		}
 		break;
 	case 2:
-		fReturnBrain(member_list, brain_list, master_list);
+		if (member_list->logged->brain_id == 0)
+		{
+			printf("			You don't have a brain to return.\n");
+			system("PAUSE");
+		}
+		else
+		{
+			fReturnBrain(member_list, brain_list, master_list);
+		}
 		fAdminScreen(brain_list, member_list, master_list);
 		break;
 	case 3:
