@@ -138,6 +138,7 @@ void fUserScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMEN
 	printf("										1 - BORROW A BRAIN\n");
 	printf("										2 - RETURN A BRAIN\n");
 	printf("										3 - MY ACCOUNT\n");
+	printf("										4 - COLORS\n");
 	printf("\n										9 - EXIT\n");
 	printf("\n										Entry : ");
 
@@ -159,14 +160,7 @@ void fUserScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMEN
 			fUserScreen(brain_list, member_list, master_list);
 			break;
 		case 3:
-			if (member_list->logged->is_admin == 0)
-			{
-				fMemberAccountScreen(member_list, brain_list, master_list);
-			}
-			else
-			{
-				fAdminAccountScreen(member_list, brain_list, master_list);
-			}
+			fMemberAccountScreen(member_list, brain_list, master_list);
 			break;
 		case 9:
 			fMenuDisplay(member_list, brain_list, master_list);
@@ -185,6 +179,7 @@ void fAdminScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMME
 	printf("										3 - MY ACCOUNT\n");
 	printf("										4 - MANAGE BRAINS\n");
 	printf("										5 - MANAGE MEMBERS\n");
+	printf("										6 - COLORS\n");
 	printf("\n										9 - EXIT\n");
 	printf("\n										Entry : ");
 
@@ -206,20 +201,17 @@ void fAdminScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMME
 		fAdminScreen(brain_list, member_list, master_list);
 		break;
 	case 3:
-		if (member_list->logged->is_admin == 0)
-		{
-			fMemberAccountScreen(member_list, brain_list, master_list);
-		}
-		else
-		{
-			fAdminAccountScreen(member_list, brain_list, master_list);
-		}
+		fAdminAccountScreen(member_list, brain_list, master_list);
 		break;
 	case 4:
 		fBrainManagement(member_list, brain_list, master_list);
 		break;
 	case 5:
 		fMemberManagement(member_list, brain_list, master_list);
+		break;
+	case 6:
+		color_screen();
+		break;
 	case 9:
 		fMenuDisplay(member_list, brain_list, master_list);
 		break;
