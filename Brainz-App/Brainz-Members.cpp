@@ -403,8 +403,8 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* ma
 		//USER CHECK
 		while (current_member != NULL)
 		{
-			printf("%s %s\n", current_member->username, current_member->password);
-			printf("%s\n", current_member->next->username);
+			//printf("%s %s\n", current_member->username, current_member->password);
+			//printf("%s\n", current_member->next->username);
 			if (strcmp(username, current_member->username) == 0)
 			{
 				if (strcmp(password, current_member->password) == 0)
