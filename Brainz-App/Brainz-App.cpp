@@ -16,9 +16,9 @@ int main()
 	brain_list = (BRAIN_LIST*)malloc(sizeof(*brain_list));
 	
 	//fTestComment();
-	fMenuDisplay(member_list, brain_list);
+	//fMenuDisplay(member_list, brain_list);
 	//color_screen();
-//	fTestComment();
+	fTestComment();
 	//fMenuDisplay(member_list, brain_list);
 	return 0;
 }

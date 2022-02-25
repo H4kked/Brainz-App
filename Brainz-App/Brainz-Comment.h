@@ -12,4 +12,4 @@ void fDisplayComment(MASTER_COMMENT* master_list, int brain_id);
 void fPostComment(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, int brain_id);
 void fWriteComment(MASTER_COMMENT* master_list);
 void fDelComment(MASTER_COMMENT* master_list, int brain_id);
-
+void fDisplayFirstComm(MASTER_COMMENT* master_list, int brain_id);
