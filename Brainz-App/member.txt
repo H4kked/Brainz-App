@@ -1,0 +1,6 @@
+username/password/description/0/0000
+theAdmin/thePassword/The Best Admin Ever (He Is Not Payed And Has No Brain At All)/1/0000
+coucou/oui/boum/0/0000
+pierre/bouchaudon/je m'appelle pierre bouchaudon/1/0000
+mathis/langrand/je s'appelle mathis langrand/1/0000
+papa/papa/papa/0/0000
