@@ -138,6 +138,7 @@ void fUserScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMEN
 	printf("										1 - BORROW A BRAIN\n");
 	printf("										2 - RETURN A BRAIN\n");
 	printf("										3 - MY ACCOUNT\n");
+	printf("										4 - COLORS\n");
 	printf("\n										9 - EXIT\n");
 	printf("\n										Entry : ");
 
@@ -150,23 +151,24 @@ void fUserScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMEN
 	switch (choice)
 	{
 		case 1:
-			clear_screen(' ');
-			fPrintLogo();
-			fBorrowBrain(member_list, brain_list, master_list);
+			if (member_list->logged->brain_id != 0)
+			{
+				clear_screen(' ');
+				fPrintLogo();
+				fBorrowBrain(member_list, brain_list, master_list);
+			}
+			else
+			{
+				printf("You already have a brain. Return it before borrowing another one !\n");
+				fUserScreen(brain_list, member_list, master_list);
+			}
 			break;
 		case 2:
 			fReturnBrain(member_list, brain_list, master_list);
 			fUserScreen(brain_list, member_list, master_list);
 			break;
 		case 3:
-			if (member_list->logged->is_admin == 0)
-			{
-				fMemberAccountScreen(member_list, brain_list, master_list);
-			}
-			else
-			{
-				fAdminAccountScreen(member_list, brain_list, master_list);
-			}
+			fMemberAccountScreen(member_list, brain_list, master_list);
 			break;
 		case 9:
 			fMenuDisplay(member_list, brain_list, master_list);
@@ -185,6 +187,7 @@ void fAdminScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMME
 	printf("										3 - MY ACCOUNT\n");
 	printf("										4 - MANAGE BRAINS\n");
 	printf("										5 - MANAGE MEMBERS\n");
+	printf("										6 - COLORS\n");
 	printf("\n										9 - EXIT\n");
 	printf("\n										Entry : ");
 
@@ -197,29 +200,34 @@ void fAdminScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMME
 	switch (choice)
 	{
 	case 1:
-		clear_screen(' ');
-		fPrintLogo();
-		fBorrowBrain(member_list, brain_list, master_list);
+		if (member_list->logged->brain_id != 0)
+		{
+			clear_screen(' ');
+			fPrintLogo();
+			fBorrowBrain(member_list, brain_list, master_list);
+		}
+		else
+		{
+			printf("You already have a brain. Return it before borrowing another one !\n");
+			fUserScreen(brain_list, member_list, master_list);
+		}
 		break;
 	case 2:
 		fReturnBrain(member_list, brain_list, master_list);
 		fAdminScreen(brain_list, member_list, master_list);
 		break;
 	case 3:
-		if (member_list->logged->is_admin == 0)
-		{
-			fMemberAccountScreen(member_list, brain_list, master_list);
-		}
-		else
-		{
-			fAdminAccountScreen(member_list, brain_list, master_list);
-		}
+		fAdminAccountScreen(member_list, brain_list, master_list);
 		break;
 	case 4:
 		fBrainManagement(member_list, brain_list, master_list);
 		break;
 	case 5:
 		fMemberManagement(member_list, brain_list, master_list);
+		break;
+	case 6:
+		color_screen();
+		break;
 	case 9:
 		fMenuDisplay(member_list, brain_list, master_list);
 		break;
@@ -287,12 +295,7 @@ void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MAST
 	switch (choice)
 	{
 		case 1:
-			char* new_desc;
-			new_desc = (char*)malloc(sizeof(*new_desc));
-			fgets(new_desc, 100, stdin);
-
-			member_list->logged->desc = new_desc;
-			fWriteMember(member_list);
+			fEditDescription(member_list);
 			break;
 		case 2:
 			fReturnBrain(member_list, brain_list, master_list);
@@ -368,12 +371,7 @@ void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTE
 	switch(choice)
 	{
 	case 1:
-		char* new_desc;
-		new_desc = (char*)malloc(sizeof(*new_desc));
-		fgets(new_desc, 100, stdin);
-
-		member_list->logged->desc = new_desc;
-		fWriteMember(member_list);
+		fEditDescription(member_list);
 		break;
 	case 2:
 		fReturnBrain(member_list, brain_list, master_list);
@@ -403,7 +401,7 @@ void fMemberBrainPage(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, BRA
 	printf("\n							Description : %s\n", brain->desc);
 	printf("							Note : %.2f\n/5", brain->note);
 
-	//fDisplayFirstCom();
+	fDisplayFirstComm(master_list, brain->id);
 
 	printf("												+------+\n");
 	printf("												|-MENU-|\n");
@@ -429,13 +427,67 @@ void fMemberBrainPage(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, BRA
 		system("PAUSE");
 		break;
 	case 2:
-		fReturnBrain(member_list, brain_list, master_list);
+		fBorrowBrain(member_list, brain_list, master_list);
 		break;
 	case 9:
 		fUserScreen(brain_list, member_list, master_list);
 		break;
 	}
 	fMemberBrainPage(master_list, member_list, brain_list, brain);
+}
+void fAdminBrainPage(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, BRAIN_LIST* brain_list, BRAIN* brain)
+{
+	clear_screen(' ');
+
+	// PRINT THE LOGO
+	fPrintLogo();
+
+	// PRINT BRAIN NAME
+	printf("												+-----------------+\n");
+	printf("												| %15s |\n", brain->name);
+	printf("												+-----------------+\n");
+
+	// PRINT BRAIN DESCRIPTION
+	printf("\n							Description : %s\n", brain->desc);
+	printf("							Note : %.2f\n/5", brain->note);
+
+	fDisplayFirstComm(master_list, brain->id);
+
+	printf("												+------+\n");
+	printf("												|-MENU-|\n");
+	printf("												+------+\n");
+
+	printf("											1 - See more\n");
+	printf("											2 - Borrow\n");
+	printf("											3 - Delete\n");
+	printf("											9 - Return\n");
+
+	printf("\n												Entry : ");
+
+	char choicee;
+	int choice;
+	do {
+		scanf_s("%c", &choicee);
+	} while (choicee < 48 || choicee > 57);
+	choice = choicee - 48;
+
+	switch (choice)
+	{
+	case 1:
+		fDisplayComment(master_list, brain->id);
+		system("PAUSE");
+		break;
+	case 2:
+		fBorrowBrain(member_list, brain_list, master_list);
+		break;
+	case 3:
+		fDelBrain(brain_list);
+		break;
+	case 9:
+		fAdminScreen(brain_list, member_list, master_list);
+		break;
+	}
+	fAdminBrainPage(master_list, member_list, brain_list, brain);
 }
 void fGetDate(char* date)
 {

@@ -283,6 +283,7 @@ void fDelBrain(BRAIN_LIST* brain_list)
 	char* del_name;
 	del_name = (char*)malloc(15);
 	printf("Enter the name of the brain you want to delete : ");
+	getchar();
 	fgets(del_name, 15, stdin);
 	del_name[strlen(del_name) - 1] = '\0';
 
@@ -380,7 +381,6 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMME
 	// SEARCH THE BRAIN THROUGH THE LIST
 	while (strcmp(borrowed_brain->name, name) != 0 && borrowed_brain != NULL)
 	{
-		printf("%s\n", name);
 		printf("%s\n", borrowed_brain->name);
 		borrowed_brain = borrowed_brain->next;
 	}
@@ -389,6 +389,7 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMME
 	if (borrowed_brain == NULL)
 	{
 		printf("						There is no brain with this name.\n");
+		clear_screen(' ');
 		fBorrowBrain(member_list, brain_list, master_list);
 	}
 	else
