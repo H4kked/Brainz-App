@@ -388,7 +388,7 @@ void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 }
 void fBrainPage(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, BRAIN* brain)
 {
-
+	printf("bite");
 }
 void fGetDate(char* date)
 {

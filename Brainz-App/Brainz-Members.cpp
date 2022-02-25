@@ -29,17 +29,18 @@ void fMemberStart(MEMBER_LIST* member_list)
 }
 void fGetMember(MEMBER_LIST* member_list)
 {
-
+	printf("COUCOU je suis la \n");
 	FILE* member_file;
 	member_file = (FILE*)malloc(sizeof(FILE*));
 	char path[] = "member.txt";
 	fopen_s(&member_file, path, "r+");
 	char* str;
 	str = (char*)malloc(200);
+	getchar();
 
 	while (fgets(str, 200, member_file) != NULL)
 	{
-		//printf("%s\n", str);
+		printf("%s\n", str);
 		int id = 0;
 		char* username;
 		char* password;
@@ -52,8 +53,7 @@ void fGetMember(MEMBER_LIST* member_list)
 		fSplitMember(username, password, description, &is_admin, &brain_id, str);
 		fAddMemberEnd(member_list, username, password, description, is_admin, brain_id);
 
-		//printf("last : %s\nbefore_last : \nsecond : %s\nfirst : \n\n", member_list->last->name, member_list->last->previous->name, member_list->first->next->name, member_list->first->name);
-	}
+		}
 	fclose(member_file);
 }
 void fSplitMember(char* username, char* password, char* description, int* is_admin, int* brain_id, char* str)
@@ -124,6 +124,8 @@ void fSplitMember(char* username, char* password, char* description, int* is_adm
 	}
 	temp[length - pos4 - 1] = '\0';
 	*brain_id = atoi(temp);
+
+	printf("%s %s %s %d %d\n", username, password, description, *is_admin, *brain_id);
 }
 void fDisplayMemberList(MEMBER_LIST* member_list)
 {
@@ -386,6 +388,7 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		while (current_member != NULL)
 		{
 			printf("%s %s\n", current_member->username, current_member->password);
+			printf("%s\n", current_member->next->username);
 			if (strcmp(username, current_member->username) == 0)
 			{
 				if (strcmp(password, current_member->password) == 0)
