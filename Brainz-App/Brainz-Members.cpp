@@ -288,7 +288,10 @@ void fDelMember(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT
 		}
 		else
 		{
-			fReturnBrain(member_list, brain_list, master_list);
+			if (del_member->brain_id != 0)
+			{
+				fReturnBrain(member_list, brain_list, master_list);
+			}
 			del_member->previous->next = del_member->next;
 			del_member->next->previous = del_member->previous;
 			del_member = del_member->next;
