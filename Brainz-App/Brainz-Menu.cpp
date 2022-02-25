@@ -432,9 +432,6 @@ void fMemberBrainPage(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, BRA
 	case 2:
 		fReturnBrain(member_list, brain_list, member_list->logged);
 		break;
-	case 3:
-		fDelMember(member_list, brain_list);
-		break;
 	case 9:
 		fUserScreen(member_list->logged, brain_list, member_list);
 		break;
