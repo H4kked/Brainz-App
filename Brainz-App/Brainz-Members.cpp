@@ -198,7 +198,7 @@ void fAddMember(MEMBER_LIST* member_list)
 	password = (char*)malloc(20);
 	char* description;
 	description = (char*)malloc(101);
-	printf("Enter you username (15 characters max) : ");
+	printf("Enter your username (15 characters max) : ");
 	getchar();
 	fgets(username, 15, stdin);
 	username[strlen(username) - 1] = '\0';
@@ -351,7 +351,7 @@ void fEditDescription(MEMBER_LIST* member_list)
 	description[strlen(description) - 1] = '\0';
 
 	member->desc = description;
-	fWriteMember(member_list);
+	fMemberStart(member_list);
 }
 
 void fSignUp(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
@@ -403,8 +403,6 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* ma
 		//USER CHECK
 		while (current_member != NULL)
 		{
-			//printf("%s %s\n", current_member->username, current_member->password);
-			//printf("%s\n", current_member->next->username);
 			if (strcmp(username, current_member->username) == 0)
 			{
 				if (strcmp(password, current_member->password) == 0)
@@ -419,11 +417,9 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* ma
 					fLoggedMenu(member_list, brain_list, master_list);
 				}
 			}
-			printf("next\n");
 			current_member = current_member->next;
 		}
 	}
-	printf("not recognized\n");
 	if (is_recognized == 0)
 	{
 		//THE USER HAS NOT BEEN RECOGNIZED
