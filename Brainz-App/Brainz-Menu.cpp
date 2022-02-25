@@ -151,7 +151,8 @@ void fUserScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMEN
 	switch (choice)
 	{
 		case 1:
-			if (member_list->logged->brain_id != 0)
+			printf("%d\n", member_list->logged->brain_id);
+			if (member_list->logged->brain_id == 0)
 			{
 				clear_screen(' ');
 				fPrintLogo();
@@ -159,7 +160,8 @@ void fUserScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMEN
 			}
 			else
 			{
-				printf("You already have a brain. Return it before borrowing another one !\n");
+				printf("			You already have a brain. Return it before borrowing another one !\n");
+				system("PAUSE");
 				fUserScreen(brain_list, member_list, master_list);
 			}
 			break;
@@ -200,7 +202,7 @@ void fAdminScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMME
 	switch (choice)
 	{
 	case 1:
-		if (member_list->logged->brain_id != 0)
+		if (member_list->logged->brain_id == 0)
 		{
 			clear_screen(' ');
 			fPrintLogo();
@@ -208,8 +210,9 @@ void fAdminScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMME
 		}
 		else
 		{
-			printf("You already have a brain. Return it before borrowing another one !\n");
-			fUserScreen(brain_list, member_list, master_list);
+			printf("			You already have a brain. Return it before borrowing another one !\n");
+			system("PAUSE");
+			fAdminScreen(brain_list, member_list, master_list);
 		}
 		break;
 	case 2:
