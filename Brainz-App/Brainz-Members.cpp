@@ -29,18 +29,17 @@ void fMemberStart(MEMBER_LIST* member_list)
 }
 void fGetMember(MEMBER_LIST* member_list)
 {
-	printf("COUCOU je suis la \n");
+	//printf("COUCOU je suis la \n");
 	FILE* member_file;
 	member_file = (FILE*)malloc(sizeof(FILE*));
 	char path[] = "member.txt";
 	fopen_s(&member_file, path, "r+");
 	char* str;
 	str = (char*)malloc(200);
-	getchar();
 
 	while (fgets(str, 200, member_file) != NULL)
 	{
-		printf("%s\n", str);
+		//printf("%s\n", str);
 		int id = 0;
 		char* username;
 		char* password;
