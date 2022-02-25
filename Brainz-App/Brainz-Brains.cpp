@@ -359,7 +359,7 @@ void fSetAvailability(BRAIN_LIST* brain_list, char* ch_name)
 
 }
 
-void fBorrowBrain(BRAIN_LIST* brain_list, MEMBER* current_member)
+void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
 	BRAIN* borrowed_brain;
 	borrowed_brain = (BRAIN*)malloc(sizeof(*borrowed_brain));
