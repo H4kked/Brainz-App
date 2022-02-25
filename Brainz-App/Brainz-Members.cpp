@@ -124,7 +124,7 @@ void fSplitMember(char* username, char* password, char* description, int* is_adm
 	temp[length - pos4 - 1] = '\0';
 	*brain_id = atoi(temp);
 
-	printf("%s %s %s %d %d\n", username, password, description, *is_admin, *brain_id);
+	//printf("%s %s %s %d %d\n", username, password, description, *is_admin, *brain_id);
 }
 void fDisplayMemberList(MEMBER_LIST* member_list)
 {
