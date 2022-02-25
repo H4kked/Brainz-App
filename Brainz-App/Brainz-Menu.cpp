@@ -16,7 +16,9 @@ void fMenuDisplay(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	fPrintLogo();
 	fPrintLoading(member_list, brain_list);
 	Sleep(1000);
-
+	//printf("%s\n", member_list->first->next->next->username);
+	//system("Pause");
+	char choicee;
 	int choice;
 	printf("\n\n\n\n   										     Log in (1) - Sign Up (2) - Exit (9)\n   												Entry: ");
 	do {

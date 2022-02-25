@@ -14,6 +14,10 @@ int main()
 	member_list = (MEMBER_LIST*)malloc(sizeof(*member_list));
 	BRAIN_LIST* brain_list;
 	brain_list = (BRAIN_LIST*)malloc(sizeof(*brain_list));
+	
+	//fTestComment();
+	fMenuDisplay(member_list, brain_list);
+	//color_screen();
 	MEMBER* member;
 	member = (MEMBER*)malloc(sizeof(*member));
 	fMemberStart(member_list);
