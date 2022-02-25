@@ -59,6 +59,14 @@ void fTestComment()
 	fMemberStart(member_list);
 	fCommentStart(master_list);
 	fDisplayCommentList(master_list);
+	int brain_id;
+	printf("Enter an id : ");
+	scanf_s("%d", &brain_id);
+	fDisplayFirstComm(master_list, brain_id);
+	/*fDisplayComment(master_list, brain_id);
+	fDelComment(master_list, brain_id);
+	fDisplayComment(master_list, brain_id);
+	
 	fDisplayComment(master_list, 0002);
 	Sleep(2000);
 	clear_screen(' ');
@@ -69,6 +77,7 @@ void fTestComment()
 	getchar();
 	fPostComment(master_list, member_list, 0002);
 	fDisplayComment(master_list, 0002);
+	*/
 }
 
 void fDisplayCommentList(MASTER_COMMENT* master_list)
@@ -96,7 +105,7 @@ void fGetComment(MASTER_COMMENT* master_list)
 	char path[] = "comment.txt";
 	fopen_s(&comment_file, path, "r+");
 	char* str;
-	str = (char*)malloc(200);
+	str = (char*)malloc(250);
 
 	while (fgets(str, 200, comment_file) != NULL)
 	{
@@ -133,6 +142,7 @@ void fGetComment(MASTER_COMMENT* master_list)
 			fAddComment(master_list, brain_id, date, description, note, member_name);
 		}
 	}
+	fclose(comment_file);
 }
 
 void fSplitComment(int* brain_id, char* date, char* description, float* note, char* member_name, char* str)
@@ -234,8 +244,6 @@ void fAddCommentList(MASTER_COMMENT* master_list, int brain_id, char* date, char
 	comment_list->next = NULL;
 	master_list->last = comment_list;
 	master_list->size += 1;
-
-	fWriteComment(master_list);
 }
 
 void fAddComment(MASTER_COMMENT* master_list, int brain_id, char* date, char* description, float note, char* member_name)
@@ -268,7 +276,7 @@ void fAddComment(MASTER_COMMENT* master_list, int brain_id, char* date, char* de
 	comment->previous = comment_list->last;
 	comment_list->last = comment;
 
-	fWriteComment(master_list);
+	
 }
 
 void fDisplayComment(MASTER_COMMENT* master_list, int brain_id)
@@ -350,6 +358,7 @@ void fPostComment(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, int bra
 	{
 		fAddComment(master_list, brain_id, date, description, note, member_name);
 	}	
+	fWriteComment(master_list);
 }
 
 void fWriteComment(MASTER_COMMENT* master_list)
@@ -378,4 +387,113 @@ void fWriteComment(MASTER_COMMENT* master_list)
 		my_comment_list = my_comment_list->next;
 	}
 	fclose(comment_file);
+}
+
+void fDelComment(MASTER_COMMENT* master_list, int brain_id)
+{
+	COMMENT_LIST* comment_list;
+	comment_list = (COMMENT_LIST*)malloc(sizeof(*comment_list));
+
+	COMMENT* comment;
+	comment = (COMMENT*)malloc(sizeof(*comment));
+
+	comment_list = master_list->first;
+
+	while (comment_list->brain_id != brain_id)
+	{
+		comment_list = comment_list->next;
+		if (comment_list == NULL)
+		{
+			break;
+		}
+	}
+
+	if (comment_list != NULL)
+	{
+		char* description;
+		description = (char*)malloc(165);
+		getchar();
+		printf("Copy-Paste the description of the comment you want to delete : \n");
+		fgets(description, 160, stdin);
+		description[strlen(description) - 1] = '\0';
+
+		comment = comment_list->first;
+
+		while (strcmp(description, comment->comment) != 0)
+		{
+			printf("%s / %s\n", description, comment->comment);
+			comment = comment->next;
+			if (comment == NULL)
+			{
+				break;
+			}
+		}
+
+		if (comment != NULL)
+		{
+			if (comment->next != NULL)
+			{
+				comment->next->previous = comment->previous;
+				comment->previous->next = comment->next;
+			}
+			else
+			{
+				comment->previous->next = NULL;
+				comment_list->last = comment->previous;
+			}
+			printf("Succeed in deleting the comment\n");
+			free(comment);
+		}
+		else
+		{
+			printf("There is no comment that correspond to this description\n");
+			fDelComment(master_list, brain_id);
+		}
+		fWriteComment(master_list);
+	}
+}
+
+void fDisplayFirstComm(MASTER_COMMENT* master_list, int brain_id)
+{
+	COMMENT_LIST* comment_list;
+	comment_list = (COMMENT_LIST*)malloc(sizeof(*comment_list));
+	COMMENT* comment;
+	comment = (COMMENT*)malloc(sizeof(*comment));
+
+	comment_list = master_list->first;
+	while (comment_list->brain_id != brain_id)
+	{
+		comment_list = comment_list->next;
+		if (comment_list == NULL)
+		{
+			break;
+		}
+	}
+
+	if (comment_list == NULL)
+	{
+		printf("No comment on this particular brain...\n");
+	}
+	else
+	{
+		comment = comment_list->first;
+		for (int i = 0; i<3; i++)
+		{
+			if (comment != NULL)
+			{
+				printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+				printf("|      Username : %15s                                                                                             Publication Date : %12s      |\n", comment->member_name, comment->date);
+				printf("|                                                                                                                                                                  |\n");
+				printf("| %160s |\n", comment->comment);
+				printf("|                                                                                                                                                                  |\n");
+				printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+
+				comment = comment->next;
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
 }
