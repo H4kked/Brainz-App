@@ -389,9 +389,10 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* ma
 	fgets(password, 15, stdin);
 	password[strlen(password) - 1] = '\0';
 
-	printf("\n											Press 9 to exit. Enter 1 to continue.\n");
-	int n, is_recognized = 0;
-	scanf_s("%d", &n);
+	system("Pause");
+	//printf("\n											Press 9 to exit. Enter 1 to continue.\n");
+	int n = 0, is_recognized = 0;
+	//scanf_s("%d", &n);
 
 	if (n == 9)
 	{
