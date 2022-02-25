@@ -354,16 +354,16 @@ void fEditDescription(MEMBER_LIST* member_list)
 	fWriteMember(member_list);
 }
 
-void fSignUp(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+void fSignUp(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
 	fAddMember(member_list);
 
 	printf("\n\n										Account created. Welcome !\n");
 	Sleep(3000);
 	clear_screen(' ');
-	fLogIn(member_list, brain_list);
+	fLogIn(member_list, brain_list, master_list);
 }
-void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
 	//INITIALIZE LIST TO GO THROUGH
 	MEMBER* current_member;
@@ -396,7 +396,7 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	if (n == 9)
 	{
 		clear_screen(' ');
-		fMenuDisplay(member_list, brain_list);
+		fMenuDisplay(member_list, brain_list, master_list);
 	}
 	else
 	{
@@ -430,7 +430,7 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		printf("									Incorrect username or password. Please try again.");
 		Sleep(3000);
 		free(current_member);
-		fLogIn(member_list, brain_list);
+		fLogIn(member_list, brain_list, master_list);
 	}
 }
 void fLoggedMenu(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* current_member)
