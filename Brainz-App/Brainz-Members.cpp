@@ -4,6 +4,7 @@
 #include <malloc.h>
 #include <ctype.h>
 #include <Windows.h>
+#include "Brainz-Brains.h"
 #include "Brainz-Menu.h"
 #include "Brainz-Members.h"
 
@@ -28,17 +29,18 @@ void fMemberStart(MEMBER_LIST* member_list)
 }
 void fGetMember(MEMBER_LIST* member_list)
 {
-
+	printf("COUCOU je suis la \n");
 	FILE* member_file;
 	member_file = (FILE*)malloc(sizeof(FILE*));
 	char path[] = "member.txt";
 	fopen_s(&member_file, path, "r+");
 	char* str;
 	str = (char*)malloc(200);
+	getchar();
 
 	while (fgets(str, 200, member_file) != NULL)
 	{
-		//printf("%s\n", str);
+		printf("%s\n", str);
 		int id = 0;
 		char* username;
 		char* password;
@@ -48,14 +50,13 @@ void fGetMember(MEMBER_LIST* member_list)
 		password = (char*)malloc(20);
 		username = (char*)malloc(20);
 		description = (char*)malloc(180);
-		fSplitMember(username, password, description, &is_admin, brain_id, str);
+		fSplitMember(username, password, description, &is_admin, &brain_id, str);
 		fAddMemberEnd(member_list, username, password, description, is_admin, brain_id);
 
-		//printf("last : %s\nbefore_last : \nsecond : %s\nfirst : \n\n", member_list->last->name, member_list->last->previous->name, member_list->first->next->name, member_list->first->name);
-	}
+		}
 	fclose(member_file);
 }
-void fSplitMember(char* username, char* password, char* description, int* is_admin, int brain_id, char* str)
+void fSplitMember(char* username, char* password, char* description, int* is_admin, int* brain_id, char* str)
 {
 	int pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 	char splitter = '/';
@@ -116,13 +117,15 @@ void fSplitMember(char* username, char* password, char* description, int* is_adm
 	temp[pos4 - pos3 - 1] = '\0';
 	*is_admin = atoi(temp);
 
-	// Recover the note of the member
+	// Recover the brain_id of the member
 	for (int i = pos4; i < length; i++)
 	{
 		temp[i - pos4] = str[i];
 	}
 	temp[length - pos4 - 1] = '\0';
-	brain_id = atoi(temp);
+	*brain_id = atoi(temp);
+
+	printf("%s %s %s %d %d\n", username, password, description, *is_admin, *brain_id);
 }
 void fDisplayMemberList(MEMBER_LIST* member_list)
 {
@@ -163,6 +166,8 @@ void fDisplayMemberList(MEMBER_LIST* member_list)
 	}
 	printf("+-----------------+-----------------+-----------+-----------------+\n");
 	printf("  number of members : %04d\n", member_list->size - 1);
+
+	system("PAUSE");
 }
 void fAddMemberEnd(MEMBER_LIST* member_list, char* username, char* password, char* description, int is_admin, int brain_id)
 {
@@ -202,7 +207,7 @@ void fAddMember(MEMBER_LIST* member_list)
 	fgets(password, 15, stdin);
 	password[strlen(password) - 1] = '\0';
 	printf("Enter your description (100 characters max) : ");
-	fgets(description, 50, stdin);
+	fgets(description, 100, stdin);
 	description[strlen(description) - 1] = '\0';
 
 	MEMBER* check_member;
@@ -248,7 +253,7 @@ void fWriteMember(MEMBER_LIST* member_list)
 	fclose(member_file);
 	fMemberStart(member_list);
 }
-void fDelMember(MEMBER_LIST* member_list)
+void fDelMember(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
 	MEMBER* del_member;
 	del_member = (MEMBER*)malloc(sizeof(*del_member));
@@ -271,7 +276,7 @@ void fDelMember(MEMBER_LIST* member_list)
 
 	if (del_member == NULL)
 	{
-		printf("There is no member with this username...\n\n");
+		printf("There is no member with this username.\n\n");
 	}
 	else
 	{
@@ -284,6 +289,7 @@ void fDelMember(MEMBER_LIST* member_list)
 		}
 		else
 		{
+			fReturnBrain(member_list, brain_list, member_list->logged);
 			del_member->previous->next = del_member->next;
 			del_member->next->previous = del_member->previous;
 			del_member = del_member->next;
@@ -319,10 +325,15 @@ void fUpgradeMember(MEMBER_LIST* member_list)
 	if (up_member == NULL)
 	{
 		printf("There is no member with this username.\n\n");
+		system("PAUSE");
+		fUpgradeMember(member_list);
 	}
 	else
 	{
 		up_member->is_admin = 1;
+		printf("Member upgraded.");
+		system("PAUSE");
+
 	}
 	fWriteMember(member_list);
 }
@@ -391,30 +402,35 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	else
 	{
 		//USER CHECK
-		do
+		while (current_member != NULL)
 		{
+			printf("%s %s\n", current_member->username, current_member->password);
+			printf("%s\n", current_member->next->username);
 			if (strcmp(username, current_member->username) == 0)
 			{
 				if (strcmp(password, current_member->password) == 0)
 				{
 					//THE USER HAS BEEN RECOGNIZED
 					member_list->logged = current_member;
+
 					is_recognized = 1;
 					printf("											    Connected ! Welcome, %s.\n", username);
-					Sleep(2000);
+					Sleep(3000);
 
 					fLoggedMenu(member_list, brain_list, current_member);
-					break;
 				}
 			}
+			printf("next\n");
 			current_member = current_member->next;
-		} while (current_member->previous->next != NULL);
+		}
 	}
+	printf("not recognized\n");
 	if (is_recognized == 0)
 	{
 		//THE USER HAS NOT BEEN RECOGNIZED
 		printf("									Incorrect username or password. Please try again.");
 		Sleep(3000);
+		free(current_member);
 		fLogIn(member_list, brain_list);
 	}
 }
@@ -422,7 +438,7 @@ void fLoggedMenu(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curre
 {
 	if (current_member->is_admin == 1)
 	{
-		printf("bah attends je l'ai pas encore fait");
+		fAdminScreen(member_list->logged, brain_list, member_list);
 		exit(0);
 	}
 	else if (current_member->is_admin == 0)
@@ -436,4 +452,49 @@ void fLoggedMenu(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curre
 		Sleep(5000);
 		exit(0);
 	}
+}
+
+void fMemberManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+{
+	clear_screen(' ');
+	Sleep(50);
+	fPrintLogo();
+
+	printf("										1 - ADD A MEMBER\n");
+	printf("										2 - DELETE A MEMBER\n");
+	printf("										3 - UPGRADE A MEMBER\n");
+	printf("										4 - SEE MEMBER LIST\n");
+	printf("\n										9 - EXIT\n");
+	printf("\n										Entry : ");
+
+	int choice = 0;
+	scanf_s("%d", &choice);
+
+	switch (choice)
+	{
+	case 1:
+		clear_screen(' ');
+		fPrintLogo();
+		fAddMember(member_list);
+		break;
+	case 2:
+		clear_screen(' ');
+		fPrintLogo();
+		fDelMember(member_list, brain_list);
+		break;
+	case 3:
+		clear_screen(' ');
+		fPrintLogo();
+		fUpgradeMember(member_list);
+		break;
+	case 4:
+		clear_screen(' ');
+		fPrintLogo();
+		fDisplayMemberList(member_list);
+		break;
+	case 9:
+		fAdminScreen(member_list->logged, brain_list, member_list);
+		break;
+	}
+	fAdminScreen(member_list->logged, brain_list, member_list);
 }

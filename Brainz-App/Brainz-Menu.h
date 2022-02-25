@@ -73,11 +73,13 @@ struct BRAIN_LIST
 
 void fMenuDisplay(MEMBER_LIST* list, BRAIN_LIST* brain_list);
 void clear_screen(char fill = ' ');
+void color_screen();
 void fPrintLogo();
 void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
 void fFullScreen();
 
 void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list);
+void fAdminScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list);
 void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
 void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
 
