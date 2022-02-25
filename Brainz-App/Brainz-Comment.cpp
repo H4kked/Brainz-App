@@ -379,3 +379,4 @@ void fWriteComment(MASTER_COMMENT* master_list)
 	}
 	fclose(comment_file);
 }
+
