@@ -17,10 +17,6 @@ int main()
 	
 	MASTER_COMMENT* master_list;
 	master_list = (MASTER_COMMENT*)malloc(sizeof(*master_list));
-	//fTestComment();
 	fMenuDisplay(member_list, brain_list, master_list);
-	//color_screen();
-	//fTestComment();
-	//fMenuDisplay(member_list, brain_list);
 	return 0;
 }

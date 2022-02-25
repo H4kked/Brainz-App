@@ -403,7 +403,7 @@ void fMemberBrainPage(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, BRA
 	printf("\n							Description : %s\n", brain->desc);
 	printf("							Note : %.2f\n/5", brain->note);
 
-	//fDisplayFirstCom();
+	fDisplayFirstComm(master_list, brain->id);
 
 	printf("												+------+\n");
 	printf("												|-MENU-|\n");
@@ -429,13 +429,67 @@ void fMemberBrainPage(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, BRA
 		system("PAUSE");
 		break;
 	case 2:
-		fReturnBrain(member_list, brain_list, master_list);
+		fBorrowBrain(member_list, brain_list, master_list);
 		break;
 	case 9:
 		fUserScreen(brain_list, member_list, master_list);
 		break;
 	}
 	fMemberBrainPage(master_list, member_list, brain_list, brain);
+}
+void fAdminBrainPage(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, BRAIN_LIST* brain_list, BRAIN* brain)
+{
+	clear_screen(' ');
+
+	// PRINT THE LOGO
+	fPrintLogo();
+
+	// PRINT BRAIN NAME
+	printf("												+-----------------+\n");
+	printf("												| %15s |\n", brain->name);
+	printf("												+-----------------+\n");
+
+	// PRINT BRAIN DESCRIPTION
+	printf("\n							Description : %s\n", brain->desc);
+	printf("							Note : %.2f\n/5", brain->note);
+
+	fDisplayFirstComm(master_list, brain->id);
+
+	printf("												+------+\n");
+	printf("												|-MENU-|\n");
+	printf("												+------+\n");
+
+	printf("											1 - See more\n");
+	printf("											2 - Borrow\n");
+	printf("											3 - Delete\n");
+	printf("											9 - Return\n");
+
+	printf("\n												Entry : ");
+
+	char choicee;
+	int choice;
+	do {
+		scanf_s("%c", &choicee);
+	} while (choicee < 48 || choicee > 57);
+	choice = choicee - 48;
+
+	switch (choice)
+	{
+	case 1:
+		fDisplayComment(master_list, brain->id);
+		system("PAUSE");
+		break;
+	case 2:
+		fBorrowBrain(member_list, brain_list, master_list);
+		break;
+	case 3:
+		fDelBrain(brain_list);
+		break;
+	case 9:
+		fAdminScreen(brain_list, member_list, master_list);
+		break;
+	}
+	fAdminBrainPage(master_list, member_list, brain_list, brain);
 }
 void fGetDate(char* date)
 {
