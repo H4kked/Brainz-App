@@ -78,8 +78,8 @@ void fPrintLogo();
 void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list);
 void fFullScreen();
 
-void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list);
-void fAdminScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list);
+void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMENT* master_list);
+void fAdminScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMENT* master_list);
 void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
 void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
 void fMemberBrainPage(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, BRAIN_LIST* brain_list, BRAIN* brain);

@@ -337,7 +337,7 @@ void fUpgradeMember(MEMBER_LIST* member_list)
 	fWriteMember(member_list);
 }
 
-void fSignUp(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+void fSignUp(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
 	fAddMember(member_list);
 
@@ -346,7 +346,7 @@ void fSignUp(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	clear_screen(' ');
 	fLogIn(member_list, brain_list);
 }
-void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
 	//INITIALIZE LIST TO GO THROUGH
 	MEMBER* current_member;
@@ -379,7 +379,7 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	if (n == 9)
 	{
 		clear_screen(' ');
-		fMenuDisplay(member_list, brain_list);
+		fMenuDisplay(member_list, brain_list, master_list);
 	}
 	else
 	{
@@ -416,16 +416,16 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		fLogIn(member_list, brain_list);
 	}
 }
-void fLoggedMenu(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* current_member)
+void fLoggedMenu(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* current_member, MASTER_COMMENT* master_list)
 {
 	if (current_member->is_admin == 1)
 	{
-		fAdminScreen(member_list->logged, brain_list, member_list);
+		fAdminScreen(member_list->logged, brain_list, member_list, master_list);
 		exit(0);
 	}
 	else if (current_member->is_admin == 0)
 	{
-		fUserScreen(current_member, brain_list, member_list);
+		fUserScreen(current_member, brain_list, member_list, master_list);
 		exit(0);
 	}
 	else

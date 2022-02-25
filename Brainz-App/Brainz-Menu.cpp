@@ -354,7 +354,6 @@ void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 
 	printf("											1 - Edit description\n");
 	printf("											2 - Return brain\n");
-	printf("											3 - Delete account\n");
 	printf("											9 - Return to main menu\n");
 
 	printf("\n												Entry : ");
