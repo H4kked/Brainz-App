@@ -44,15 +44,12 @@ struct COMMENT_LIST
 	COMMENT_LIST* next;
 	COMMENT_LIST* previous;
 };
-
 struct MASTER_COMMENT
 {
 	int size;
 	COMMENT_LIST* first;
 	COMMENT_LIST* last;
 };
-
-
 struct BRAIN
 {
 	int id;
@@ -71,16 +68,17 @@ struct BRAIN_LIST
 	BRAIN* last;
 };
 
-void fMenuDisplay(MEMBER_LIST* list, BRAIN_LIST* brain_list);
+void fMenuDisplay(MEMBER_LIST* list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list);
 void clear_screen(char fill = ' ');
 void color_screen();
 void fPrintLogo();
-void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
+void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list);
 void fFullScreen();
 
-void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list);
-void fAdminScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list);
-void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
-void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list);
+void fUserScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMENT* master_list);
+void fAdminScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMENT* master_list);
+void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list);
+void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list);
+void fMemberBrainPage(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, BRAIN_LIST* brain_list, BRAIN* brain);
 
 void fGetDate(char* date);

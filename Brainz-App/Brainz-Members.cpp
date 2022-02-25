@@ -252,7 +252,7 @@ void fWriteMember(MEMBER_LIST* member_list)
 	fclose(member_file);
 	fMemberStart(member_list);
 }
-void fDelMember(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+void fDelMember(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
 	MEMBER* del_member;
 	del_member = (MEMBER*)malloc(sizeof(*del_member));
@@ -288,7 +288,7 @@ void fDelMember(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		}
 		else
 		{
-			fReturnBrain(member_list, brain_list, member_list->logged);
+			fReturnBrain(member_list, brain_list, master_list);
 			del_member->previous->next = del_member->next;
 			del_member->next->previous = del_member->previous;
 			del_member = del_member->next;
@@ -336,17 +336,34 @@ void fUpgradeMember(MEMBER_LIST* member_list)
 	}
 	fWriteMember(member_list);
 }
+void fEditDescription(MEMBER_LIST* member_list)
+{
+	MEMBER* member;
+	member = (MEMBER*)malloc(sizeof(*member));
+	char* description;
+	description = (char*)malloc(165);
 
-void fSignUp(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+	member = member_list->logged;
+	printf("Previous description : \n%160s\n", member->desc);
+
+	printf("Enter your new description : \n");
+	fgets(description, 160, stdin);
+	description[strlen(description) - 1] = '\0';
+
+	member->desc = description;
+	fWriteMember(member_list);
+}
+
+void fSignUp(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
 	fAddMember(member_list);
 
 	printf("\n\n										Account created. Welcome !\n");
 	Sleep(3000);
 	clear_screen(' ');
-	fLogIn(member_list, brain_list);
+	fLogIn(member_list, brain_list, master_list);
 }
-void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
 	//INITIALIZE LIST TO GO THROUGH
 	MEMBER* current_member;
@@ -379,7 +396,7 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	if (n == 9)
 	{
 		clear_screen(' ');
-		fMenuDisplay(member_list, brain_list);
+		fMenuDisplay(member_list, brain_list, master_list);
 	}
 	else
 	{
@@ -399,7 +416,7 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 					printf("											    Connected ! Welcome, %s.\n", username);
 					Sleep(3000);
 
-					fLoggedMenu(member_list, brain_list, current_member);
+					fLoggedMenu(member_list, brain_list, master_list);
 				}
 			}
 			printf("next\n");
@@ -413,19 +430,19 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		printf("									Incorrect username or password. Please try again.");
 		Sleep(3000);
 		free(current_member);
-		fLogIn(member_list, brain_list);
+		fLogIn(member_list, brain_list, master_list);
 	}
 }
-void fLoggedMenu(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* current_member)
+void fLoggedMenu(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
-	if (current_member->is_admin == 1)
+	if (member_list->logged->is_admin == 1)
 	{
-		fAdminScreen(member_list->logged, brain_list, member_list);
+		fAdminScreen(brain_list, member_list, master_list);
 		exit(0);
 	}
-	else if (current_member->is_admin == 0)
+	else if (member_list->logged->is_admin == 0)
 	{
-		fUserScreen(current_member, brain_list, member_list);
+		fUserScreen(brain_list, member_list, master_list);
 		exit(0);
 	}
 	else
@@ -436,7 +453,7 @@ void fLoggedMenu(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curre
 	}
 }
 
-void fMemberManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+void fMemberManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
 	clear_screen(' ');
 	Sleep(50);
@@ -462,7 +479,7 @@ void fMemberManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	case 2:
 		clear_screen(' ');
 		fPrintLogo();
-		fDelMember(member_list, brain_list);
+		fDelMember(member_list, brain_list, master_list);
 		break;
 	case 3:
 		clear_screen(' ');
@@ -475,8 +492,8 @@ void fMemberManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		fDisplayMemberList(member_list);
 		break;
 	case 9:
-		fAdminScreen(member_list->logged, brain_list, member_list);
+		fAdminScreen(brain_list, member_list, master_list);
 		break;
 	}
-	fAdminScreen(member_list->logged, brain_list, member_list);
+	fAdminScreen(brain_list, member_list, master_list);
 }

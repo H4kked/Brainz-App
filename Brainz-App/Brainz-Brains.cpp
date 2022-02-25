@@ -359,7 +359,7 @@ void fSetAvailability(BRAIN_LIST* brain_list, char* ch_name)
 
 }
 
-void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* current_member)
+void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
 	BRAIN* borrowed_brain;
 	borrowed_brain = (BRAIN*)malloc(sizeof(*borrowed_brain));
@@ -389,7 +389,7 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 	if (borrowed_brain == NULL)
 	{
 		printf("						There is no brain with this name.\n");
-		fBorrowBrain(member_list, brain_list, current_member);
+		fBorrowBrain(member_list, brain_list, master_list);
 	}
 	else
 	{
@@ -397,13 +397,13 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 		{
 			// THE BRAIN IS NOT AVAILABLE, RE-DO THE FUNCTION
 			printf("		This brain has already been borrowed. Please select another brain.");
-			fBorrowBrain(member_list, brain_list, current_member);
+			fBorrowBrain(member_list, brain_list, master_list);
 		}
 		else
 		{
 			// INDICATES THE BRAIN AS NON AVAILABLE AND INDICATES IT ON THE USERS PROFILE
 			borrowed_brain->is_available = 0;
-			current_member->brain_id = borrowed_brain->id;
+			member_list->logged->brain_id = borrowed_brain->id;
 
 			// RE-BUILD THE TXT FILES AND LISTS
 			fWriteBrain(brain_list);
@@ -412,12 +412,19 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 			// RETURNS ON THE USER'S SCREEN
 			printf("				Brain borrowed. Thanks for using our app ! \n");
 			system("PAUSE");
-			fUserScreen(current_member, brain_list, member_list);
+			if (member_list->logged->is_admin == 0)
+			{
+				fUserScreen(brain_list, member_list, master_list);
+			}
+			else
+			{
+				fAdminScreen(brain_list, member_list, master_list);
+			}
 		}
 	}
 }
 
-void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* current_member)
+void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
 	BRAIN* returned_brain;
 	returned_brain = (BRAIN*)malloc(sizeof(returned_brain));
@@ -440,7 +447,7 @@ void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 	system("PAUSE");
 }
 
-void fBrainManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+void fBrainManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
 	clear_screen(' ');
 	Sleep(50);
@@ -473,8 +480,8 @@ void fBrainManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		fDisplayBrainList(brain_list);
 		break;
 	case 9:
-		fAdminScreen(member_list->logged, brain_list, member_list);
+		fAdminScreen(brain_list, member_list, master_list);
 		break;
 	}
-	fAdminScreen(member_list->logged, brain_list, member_list);
+	fAdminScreen(brain_list, member_list, master_list);
 }
