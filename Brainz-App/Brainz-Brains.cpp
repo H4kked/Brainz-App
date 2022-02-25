@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
 #include <stdlib.h>
 #include <Windows.h>
 #include "Brainz-Brains.h"
@@ -178,6 +177,7 @@ void fDisplayBrainList(BRAIN_LIST* brain_list)
 
 	BRAIN* brain;
 	brain = (BRAIN*)malloc(sizeof(*brain));
+	brain = NULL;
 	brain = brain_list->first;                      // Recover the first brain in an object of the type BRAIN
 	brain = brain->next->next;						// The third brain on the list is the first that we want to display
 	char* available;

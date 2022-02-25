@@ -1,7 +1,6 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <malloc.h>
 #include <ctype.h>
 #include <Windows.h>
 #include <time.h>
@@ -179,6 +178,9 @@ void fUserScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMEN
 		case 3:
 			fMemberAccountScreen(member_list, brain_list, master_list);
 			break;
+		case 4:
+			color_screen();
+				break;
 		case 9:
 			fMenuDisplay(member_list, brain_list, master_list);
 			break;
