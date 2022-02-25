@@ -152,11 +152,11 @@ void fUserScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMEN
 		case 1:
 			clear_screen(' ');
 			fPrintLogo();
-			fBorrowBrain(member_list, brain_list);
+			fBorrowBrain(member_list, brain_list, master_list);
 			break;
 		case 2:
-			fReturnBrain(member_list, brain_list);
-			fUserScreen(member_list->logged, brain_list, member_list, master_list);
+			fReturnBrain(member_list, brain_list, master_list);
+			fUserScreen(brain_list, member_list, master_list);
 			break;
 		case 3:
 			if (member_list->logged->is_admin == 0)
@@ -199,11 +199,11 @@ void fAdminScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMME
 	case 1:
 		clear_screen(' ');
 		fPrintLogo();
-		fBorrowBrain(member_list, brain_list);
+		fBorrowBrain(member_list, brain_list, master_list);
 		break;
 	case 2:
-		fReturnBrain(member_list, brain_list);
-		fAdminScreen(member_list->logged, brain_list, member_list, master_list);
+		fReturnBrain(member_list, brain_list, master_list);
+		fAdminScreen(brain_list, member_list, master_list);
 		break;
 	case 3:
 		if (member_list->logged->is_admin == 0)
@@ -216,10 +216,10 @@ void fAdminScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMME
 		}
 		break;
 	case 4:
-		fBrainManagement(member_list, brain_list);
+		fBrainManagement(member_list, brain_list, master_list);
 		break;
 	case 5:
-		fMemberManagement(member_list, brain_list);
+		fMemberManagement(member_list, brain_list, master_list);
 	case 9:
 		fMenuDisplay(member_list, brain_list, master_list);
 		break;
@@ -295,16 +295,16 @@ void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MAST
 			fWriteMember(member_list);
 			break;
 		case 2:
-			fReturnBrain(member_list, brain_list, member_list->logged);
+			fReturnBrain(member_list, brain_list, master_list);
 			break;
 		case 3:
-			fDelMember(member_list, brain_list);
+			fDelMember(member_list, brain_list, master_list);
 			break;
 		case 9:
-			fUserScreen(member_list->logged, brain_list, member_list, master_list);
+			fUserScreen(brain_list, member_list, master_list);
 			break;
 	}
-	fUserScreen(member_list->logged, brain_list, member_list, master_list);
+	fUserScreen(brain_list, member_list, master_list);
 }
 void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
@@ -376,16 +376,16 @@ void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTE
 		fWriteMember(member_list);
 		break;
 	case 2:
-		fReturnBrain(member_list, brain_list);
+		fReturnBrain(member_list, brain_list, master_list);
 		break;
 	case 3:
-		fDelMember(member_list, brain_list);
+		fDelMember(member_list, brain_list, master_list);
 		break;
 	case 9:
-		fAdminScreen(member_list->logged, brain_list, member_list, master_list);
+		fAdminScreen(brain_list, member_list, master_list);
 		break;
 	}
-	fAdminScreen(member_list->logged, brain_list, member_list, master_list);
+	fAdminScreen(brain_list, member_list, master_list);
 }
 void fMemberBrainPage(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, BRAIN_LIST* brain_list, BRAIN* brain)
 {
@@ -429,10 +429,10 @@ void fMemberBrainPage(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, BRA
 		system("PAUSE");
 		break;
 	case 2:
-		fReturnBrain(member_list, brain_list, member_list->logged);
+		fReturnBrain(member_list, brain_list, master_list);
 		break;
 	case 9:
-		fUserScreen(member_list->logged, brain_list, member_list, master_list);
+		fUserScreen(brain_list, member_list, master_list);
 		break;
 	}
 	fMemberBrainPage(master_list, member_list, brain_list, brain);

@@ -44,15 +44,12 @@ struct COMMENT_LIST
 	COMMENT_LIST* next;
 	COMMENT_LIST* previous;
 };
-
 struct MASTER_COMMENT
 {
 	int size;
 	COMMENT_LIST* first;
 	COMMENT_LIST* last;
 };
-
-
 struct BRAIN
 {
 	int id;
