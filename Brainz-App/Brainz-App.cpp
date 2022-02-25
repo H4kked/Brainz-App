@@ -18,12 +18,6 @@ int main()
 	//fTestComment();
 	fMenuDisplay(member_list, brain_list);
 	//color_screen();
-	MEMBER* member;
-	member = (MEMBER*)malloc(sizeof(*member));
-	fMemberStart(member_list);
-	member = member_list->first->next->next->next;
-	member_list->logged = member;
-	fEditDescription(member_list);
 //	fTestComment();
 	//fMenuDisplay(member_list, brain_list);
 	return 0;

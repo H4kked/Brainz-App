@@ -24,9 +24,6 @@ void fMemberStart(MEMBER_LIST* member_list)
 	member_list->last = first_member;
 	member_list->size = 0;
 
-	printf("%s\n", member_list->first->username);
-	system("Pause");
-
 	fGetMember(member_list);
 }
 void fGetMember(MEMBER_LIST* member_list)
