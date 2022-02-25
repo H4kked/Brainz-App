@@ -359,7 +359,7 @@ void fSetAvailability(BRAIN_LIST* brain_list, char* ch_name)
 
 }
 
-void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* current_member)
+void fBorrowBrain(BRAIN_LIST* brain_list, MEMBER* current_member)
 {
 	BRAIN* borrowed_brain;
 	borrowed_brain = (BRAIN*)malloc(sizeof(*borrowed_brain));
@@ -414,17 +414,17 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 			system("PAUSE");
 			if (member_list->logged->is_admin == 0)
 			{
-				fUserScreen(current_member, brain_list, member_list);
+				fUserScreen(brain_list, member_list);
 			}
 			else
 			{
-				fAdminScreen(current_member, brain_list, member_list);
+				fAdminScreen(brain_list, member_list);
 			}
 		}
 	}
 }
 
-void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* current_member)
+void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
 	BRAIN* returned_brain;
 	returned_brain = (BRAIN*)malloc(sizeof(returned_brain));
