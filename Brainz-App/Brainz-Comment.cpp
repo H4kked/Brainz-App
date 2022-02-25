@@ -59,6 +59,13 @@ void fTestComment()
 	fMemberStart(member_list);
 	fCommentStart(master_list);
 	fDisplayCommentList(master_list);
+	int brain_id;
+	printf("Enter an id : ");
+	scanf_s("%d", &brain_id);
+	fDisplayComment(master_list, brain_id);
+	fDelComment(master_list, brain_id);
+	fDisplayComment(master_list, brain_id);
+	/*
 	fDisplayComment(master_list, 0002);
 	Sleep(2000);
 	clear_screen(' ');
@@ -69,6 +76,7 @@ void fTestComment()
 	getchar();
 	fPostComment(master_list, member_list, 0002);
 	fDisplayComment(master_list, 0002);
+	*/
 }
 
 void fDisplayCommentList(MASTER_COMMENT* master_list)
@@ -380,3 +388,67 @@ void fWriteComment(MASTER_COMMENT* master_list)
 	fclose(comment_file);
 }
 
+
+void fDelComment(MASTER_COMMENT* master_list, int brain_id)
+{
+	COMMENT_LIST* comment_list;
+	comment_list = (COMMENT_LIST*)malloc(sizeof(*comment_list));
+
+	COMMENT* comment;
+	comment = (COMMENT*)malloc(sizeof(*comment));
+
+	comment_list = master_list->first;
+
+	while (comment_list->brain_id != brain_id)
+	{
+		comment_list = comment_list->next;
+		if (comment_list == NULL)
+		{
+			break;
+		}
+	}
+
+	if (comment_list != NULL)
+	{
+		char* description;
+		description = (char*)malloc(165);
+		getchar();
+		printf("Copy-Paste the description of the comment you want to delete : \n");
+		fgets(description, 160, stdin);
+		description[strlen(description) - 1] = '\0';
+
+		comment = comment_list->first;
+
+		while (strcmp(description, comment->comment) != 0)
+		{
+			printf("%s / %s\n", description, comment->comment);
+			comment = comment->next;
+			if (comment == NULL)
+			{
+				break;
+			}
+		}
+
+		if (comment != NULL)
+		{
+			if (comment->next != NULL)
+			{
+				comment->next->previous = comment->previous;
+				comment->previous->next = comment->next;
+			}
+			else
+			{
+				comment->previous->next = NULL;
+				comment_list->last = comment->previous;
+			}
+			printf("Succeed in deleting the comment\n");
+			free(comment);
+		}
+		else
+		{
+			printf("There is no comment that correspond to this description\n");
+			fDelComment(master_list, brain_id);
+		}
+		fWriteComment(master_list);
+	}
+}
