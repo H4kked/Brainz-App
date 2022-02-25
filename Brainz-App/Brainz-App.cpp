@@ -15,10 +15,11 @@ int main()
 	BRAIN_LIST* brain_list;
 	brain_list = (BRAIN_LIST*)malloc(sizeof(*brain_list));
 	
+	MASTER_COMMENT* master_list;
+	master_list = (MASTER_COMMENT*)malloc(sizeof(*master_list));
 	//fTestComment();
-	fMenuDisplay(member_list, brain_list);
+	fMenuDisplay(member_list, brain_list, master_list);
 	//color_screen();
-//	fTestComment();
-	//fMenuDisplay(member_list, brain_list);
+	//fMemberStart(member_list);
 	return 0;
 }
