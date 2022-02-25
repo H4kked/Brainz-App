@@ -368,6 +368,7 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMME
 
 	// DISPLAY ALL THE BRAINS
 	fDisplayBrainList(brain_list);
+	system("PAUSE");
 
 	// ASK WHAT BRAIN WILL BE BORROWED
 	char* name;
