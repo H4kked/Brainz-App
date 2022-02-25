@@ -326,6 +326,23 @@ void fUpgradeMember(MEMBER_LIST* member_list)
 	}
 	fWriteMember(member_list);
 }
+void fEditDescription(MEMBER_LIST* member_list)
+{
+	MEMBER* member;
+	member = (MEMBER*)malloc(sizeof(*member));
+	char* description;
+	description = (char*)malloc(165);
+
+	member = member_list->logged;
+	printf("Previous description : \n%160s\n", member->desc);
+
+	printf("Enter your new description : \n");
+	fgets(description, 160, stdin);
+	description[strlen(description) - 1] = '\0';
+
+	member->desc = description;
+	fWriteMember(member_list);
+}
 
 void fSignUp(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
