@@ -59,7 +59,6 @@ struct BRAIN
 	char* name;
 	char* desc;
 	int is_available;
-	COMMENT_LIST* list;
 	float note;
 	BRAIN* previous;
 	BRAIN* next;

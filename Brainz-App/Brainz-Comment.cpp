@@ -388,7 +388,6 @@ void fWriteComment(MASTER_COMMENT* master_list)
 	fclose(comment_file);
 }
 
-
 void fDelComment(MASTER_COMMENT* master_list, int brain_id)
 {
 	COMMENT_LIST* comment_list;
@@ -450,5 +449,43 @@ void fDelComment(MASTER_COMMENT* master_list, int brain_id)
 			fDelComment(master_list, brain_id);
 		}
 		fWriteComment(master_list);
+	}
+}
+
+void fDisplayFirstComm(MASTER_COMMENT* master_list, int brain_id)
+{
+	COMMENT_LIST* comment_list;
+	comment_list = (COMMENT_LIST*)malloc(sizeof(*comment_list));
+	COMMENT* comment;
+	comment = (COMMENT*)malloc(sizeof(*comment));
+
+	comment_list = master_list->first;
+	while (comment_list->brain_id != brain_id)
+	{
+		comment_list = comment_list->next;
+		if (comment_list == NULL)
+		{
+			break;
+		}
+	}
+
+	if (comment_list == NULL)
+	{
+		printf("No comment on this particular brain...\n");
+	}
+	else
+	{
+		comment = comment_list->first;
+		for (int i = 0; i<3; i++)
+		{
+			printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+			printf("|      Username : %15s                                                                                             Publication Date : %12s      |\n", comment->member_name, comment->date);
+			printf("|                                                                                                                                                                  |\n");
+			printf("| %160s |\n", comment->comment);
+			printf("|                                                                                                                                                                  |\n");
+			printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+
+			comment = comment->next;
+		}
 	}
 }
