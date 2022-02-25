@@ -20,6 +20,7 @@ int main()
 	//fTestComment();
 	fMenuDisplay(member_list, brain_list, master_list);
 	//color_screen();
-	//fMemberStart(member_list);
+	fTestComment();
+	//fMenuDisplay(member_list, brain_list);
 	return 0;
 }

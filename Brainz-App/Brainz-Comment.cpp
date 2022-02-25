@@ -62,10 +62,11 @@ void fTestComment()
 	int brain_id;
 	printf("Enter an id : ");
 	scanf_s("%d", &brain_id);
-	fDisplayComment(master_list, brain_id);
+	fDisplayFirstComm(master_list, brain_id);
+	/*fDisplayComment(master_list, brain_id);
 	fDelComment(master_list, brain_id);
 	fDisplayComment(master_list, brain_id);
-	/*
+	
 	fDisplayComment(master_list, 0002);
 	Sleep(2000);
 	clear_screen(' ');
@@ -478,14 +479,21 @@ void fDisplayFirstComm(MASTER_COMMENT* master_list, int brain_id)
 		comment = comment_list->first;
 		for (int i = 0; i<3; i++)
 		{
-			printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
-			printf("|      Username : %15s                                                                                             Publication Date : %12s      |\n", comment->member_name, comment->date);
-			printf("|                                                                                                                                                                  |\n");
-			printf("| %160s |\n", comment->comment);
-			printf("|                                                                                                                                                                  |\n");
-			printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+			if (comment != NULL)
+			{
+				printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
+				printf("|      Username : %15s                                                                                             Publication Date : %12s      |\n", comment->member_name, comment->date);
+				printf("|                                                                                                                                                                  |\n");
+				printf("| %160s |\n", comment->comment);
+				printf("|                                                                                                                                                                  |\n");
+				printf("+------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n");
 
-			comment = comment->next;
+				comment = comment->next;
+			}
+			else
+			{
+				break;
+			}
 		}
 	}
 }
