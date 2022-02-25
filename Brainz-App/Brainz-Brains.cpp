@@ -412,7 +412,14 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 			// RETURNS ON THE USER'S SCREEN
 			printf("				Brain borrowed. Thanks for using our app ! \n");
 			system("PAUSE");
-			fUserScreen(current_member, brain_list, member_list);
+			if (member_list->logged->is_admin == 0)
+			{
+				fUserScreen(current_member, brain_list, member_list);
+			}
+			else
+			{
+				fAdminScreen(current_member, brain_list, member_list);
+			}
 		}
 	}
 }

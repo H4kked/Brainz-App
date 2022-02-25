@@ -6,16 +6,17 @@
 #include <Windows.h>
 #include <time.h>
 #include "Brainz-Menu.h"
+#include "Brainz-Comment.h"
 #include "Brainz-Members.h"
 #include "Brainz-Brains.h"
 
-void fMenuDisplay(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+void fMenuDisplay(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
 	clear_screen(' ');
 	fFullScreen();
 	printf("\n\n\n\n\n");
 	fPrintLogo();
-	fPrintLoading(member_list, brain_list);
+	fPrintLoading(member_list, brain_list, master_list);
 	Sleep(1000);
 
 	char choicee;
@@ -37,7 +38,7 @@ void fMenuDisplay(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 		exit(0);
 	default:
 		printf("														Don't mess with me.");
-		fMenuDisplay(member_list, brain_list);
+		fMenuDisplay(member_list, brain_list, master_list);
 	}
 
 	clear_screen(' ');
@@ -105,7 +106,7 @@ void fPrintLogo()
 											  =============================inc.\n\n");
 	printf("										Welcome to BRAINZ ! The place where skills become yours.\n\n\n");
 }
-void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
+void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list)
 {
 	//MAKES US LOOK LIKE BOSSES
 	Sleep(3000);
@@ -118,6 +119,7 @@ void fPrintLoading(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	fBrainStart(brain_list);
 	Sleep(1000);
 	printf(".");
+	fCommentStart(master_list);
 	Sleep(2000);
 	printf("	Initialized !");
 }
@@ -126,7 +128,7 @@ void fFullScreen()
 	HWND hwnd = GetForegroundWindow();
 	ShowWindow(hwnd, SW_MAXIMIZE);
 }
-void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list)
+void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMENT* master_list)
 {
 	clear_screen(' ');
 	Sleep(50);
@@ -167,12 +169,12 @@ void fUserScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* me
 			}
 			break;
 		case 9:
-			fMenuDisplay(member_list, brain_list);
+			fMenuDisplay(member_list, brain_list, master_list);
 			break;
 	}
-	fMenuDisplay(member_list, brain_list);
+	fMenuDisplay(member_list, brain_list, master_list);
 }
-void fAdminScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list)
+void fAdminScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMENT* master_list)
 {
 	clear_screen(' ');
 	Sleep(50);
@@ -219,10 +221,10 @@ void fAdminScreen(MEMBER* current_member, BRAIN_LIST* brain_list, MEMBER_LIST* m
 	case 5:
 		fMemberManagement(member_list, brain_list);
 	case 9:
-		fMenuDisplay(member_list, brain_list);
+		fMenuDisplay(member_list, brain_list, master_list);
 		break;
 	}
-	fMenuDisplay(member_list, brain_list);
+	fMenuDisplay(member_list, brain_list, master_list);
 }
 void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 {
@@ -386,9 +388,58 @@ void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	}
 	fAdminScreen(member_list->logged, brain_list, member_list);
 }
-void fBrainPage(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, BRAIN* brain)
+void fMemberBrainPage(MASTER_COMMENT* master_list, MEMBER_LIST* member_list, BRAIN_LIST* brain_list, BRAIN* brain)
 {
-	printf("bite");
+	clear_screen(' ');
+
+	// PRINT THE LOGO
+	fPrintLogo();
+
+	// PRINT BRAIN NAME
+	printf("												+-----------------+\n");
+	printf("												| %15s |\n", brain->name);
+	printf("												+-----------------+\n");
+
+	// PRINT BRAIN DESCRIPTION
+	printf("\n							Description : %s\n", brain->desc);
+	printf("							Note : %.2f\n/5", brain->note);
+
+	//fDisplayFirstCom();
+
+	printf("												+------+\n");
+	printf("												|-MENU-|\n");
+	printf("												+------+\n");
+
+	printf("											1 - See more\n");
+	printf("											2 - Borrow\n");
+	printf("											9 - Return\n");
+
+	printf("\n												Entry : ");
+
+	char choicee;
+	int choice;
+	do {
+		scanf_s("%c", &choicee);
+	} while (choicee < 48 || choicee > 57);
+	choice = choicee - 48;
+
+	switch (choice)
+	{
+	case 1:
+		fDisplayComment(master_list, brain->id);
+		system("PAUSE");
+		break;
+	case 2:
+		fReturnBrain(member_list, brain_list, member_list->logged);
+		break;
+	case 3:
+		fDelMember(member_list, brain_list);
+		break;
+	case 9:
+		fUserScreen(member_list->logged, brain_list, member_list);
+		break;
+	}
+	fMemberBrainPage(master_list, member_list, brain_list, brain);
 }
 void fGetDate(char* date)
 {
