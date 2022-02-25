@@ -151,9 +151,17 @@ void fUserScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMMEN
 	switch (choice)
 	{
 		case 1:
-			clear_screen(' ');
-			fPrintLogo();
-			fBorrowBrain(member_list, brain_list, master_list);
+			if (member_list->logged->brain_id != 0)
+			{
+				clear_screen(' ');
+				fPrintLogo();
+				fBorrowBrain(member_list, brain_list, master_list);
+			}
+			else
+			{
+				printf("You already have a brain. Return it before borrowing another one !\n");
+				fUserScreen(brain_list, member_list, master_list);
+			}
 			break;
 		case 2:
 			fReturnBrain(member_list, brain_list, master_list);
@@ -192,9 +200,17 @@ void fAdminScreen(BRAIN_LIST* brain_list, MEMBER_LIST* member_list, MASTER_COMME
 	switch (choice)
 	{
 	case 1:
-		clear_screen(' ');
-		fPrintLogo();
-		fBorrowBrain(member_list, brain_list, master_list);
+		if (member_list->logged->brain_id != 0)
+		{
+			clear_screen(' ');
+			fPrintLogo();
+			fBorrowBrain(member_list, brain_list, master_list);
+		}
+		else
+		{
+			printf("You already have a brain. Return it before borrowing another one !\n");
+			fUserScreen(brain_list, member_list, master_list);
+		}
 		break;
 	case 2:
 		fReturnBrain(member_list, brain_list, master_list);
@@ -279,12 +295,7 @@ void fMemberAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MAST
 	switch (choice)
 	{
 		case 1:
-			char* new_desc;
-			new_desc = (char*)malloc(sizeof(*new_desc));
-			fgets(new_desc, 100, stdin);
-
-			member_list->logged->desc = new_desc;
-			fWriteMember(member_list);
+			fEditDescription(member_list);
 			break;
 		case 2:
 			fReturnBrain(member_list, brain_list, master_list);
@@ -360,12 +371,7 @@ void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTE
 	switch(choice)
 	{
 	case 1:
-		char* new_desc;
-		new_desc = (char*)malloc(sizeof(*new_desc));
-		fgets(new_desc, 100, stdin);
-
-		member_list->logged->desc = new_desc;
-		fWriteMember(member_list);
+		fEditDescription(member_list);
 		break;
 	case 2:
 		fReturnBrain(member_list, brain_list, master_list);
