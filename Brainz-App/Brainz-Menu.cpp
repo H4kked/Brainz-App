@@ -386,7 +386,10 @@ void fAdminAccountScreen(MEMBER_LIST* member_list, BRAIN_LIST* brain_list)
 	}
 	fAdminScreen(member_list->logged, brain_list, member_list);
 }
+void fBrainPage(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, BRAIN* brain)
+{
 
+}
 void fGetDate(char* date)
 {
 	int day, month, year;

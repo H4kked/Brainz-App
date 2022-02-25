@@ -380,11 +380,9 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MEMBER* curr
 	// SEARCH THE BRAIN THROUGH THE LIST
 	while (strcmp(borrowed_brain->name, name) != 0 && borrowed_brain != NULL)
 	{
+		printf("%s\n", name);
+		printf("%s\n", borrowed_brain->name);
 		borrowed_brain = borrowed_brain->next;
-		if (borrowed_brain == NULL)
-		{
-			break;
-		}
 	}
 
 	// THE BRAIN'S NAME HAS NOT BEEN RECOGNIZED IN THE LIST

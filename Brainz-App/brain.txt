@@ -1,5 +1,5 @@
 0000/name/desc/1/0.00
-0001/GOD/GOD's Almighty Brain/1/5.00
+0001/GOD/GOD's Almighty Brain/0/5.00
 0002/CSILAM/A Powerful Libanese Coder's Brain/1/5.00
 0003/RA/A Power Just Below GOD/1/5.00
 0004/FAHID/A Less Powerful Libanese Coder's Brain/1/4.00
