@@ -175,7 +175,7 @@ void fDisplayBrainList(BRAIN_LIST* brain_list)
 	+------+-----------------+----------------------------------------------------+---------------+--------+
 	*/
 
-
+	fSortBrains(brain_list);
 	BRAIN* brain;
 	brain = (BRAIN*)malloc(sizeof(*brain));
 	brain = brain_list->first;                      // Recover the first brain in an object of the type BRAIN
@@ -486,4 +486,59 @@ void fBrainManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_C
 		break;
 	}
 	fAdminScreen(brain_list, member_list, master_list);
+}
+
+void fSortBrains(BRAIN_LIST* brain_list)
+{
+	BRAIN* temp;
+	BRAIN* brain;
+	BRAIN* sort_first;
+	temp = (BRAIN*)malloc(sizeof(*temp));
+	brain = (BRAIN*)malloc(sizeof(*brain));
+	sort_first = (BRAIN*)malloc(sizeof(*sort_first));
+
+	brain = brain_list->first->next->next;
+
+	int change = 0;
+	while (brain != NULL)
+	{
+		change = 0;
+		temp = brain;
+		sort_first = brain;
+		while (temp != NULL)
+		{
+			// Find the next brain in the alphabetical order
+			printf("%s / %s\n", sort_first->name, temp->name);
+			if (strcmp(sort_first->name, temp->name) > 0)
+			{
+				printf("Change sort first\n");
+				sort_first = temp;
+			}
+			temp = temp->next;
+		}
+		if (strcmp(sort_first->name, brain->name) != 0)
+		{
+			change = 1;
+			//Reinitialize the link of the brains before and after sort_first
+			if (sort_first->next == NULL)
+			{
+				sort_first->previous->next = NULL;
+				brain_list->last = sort_first->previous;
+			}
+			else
+			{
+				sort_first->previous->next = sort_first->next;
+				sort_first->next->previous = sort_first->previous;
+			}
+			brain->previous->next = sort_first;
+			sort_first->previous = brain->previous;
+			brain->previous = sort_first;
+			sort_first->next = brain;
+		}
+		if (change != 1)
+		{
+			brain = brain->next;
+		}
+	}
+
 }

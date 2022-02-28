@@ -15,3 +15,4 @@ void fBrainStart(BRAIN_LIST* brain_list);
 void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list);
 void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list);
 void fBrainManagement(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* master_list);
+void fSortBrains(BRAIN_LIST* brain_list);
