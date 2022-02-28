@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <malloc.h>
 #include <ctype.h>
 #include <Windows.h>
 #include "Brainz-Brains.h"
@@ -371,6 +370,7 @@ void fLogIn(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMMENT* ma
 	//INITIALIZE LIST TO GO THROUGH
 	MEMBER* current_member;
 	current_member = (MEMBER*)malloc(sizeof(*current_member));
+	current_member = NULL;
 	current_member = member_list->first->next;
 
 	//USER PARAMETERS

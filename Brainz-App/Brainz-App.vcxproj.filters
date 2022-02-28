@@ -55,7 +55,13 @@
     <Text Include="member.txt">
       <Filter>Fichiers de ressources</Filter>
     </Text>
-    <Text Include="test.txt">
+    <Text Include="brain_backup.txt">
+      <Filter>Fichiers de ressources</Filter>
+    </Text>
+    <Text Include="comment_backup.txt">
+      <Filter>Fichiers de ressources</Filter>
+    </Text>
+    <Text Include="member_backup.txt">
       <Filter>Fichiers de ressources</Filter>
     </Text>
   </ItemGroup>

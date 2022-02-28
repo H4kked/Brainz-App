@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
 #include <stdlib.h>
 #include <Windows.h>
 #include "Brainz-Brains.h"
@@ -178,6 +177,7 @@ void fDisplayBrainList(BRAIN_LIST* brain_list)
 	fSortBrains(brain_list);
 	BRAIN* brain;
 	brain = (BRAIN*)malloc(sizeof(*brain));
+	brain = NULL;
 	brain = brain_list->first;                      // Recover the first brain in an object of the type BRAIN
 	brain = brain->next->next;						// The third brain on the list is the first that we want to display
 	char* available;
@@ -368,7 +368,6 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMME
 
 	// DISPLAY ALL THE BRAINS
 	fDisplayBrainList(brain_list);
-	system("PAUSE");
 
 	// ASK WHAT BRAIN WILL BE BORROWED
 	char* name;
@@ -380,10 +379,14 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMME
 	name[strlen(name) - 1] = '\0';
 
 	// SEARCH THE BRAIN THROUGH THE LIST
-	while (strcmp(borrowed_brain->name, name) != 0 && borrowed_brain != NULL)
+	while (strcmp(borrowed_brain->name, name) != 0 && borrowed_brain->next != NULL)
 	{
 		printf("%s\n", borrowed_brain->name);
 		borrowed_brain = borrowed_brain->next;
+		if (borrowed_brain == NULL)
+		{
+			break;
+		}
 	}
 
 	// THE BRAIN'S NAME HAS NOT BEEN RECOGNIZED IN THE LIST
@@ -431,7 +434,7 @@ void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMME
 	BRAIN* returned_brain;
 	returned_brain = (BRAIN*)malloc(sizeof(returned_brain));
 	returned_brain = brain_list->first;
-	
+	//SEARCH THE BORROWED BRAIN IN THE LIST
 	while (returned_brain->id != member_list->logged->brain_id && returned_brain != NULL)
 	{
 		returned_brain = returned_brain->next;
@@ -440,7 +443,7 @@ void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMME
 			break;
 		}
 	}
-
+	// CHANGE THE PARAMETERS = BRAIN AVAILABLE AND USER DO NOT HAVE A BRAIN
 	returned_brain->is_available = 1;
 	member_list->logged->brain_id = 0;
 	fWriteBrain(brain_list);
