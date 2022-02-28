@@ -380,7 +380,7 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMME
 	name[strlen(name) - 1] = '\0';
 
 	// SEARCH THE BRAIN THROUGH THE LIST
-	while (strcmp(borrowed_brain->name, name) != 0 && borrowed_brain != NULL)
+	while (strcmp(borrowed_brain->name, name) != 0 && borrowed_brain->next != NULL)
 	{
 		printf("%s\n", borrowed_brain->name);
 		borrowed_brain = borrowed_brain->next;
