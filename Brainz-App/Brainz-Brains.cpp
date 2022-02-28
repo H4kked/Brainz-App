@@ -368,7 +368,6 @@ void fBorrowBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMME
 
 	// DISPLAY ALL THE BRAINS
 	fDisplayBrainList(brain_list);
-	system("PAUSE");
 
 	// ASK WHAT BRAIN WILL BE BORROWED
 	char* name;
@@ -435,7 +434,7 @@ void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMME
 	BRAIN* returned_brain;
 	returned_brain = (BRAIN*)malloc(sizeof(returned_brain));
 	returned_brain = brain_list->first;
-	
+	//SEARCH THE BORROWED BRAIN IN THE LIST
 	while (returned_brain->id != member_list->logged->brain_id && returned_brain != NULL)
 	{
 		returned_brain = returned_brain->next;
@@ -444,7 +443,7 @@ void fReturnBrain(MEMBER_LIST* member_list, BRAIN_LIST* brain_list, MASTER_COMME
 			break;
 		}
 	}
-
+	// CHANGE THE PARAMETERS = BRAIN AVAILABLE AND USER DO NOT HAVE A BRAIN
 	returned_brain->is_available = 1;
 	member_list->logged->brain_id = 0;
 	fWriteBrain(brain_list);

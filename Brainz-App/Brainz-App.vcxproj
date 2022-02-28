@@ -153,9 +153,11 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="brain.txt" />
+    <Text Include="brain_backup.txt" />
     <Text Include="comment.txt" />
+    <Text Include="comment_backup.txt" />
     <Text Include="member.txt" />
-    <Text Include="test.txt" />
+    <Text Include="member_backup.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
